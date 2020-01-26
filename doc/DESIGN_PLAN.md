@@ -77,6 +77,16 @@ No spacing between cells when displaying
 #### Components
 
 #### Use Cases
+* Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
+    * updateGrid() (simulation)  ⇒  checkNeighbourAndUpdate(cell, neighbourList) (sim) ⇒ updateCell (sim) ⇒ changeNext (cell)
+* Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
+    * updateGrid() (simulation)  ⇒  checkNeighbourAndUpdate(cell, neighbourList) (sim) ⇒ updateCell (sim) ⇒ changeNext (cell)  
+* Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
+    * updateState() (cell)
+* Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
+    * getParameters() (xmlParser)
+* Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
+    * ifLoadFile() (gameView) && ifValidFile (xml) ⇒ new xmlParser(“newFileName”) ⇒ simulation = new Wator() (simulation)
 
 
 ## Team Responsibilities
