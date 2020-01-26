@@ -123,6 +123,181 @@ private Simulation mySimulation;
 * Helps us not hardcode information (bad practice) 
 
 
+PSEUDOCODE - Detailed example implementation of Simulation Project
+Models -  Simulation
+Views - GameView 
+Controllers
+```java
+
+/** This is the main class of the simulation project
+* It sets up the screen by creating instance of GameView class
+**/
+Public class SimulationMain{
+	/**
+    	 * Initialize what will be displayed and how it will be updated.
+     	*/
+   	 @Override
+   	 public void start(Stage primaryStage){
+            	GameView mainPageView = new GameView();
+            	primaryStage = manager.getBaseStage();
+            	primaryStage.show();
+        }
+   	 /**
+   	  * Start the program.
+    	 */
+    	public static void main (String[] args) {
+        		launch(args);
+   	 }
+}
+}
+
+/** This is the GameView class
+*  Responsible for setting up the GUI
+*  Has buttons to make game implementations possible
+**/
+Public class GameView
+ {
+	private  static final int WIDTH = an integer value ; // Add specific value 
+	private  static final int HEIGHT = an integer value ; // Add specific value 
+public static final int FRAMES_PER_SECOND = 60;
+	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+
+	private AnchorPane myPane;
+	private Scene myScene;
+    	private Stage myStage;
+
+	private Simulation mySimulation;
+private Object myGridObjectFromParserXML;
+
+	public GameView(){
+		myPane = new AnchorPane();
+        		myScene = new Scene(basePane, WIDTH, HEIGHT);
+        		myStage = new Stage();
+        		myStage.setScene(myScene);
+        		myStage.setResizable(false);
+        		createBackground();
+        		createBottomButtons();
+        		createBottomLabel();
+        		createSubscenes();
+KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+            	try {
+                		step(SECOND_DELAY);
+            	} catch (FileNotFoundException ex) {
+                	ex.printStackTrace();
+           		 }
+        		});
+        		Timeline animation = new Timeline();
+        		animation.setCycleCount(Timeline.INDEFINITE);
+        		animation.getKeyFrames().add(frame);
+        		animation.play();
+	}
+	Private void step(double secondDelay){
+}
+private void createBackground(){
+// TO DO : write code to set background of the game view
+}
+private void createBottomButtons(){
+// TO DO : create buttons that would be at top of game view
+	// Buttons are -> start, stop, step, load, textfile
+}
+private void createBottomLabel(){
+// TO DO : Add the bottom label which can be updated if 
+}
+}
+
+/** Cell class serves as a superclass
+*    class will be extended by other forms of grid cells specified by Prof 
+*    Gets Info from Simulation to specify layout on the simulation screen
+**/
+Public class Cell{
+	//Private Paint[] ColorList = {White, Black, Blue, Red, Yellow, Green};
+	Private int index1, index2;
+	Private int currentState;
+	Private int nextState;
+	//Private Rectangle cellImage;
+
+	Public Cell (int x, int y, int width, int height, int status){
+		Index1 = x;
+		Index2 = y;
+		cellImage = new Rectangle();
+		cellImage.setWidth(width);
+		cellImage.setHeight(height);
+		cellImage.setX((x+0.5)*cellImage.getWidth());
+		cellImage.setY((y+0.5)*cellImage.getHeight());
+		currentState = status;
+		nextState = status;
+		//cellImage.setFill(ColorList[status]);
+	}
+	Public void changeNext(int i){
+		nextState = i;
+	}
+	Public void updateState(){
+		currentState = nextState;
+		cellImage.setFill(ColorList[currentState]);
+	}
+}
+
+/**
+
+Public class Simulation{
+	Private List<List<Cell>> cellGrid;
+	Private double time;
+	Public Simulation(List<List<Cell>> grid, int time){
+		cellGrid = grid;
+		this.time = time;
+	}
+	
+	Private void makeGrid(int width, int height){
+		cellGrid = new ArrayList<ArrayList<Cells>>();
+	}
+
+	Public void update(double elaspedTime, int factor){
+		time+=elapsedTime;
+		if(time>elapsedTime*factor){
+			updateGrid();
+			time = 0;
+		}
+	}
+
+	Private void updateGrid(){
+	//loop through the grid and tell each cell to update
+	// use checkCellNeighbour & update cell
+	}
+	Private void checkNeighbourAndUpdate(Cell cell,  List<Cell> neighbour){
+	}
+	Private updateCell(ce
+}
+
+Public class GoL extends Simulation{
+	Private int DEAD = 0;
+	Private int ALIVE = 1;
+	Private double time;
+	Public GoL(int width, int height){
+		super(width, height);
+		Time = 0;
+	}
+	Public void update(double elaspedTime, int factor){
+	}
+	@Override
+	Private void updateGrid(){
+		for(Cell cell:cellGrid){
+			//get a list of neightbours
+			//call checkNeighbourAndUpdate
+		}
+for(Cell cell:cellGrid){
+			cell.updateState();
+		}
+	}
+	Private void checkNeighbourAndUpdate(Cell cell, ArrayList<Cell> neighbour){
+		//apply the rules and set cell’s nextState to corresponding state depending on neighbour’s state
+	}
+}
+
+
+```
+
+
 ## Design Considerations
 
 We decided to have one abstract Simulation class, and have all five different kinds of 
