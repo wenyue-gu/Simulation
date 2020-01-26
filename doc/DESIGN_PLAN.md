@@ -2,9 +2,9 @@
 ### Team Number 13
 ### Names:
 
-Franklin Boampong (fsb10)
-Michelle Tai (mrt36)
-Lucy Gu (wg74)
+1. Franklin Boampong (fsb10)
+2. Michelle Tai (mrt36)
+3. Lucy Gu (wg74)
 
 ## Introduction
 
@@ -56,25 +56,19 @@ format could be read in by the class regardless of the type of simulation under 
 
 ## Design Considerations
 
-* We decided to have one abstract Simulation class, and have all five different kinds of 
+We decided to have one abstract Simulation class, and have all five different kinds of 
 simulations (GoL, Percolate, Segregation, Wator, Fire) be separate classes that extend Simulation.  
-* Reading the XML file should be its own class, not a part of GameView.  
-* GameView should only take care of displaying animation, nothing related to the simulation logic  
-* Buttons shall have their own class  
-* We decide to have the buttons on the bottom of the screen and the error message on the top 
+Reading the XML file should be its own class, not a part of GameView.  
+GameView should only take care of displaying animation, nothing related to the simulation logic  
+Buttons shall have their own class  
+We decide to have the buttons on the bottom of the screen and the error message on the top 
 instead of the other way around  
-* No spacing between cells when displaying  
+No spacing between cells when displaying  
 
 
 
 
-#### Components  
-GameView 
-ParseXML
-Simulation (5 subclasses to this class)
-Cell
-Grid
-Button
+#### Components
 
 #### Use Cases
 
