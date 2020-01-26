@@ -35,14 +35,11 @@ to layout contents of each simulation, a class that reads a general XML file wou
 be used. In this case, we plan to implement class such that any File passed in an XML 
 format could be read in by the class regardless of the type of simulation under consideration.
 
-
-
-
 ## Overview
 
-![](image1.jpg "Cell class") 
-![](image2.jpg "Game View class") 
-![](image3.jpg "Simulation class") 
+![](CellImage.jpg "Cell class") 
+![](GameViewClassImage.jpg "Game View class") 
+![](SimulationImage.jpg "Simulation class") 
 ![](XML.jpg "XML class") 
 
 
