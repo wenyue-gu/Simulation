@@ -72,9 +72,15 @@ instead of the other way around
 No spacing between cells when displaying  
 
 
-
-
 #### Components
+
+The main components of the Simulation assignment are:
+1. GameView Class - This is the basic UI screen for the simulation.
+2. Simulation Class - Main engine of program 
+    - We will have 5 more subclasses extending this abstract Simulation class.
+3. Cell Class - Cells to Fill in Grid.
+4. XML Class - Class to obtain data from XML file provided by user.
+
 
 #### Use Cases
 * Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
@@ -91,9 +97,19 @@ No spacing between cells when displaying
 
 ## Team Responsibilities
 
- * Team Member #1
+ * Team Member #1 (Franklin Boampong)
+	- Primary Role: Game View Class
+	- Secondary Role: Fire
 
- * Team Member #2
+* Team Member #2 (Michelle Tai)
+   -  Primary Role: XML class
+   -  Secondary Role: Percolation
 
- * Team Member #3
+* Team Member #3 (Lucy Gu)
+   - Primary Role: Cell, Simulation
+   - Secondary Role: Game of Life, Segregation
+
+Team Altogether: Work on Predator - Prey simulation together.
+
+
 
