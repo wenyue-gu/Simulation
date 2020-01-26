@@ -59,6 +59,69 @@ An image showing the basic UI of the simulation view is shown below:
 
 ## Design Details
 
+**Generic Game view Class:**
+* Implements the basic view methods needed by each view. For example setUpScene() methods, 
+private Simulation mySimulation;
+* Scans the file for title, which simulation, initial configuration
+* Sets up scene, stage, and display 
+* Step function updates animation
+* mySimulation.update(elapsedTime, factor)
+* Input pause resume skip new  
+**Simulation class**
+* This class is in charge of updating the grid of cells and “stepping” through the simulation by updating
+* Can extend this class for new simulations 
+* Would need information from the xmlParser, cell
+* Collaborates with Cell objects to tell them to update their states 
+* This class supports the open/close principle, inheritance, and polymorphism since any new simulations can be added by extending this class in opposed to adding and changing code within the Simulation class itself. This class also supports encapsulation since it contains all the information and behavior needed for the simulation itself. 
+* Abstract class (?) // I think that works
+* Keep track of the cells grid(ArrayList<ArrayList<Integer>> myGrid = ArrayList<ArrayList<Cell>> ();)
+* Keep track of time passed (?) (double time)
+* Update() method   
+**Game of Life implements simulation**
+* This class is in charge of dealing with the simulation and its unique rules for the Game of Life simulation. 
+* It collaborates with all the components the superclass, Simulation, interacts with
+* This class supports the inheritance since it’s a subclass of Simulation, but also can have its own unique methods on top of the ones inherited from simulation. 
+* Private int DEAD = 0; Private int ALIVE = 1; (?)
+* Private double time = 0;
+* Public GoL()
+* Update (public void update(double elapsedTime, int factor))
+* Time +=elapsedTime;
+* If time>factor*elaspedTime, actually updates the list and reset time to 0; else do nothing
+* Go through myGrid and set each cell’s next state to the state it should be based on the neighbours
+* Go through myGrid again and update cell color to its next state  
+**Percolation implements Simulation**
+* This class is in charge of dealing with the simulation and its unique rules for the Percolation simulation. 
+* It collaborates with all the components the superclass, Simulation, interacts with
+* This class supports the inheritance since it’s a subclass of Simulation, but also can have its own unique methods on top of the ones inherited from simulation.
+* Private int open = 1, percolate = 2, blocked = 0
+* Update
+* Check all percolate block’s neighbours and percolate opened blocks  
+**Segregation implements Simulation**
+* This class is in charge of dealing with the simulation and its unique rules for the Segregation simulation. 
+* It collaborates with all the components the superclass, Simulation, interacts with
+* This class supports the inheritance since it’s a subclass of Simulation, but also can have its own unique methods on top of the ones inherited from simulation.
+* Private int red, blue, blank;
+* Update
+* Create a new ArrayList
+* For each entry, if original is satisfied, put corresponding status down, else put down a placeholder (say 100) and record the number of each color of unsatisfied cell
+* Go through the new ArrayList, for each 100, randomly select one of the three statuses, make sure number of each color remains the same
+* Satisfies (private boolean satisfies(int x, int y))
+* Returns true if the cell at x, y is satisfied with its location  
+**Fire implements Simulation**
+* This class is in charge of dealing with the simulation and its unique rules for the Fire simulation. 
+* It collaborates with all the components the superclass, Simulation, interacts with
+* This class supports the inheritance since it’s a subclass of Simulation, but also can have its own unique methods on top of the ones inherited from simulation.
+* Private int Tree, Fire, Blank
+* Update 
+* Read in initial
+* Use  a probabilistic model Math.random to update cells surrounding a burning cell  
+**Cell**
+* The cell handles updating a cell based on current state and also holds the next state, which helps update the grid as the simulation runs. It also determines how the cell is colored and the shape of the cell
+* This abstracts away the behavior of a cell since we don’t want other classes to have to deal with the cell’s behavior if it’s not its job.   
+**xmlParser**
+* Will parse data needed for simulation from an XML file and “give” it to other methods/the main method to help initialize other classes
+* Helps us not hardcode information (bad practice) 
+
 
 ## Design Considerations
 
