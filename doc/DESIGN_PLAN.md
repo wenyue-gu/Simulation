@@ -40,6 +40,11 @@ format could be read in by the class regardless of the type of simulation under 
 
 ## Overview
 
+![](image1.jpg "Cell class") 
+![](image2.jpg "Game View class") 
+![](image3.jpg "Simulation class") 
+![](XML.jpg "XML class") 
+
 
 ## User Interface
 
@@ -48,6 +53,10 @@ format could be read in by the class regardless of the type of simulation under 
 “Stop” pauses animation  
 “Step” only activated when stopped? Step through each step  
 “-” and “+” slow down/speed up the animation (only when simulation is started)  
+
+An image showing the basic UI of the simulation view is shown below:
+
+![](GUIPage.jpg "GUI") 
 
 
 
