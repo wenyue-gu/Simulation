@@ -16,7 +16,9 @@ to add, so our code design must be flexible. Overall, our code should be most
 flexible in accepting new Cellular Automata (CA) simulations and in the playback 
 of the simulation - i.e our code should consider each system as somewhat of a grid 
 of cells such that the conditions of one cell is dependent on the surrounding cells 
-in the system. The project should be organized in a way that has separate Model, 
+in the system. 
+
+The project should be organized in a way that has separate Model, 
 View and Controllers to separate the data structures and applications from the 
 visual display of information. Thus, we can encapsulate any front-end work or 
 back-end work and keep them separate from each other. Things that should be open 
@@ -41,11 +43,30 @@ format could be read in by the class regardless of the type of simulation under 
 
 ## User Interface
 
+“Load new File” allows user to load new XML file  
+“Start” begins the animation (including initial begin)  
+“Stop” pauses animation  
+“Step” only activated when stopped? Step through each step  
+“-” and “+” slow down/speed up the animation (only when simulation is started)  
+
+
 
 ## Design Details
 
 
 ## Design Considerations
+
+We decided to have one abstract Simulation class, and have all five different kinds of 
+simulations (GoL, Percolate, Segregation, Wator, Fire) be separate classes that extend Simulation.  
+Reading the XML file should be its own class, not a part of GameView.  
+GameView should only take care of displaying animation, nothing related to the simulation logic  
+Buttons shall have their own class  
+We decide to have the buttons on the bottom of the screen and the error message on the top 
+instead of the other way around  
+No spacing between cells when displaying  
+
+
+
 
 #### Components
 
