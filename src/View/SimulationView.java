@@ -1,7 +1,8 @@
 package View;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class SimulationView {
@@ -14,7 +15,6 @@ public class SimulationView {
 
     public SimulationView(){
         setGameScene();
-        //simulationViewPane.getChildren().add();
         createBackgroundImage();
         createTabBarWithButtons();
     }
@@ -41,7 +41,10 @@ public class SimulationView {
     }
 
     private void createBackgroundImage(){
-
+        Image backgroundImage = new Image("Background.jpg", false);
+        BackgroundImage simulationViewBackground;
+        simulationViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+        simulationViewPane.setBackground(new Background(simulationViewBackground));
     }
 
     private void createTabBarWithButtons(){
