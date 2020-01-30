@@ -1,6 +1,8 @@
 package cellsociety;
 
 import java.util.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /** Cell class serves as a superclass
  *    class will be extended by other forms of grid cells specified by Prof
@@ -10,8 +12,9 @@ public abstract class Cell{
     private int index1, index2;
     private int currentState;
     private int nextState;
+    //protected Shape cellImage;
 
-    public Cell (int x, int y, int width, int height, int status){
+    public Cell (int x, int y, int status){
         index1 = x;
         index2 = y;
         currentState = status;
@@ -34,7 +37,7 @@ public abstract class Cell{
     }
 
 
-    public abstract ArrayList<Cell> findNeighbours(ArrayList<ArrayList<Cell>> cellGrid, int type);
+    public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
 
     public abstract void updateColor();
 }
