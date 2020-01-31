@@ -96,7 +96,7 @@ public class Segregation extends Simulation {
      */
     private void segUpdate(Cell cell){
         boolean set = false;
-        //ArrayList<Integer> listForChoice = new ArrayList<Integer>(Arrays.asList(UnSat));
+        // ArrayList<Integer> listForChoice = new ArrayList<Integer>(Arrays.asList(UnSat));
         while(!set) {
             int type = (new Random()).nextInt(3);
             if (UnSat[type] > 0) {
