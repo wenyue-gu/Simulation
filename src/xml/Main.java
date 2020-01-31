@@ -33,7 +33,7 @@ public class Main extends Application {
         File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
         while (dataFile != null) {
             try {
-                Pair<String, Game> p = new Pair<>(dataFile.getName(), new XMLParser("media").getGame(dataFile));
+                Pair<String, simulationXML> p = new Pair<>(dataFile.getName(), new XMLParser("media").getGame(dataFile));
                 // do something "interesting" with the resulting data
                 showMessage(AlertType.INFORMATION, p.getFirst() + "\n" + p.getSecond().toString());
             }
@@ -42,6 +42,7 @@ public class Main extends Application {
                 showMessage(AlertType.ERROR, e.getMessage());
             }
             dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
+
         }
 
         // nothing selected, so quit the application
@@ -50,7 +51,9 @@ public class Main extends Application {
 
     // display given message to user using the given type of Alert dialog box
     private void showMessage (AlertType type, String message) {
-        new Alert(type, message).showAndWait();
+        //new Alert(type, message).showAndWait();
+        new Alert(type, message).show();
+
     }
 
     // set some sensible defaults when the FileChooser is created
