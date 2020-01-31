@@ -7,17 +7,17 @@ import javafx.scene.shape.Rectangle;
 import java.util.*;
 
 public class RectCell extends Cell {
-    private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN};
-    private Rectangle cellImage;
+    private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.WHITE, Color.GREEN};
+    //private Rectangle cellImage;
 
 
     public RectCell(int x, int y, int width, int height, int status) {
         super(x, y, status);
         cellImage = new Rectangle();
-        cellImage.setWidth(width);
-        cellImage.setHeight(height);
-        cellImage.setX((x+0.5)*cellImage.getWidth());
-        cellImage.setY((y+0.5)*cellImage.getHeight());
+        ((Rectangle) cellImage).setWidth(width);
+        ((Rectangle) cellImage).setHeight(height);
+        ((Rectangle) cellImage).setX((x+0.5)*((Rectangle) cellImage).getWidth());
+        ((Rectangle) cellImage).setY((y+0.5)*((Rectangle) cellImage).getHeight());
         cellImage.setFill(ColorList[status]);
     }
 

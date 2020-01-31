@@ -20,7 +20,6 @@ public class GoL extends Simulation {
      * Then go through each cell again, update its currentState to nextState, and update color accordingly
      */
 
-    @Override
     public void updateGrid(){
 
         for(List<Cell> rows: cellGrid){

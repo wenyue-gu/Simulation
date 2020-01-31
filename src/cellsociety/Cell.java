@@ -12,7 +12,7 @@ public abstract class Cell{
     private int index1, index2;
     private int currentState;
     private int nextState;
-    //protected Shape cellImage;
+    protected Shape cellImage;
 
     public Cell (int x, int y, int status){
         index1 = x;
@@ -22,6 +22,9 @@ public abstract class Cell{
     }
     public int getCurrentState(){
         return currentState;
+    }
+    public int getNextState(){
+        return nextState;
     }
     public int getIndex1(){
         return index1;

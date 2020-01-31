@@ -26,13 +26,7 @@ public abstract class Simulation{
         }
     }
 
-    /**
-     * Return the grid of cells
-     * @return
-     */
-    public List<List<Cell>> getCellGrid() {
-        return cellGrid;
-    }
+
 
     public abstract void updateGrid();
     public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
