@@ -9,8 +9,7 @@ import javafx.util.Duration;
 
 public class SimulationViewSubscene extends SubScene{
 
-    private final static int SUBSCENE_WIDTH = 600;
-    private final static int SUBSCENE_HEIGHT = 400;
+
     private final static String SUBSCENE_BACKGROUND_IMAGE = "Resources/blue_background_for_popup.png";
 
     public SimulationViewSubscene(int width, int height) {
@@ -22,17 +21,23 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     private void subsceneLayout(){
-        setLayoutX(1024);
-        setLayoutY(180);
+        setLayoutX(100);
+        setLayoutY(124);
     }
 
     private void setBackground(){
-        BackgroundImage subsceneBackgroundImage = new BackgroundImage(new Image(SUBSCENE_BACKGROUND_IMAGE, 600, 400, false, true), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+        Image backgroundImage = new Image("blue_background_for_popup.png", false);
+        BackgroundImage subsceneViewBackground;
+        subsceneViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
         AnchorPane subroot = (AnchorPane) this.getRoot();
-        subroot.setBackground(new Background(subsceneBackgroundImage));
+        subroot.setBackground(new Background(subsceneViewBackground));
     }
 
-    // get pane of view
+    /**
+     * Public method to enable easy acces to the subcene pane
+     * @return the pane of the subscene
+     */
+
     public AnchorPane getPane(){
         return (AnchorPane) this.getRoot();
     }
