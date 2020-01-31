@@ -1,22 +1,23 @@
-package cellsociety;
+package Cells;
 
+import cellsociety.Cell;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class RectCell extends Cell {
-    private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN};
-    private Rectangle cellImage;
+    private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.WHITE, Color.GREEN};
+    //private Rectangle cellImage;
 
 
     public RectCell(int x, int y, int width, int height, int status) {
-        super(x, y, width, height, status);
+        super(x, y, status);
         cellImage = new Rectangle();
-        cellImage.setWidth(width);
-        cellImage.setHeight(height);
-        cellImage.setX((x+0.5)*cellImage.getWidth());
-        cellImage.setY((y+0.5)*cellImage.getHeight());
+        ((Rectangle) cellImage).setWidth(width);
+        ((Rectangle) cellImage).setHeight(height);
+        ((Rectangle) cellImage).setX((x+0.5)*((Rectangle) cellImage).getWidth());
+        ((Rectangle) cellImage).setY((y+0.5)*((Rectangle) cellImage).getHeight());
         cellImage.setFill(ColorList[status]);
     }
 
@@ -26,7 +27,7 @@ public class RectCell extends Cell {
     }
 
     @Override
-    public ArrayList<Cell> findNeighbours(ArrayList<ArrayList<Cell>> cellGrid, int type){
+    public ArrayList<Cell> findNeighbours(List<List<Cell>> cellGrid, int type){
         if(type==4){
             int[] rowDelta = {-1,1,0,0};
             int[] colDelta = {0,0,-1,1};
@@ -40,11 +41,11 @@ public class RectCell extends Cell {
             return ret;
         }
         else{
-            return new ArrayList<Cell>();
+            return new ArrayList<>();
         }
     }
 
-    private ArrayList<Cell> findNeighbour(ArrayList<ArrayList<Cell>> cellGrid, int[] rowDelta, int[] colDelta){
+    private ArrayList<Cell> findNeighbour(List<List<Cell>> cellGrid, int[] rowDelta, int[] colDelta){
 
         ArrayList<Cell> ret = new ArrayList<>();
         for(int k=0; k < rowDelta.length; k++){
@@ -57,7 +58,7 @@ public class RectCell extends Cell {
         return ret;
     }
 
-    private boolean inRange(int i, int j, ArrayList<ArrayList<Cell>> cellGrid){
+    private boolean inRange(int i, int j, List<List<Cell>> cellGrid){
         return i>-1 && i < cellGrid.size() && j > -1 && j < cellGrid.get(0).size();
     }
 }
