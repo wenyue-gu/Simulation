@@ -1,5 +1,7 @@
-package cellsociety;
+package IndividualSimulations;
 
+import cellsociety.Cell;
+import cellsociety.Simulation;
 import java.util.List;
 /**
 * Percolation class holds the rules and update behavior for the percolation simulation
