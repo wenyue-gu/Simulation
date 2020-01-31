@@ -1,6 +1,7 @@
 package View;
 
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -11,12 +12,14 @@ public class SimulationView {
     private Stage simulationViewStage;
     private Scene simulationViewScene;
     private AnchorPane simulationViewPane;
+    private SimulationViewSubscene mySubscene;
 
 
     public SimulationView(){
         setGameScene();
         createBackgroundImage();
         createTabBarWithButtons();
+        createSubScene();
     }
 
     /**
@@ -50,6 +53,11 @@ public class SimulationView {
 
     private void createTabBarWithButtons(){
 
+    }
+
+    private void createSubScene(){
+        mySubscene = new SimulationViewSubscene(600, 400);
+        simulationViewPane.getChildren().add(mySubscene);
     }
 
 }
