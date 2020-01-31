@@ -16,8 +16,8 @@ public class RectCell extends Cell {
         cellImage = new Rectangle();
         ((Rectangle) cellImage).setWidth(width);
         ((Rectangle) cellImage).setHeight(height);
-        ((Rectangle) cellImage).setX((x+0.5)*((Rectangle) cellImage).getWidth());
-        ((Rectangle) cellImage).setY((y+0.5)*((Rectangle) cellImage).getHeight());
+        ((Rectangle) cellImage).setX((x)*((Rectangle) cellImage).getWidth());
+        ((Rectangle) cellImage).setY((y)*((Rectangle) cellImage).getHeight());
         cellImage.setFill(ColorList[status]);
     }
 
