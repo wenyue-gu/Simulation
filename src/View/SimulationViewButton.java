@@ -1,5 +1,6 @@
 package View;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
@@ -43,6 +44,7 @@ public class SimulationViewButton extends Button {
         setStyle(BUTTON_PRESSED_SEMIURL);
         setPrefHeight(45);
         setLayoutY(getLayoutY() + 3);
+
     }
 
     private void mouseUpdateListener(){
@@ -79,7 +81,5 @@ public class SimulationViewButton extends Button {
             }
         });
     }
-
-
 
 }

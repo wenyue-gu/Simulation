@@ -5,7 +5,6 @@ import java.util.List;
 
 public class fire extends Simulation {
 
-
     public fire(List<List<Cell>> grid) {
         super(grid);
     }
