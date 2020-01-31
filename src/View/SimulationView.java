@@ -1,5 +1,6 @@
 package View;
 
+
 import Cells.RectCell;
 import IndividualSimulations.GoL;
 import SpecificMenuButton.StartButton;
@@ -9,26 +10,22 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+
+import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationView {
-
-
-
     private static final double WIDTH = 1000;
     private static final double HEIGHT = 1024;
     private final static int SUBSCENE_WIDTH = 800;
     private final static int SUBSCENE_HEIGHT = 600;
-
-
-
-
-
 
     private Stage simulationViewStage;
     private Scene simulationViewScene;
@@ -77,20 +74,6 @@ public class SimulationView {
     private void createSubScene(){
         mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
         simulationViewPane.getChildren().add(mySubscene);
-    }
-
-    private void startButtonHit (Stage stage) {
-        // attach scene to the stage and display it
-        //mySubscene = setupGame(SIZE, SIZE, BACKGROUND);
-        //stage.setScene(myScene);
-        //stage.setTitle(TITLE);
-        //stage.show();
-        // attach "game loop" to timeline to play it (basically just calling step() method repeatedly forever)
-//        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-//        Timeline animation = new Timeline();
-//        animation.setCycleCount(Timeline.INDEFINITE);
-//        animation.getKeyFrames().add(frame);
-//        animation.play();
     }
 
     private void createStartButton(){

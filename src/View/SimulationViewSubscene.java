@@ -19,7 +19,6 @@ import java.util.List;
 
 public class SimulationViewSubscene extends SubScene{
 
-
     private final static String SUBSCENE_BACKGROUND_IMAGE = "Resources/blue_background_for_popup.png";
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -57,11 +56,9 @@ public class SimulationViewSubscene extends SubScene{
      * @return the pane of the subscene
      */
 
-    public AnchorPane getPane(){
+    public AnchorPane getPane() {
         return (AnchorPane) this.getRoot();
     }
-
-
 
     private void step(double secondDelay){
         // TO DO: Add simulations here for specific button
@@ -98,5 +95,4 @@ public class SimulationViewSubscene extends SubScene{
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
     }
-
 }
