@@ -26,8 +26,6 @@ public abstract class Simulation{
         }
     }
 
-
-
     public abstract void updateGrid();
     public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
 
