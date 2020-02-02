@@ -55,13 +55,18 @@ public class Percolation extends Simulation {
     }
   }
 
+  @Override
+  public boolean checkToContinue() {
+    return hasPercolated(); //false to continue
+  }
+
   /**
    * Returns whether or not the simulation has "percolated," aka there a path of percolated blue cells
    * from the left side of the grid to the right side of the grid
    * @return a boolean that indicates whether or not the simuation has percolated
    * @author Michelle Tai
    */
-  public boolean hasPercolated(){
+  private boolean hasPercolated(){
     int numOfRows = cellGrid.size();
     int numOfCols = cellGrid.get(0).size();
     boolean hasFirstPerc = false;
@@ -69,8 +74,8 @@ public class Percolation extends Simulation {
     Cell leftCell, rightCell;
 
     for(int i = 0; i < numOfRows; i++){
-      leftCell = cellGrid.get(i).get(0);
-      rightCell = cellGrid.get(i).get(numOfCols - 1);
+      leftCell = cellGrid.get(0).get(i);
+      rightCell = cellGrid.get(numOfCols - 1).get(i);
       if(leftCell.getCurrentState() == PERCOLATED){
         hasFirstPerc = true;
       }
@@ -79,6 +84,7 @@ public class Percolation extends Simulation {
       }
     }
     return hasFirstPerc && hasLastPerc;
+
   }
 
   /**
