@@ -9,6 +9,7 @@ public class WatorLG extends Simulation {
     private int FISH = 5;
     private int SHARK = 1;
     private int BLANK = 4;
+
     private int sharkthreshold;
     private int fishthreshold;
     private int initenergy;
