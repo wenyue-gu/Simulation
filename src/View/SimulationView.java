@@ -1,25 +1,12 @@
 package View;
 
-
-import Cells.RectCell;
-import IndividualSimulations.GoL;
 import SpecificMenuButton.StartButton;
-import cellsociety.Cell;
-import cellsociety.Simulation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
-
-import javafx.scene.Scene;
-
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimulationView {
     private static final double WIDTH = 1000;

@@ -50,4 +50,9 @@ public class GoL extends Simulation {
         else if(cell.getCurrentState()==ALIVE && (alive==3 || alive==2)) cell.changeNext(ALIVE);
         else cell.changeNext(DEAD);
     }
+
+    @Override
+    public boolean checkToContinue(){
+        return false;
+    }
 }

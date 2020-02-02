@@ -1,7 +1,5 @@
 package cellsociety;
 
-import cellsociety.Cell;
-
 import java.util.*;
 
 public abstract class Simulation{
@@ -28,6 +26,7 @@ public abstract class Simulation{
 
     public abstract void updateGrid();
     public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
+    public abstract boolean checkToContinue();
 
 }
 

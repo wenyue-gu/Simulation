@@ -35,13 +35,13 @@ public abstract class Cell{
     public void changeNext(int i){
         nextState = i;
     }
+    public void changeCurrent(int i){nextState = i;}
     public void updateState(){
         currentState = nextState;
     }
     public Shape getCellImage(){
         return cellImage;
     }
-
 
     public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
 

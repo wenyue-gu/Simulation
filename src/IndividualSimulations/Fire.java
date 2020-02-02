@@ -1,15 +1,23 @@
 package IndividualSimulations;
+
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import java.util.List;
 
 public class Fire extends Simulation {
 
-    private int EMPTRY = 0;
-    private int TREE = 1;
-    private int BURNING = 2;
+    private int EMPTY = 6;
+    private int TREE = 5;
+    private int BURNING = 3;
 
-    public Fire (List<List<Cell>> grid) {
+    public boolean isTheFinalHit = false;
+
+    /**
+     * Subclass which has super class Simulation
+     *
+     * @param grid which contains all the cells at time t in simulation
+     */
+    public Fire(List<List<Cell>> grid) {
         super(grid);
     }
 
@@ -21,7 +29,6 @@ public class Fire extends Simulation {
      */
 
     public void updateGrid() {
-
         for (List<Cell> rows : cellGrid) {
             for (Cell cell : rows) {
                 checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
@@ -43,23 +50,22 @@ public class Fire extends Simulation {
      */
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
-        int alive = 0;
-        for (Cell neighbour : neighbours) {
-            if (neighbour.getCurrentState() == ALIVE) alive++;
+        double probCatch = 0.55; //xml passes in
+        if (cell.getCurrentState() == BURNING) {
+            cell.changeCurrent(EMPTY);
+            for (Cell neighbour : neighbours) {
+                if (neighbour.getCurrentState() == TREE) {
+                    int status = (Math.random() <= probCatch) ? BURNING : TREE;
+                    neighbour.changeNext(status);
+                }
+            }
         }
-        if (cell.getCurrentState() == DEAD && alive == 3) cell.changeNext(ALIVE);
-        else if (cell.getCurrentState() == ALIVE && (alive == 3 || alive == 2)) cell.changeNext(ALIVE);
-        else cell.changeNext(DEAD);
     }
 
     @Override
-    public void updateGrid() {
-
+    public boolean checkToContinue() {
+        return isTheFinalHit;
     }
 
-    @Override
-    public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbour) {
+}
 
-    }
-}
-}
