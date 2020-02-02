@@ -115,7 +115,7 @@ public class Segregation extends Simulation {
                 UnSat[type] = UnSat[type]-1;
             }
             time++;
-        }
+        } 
     }
 
 
