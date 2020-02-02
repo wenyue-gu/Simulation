@@ -9,6 +9,7 @@ import javafx.scene.shape.Shape;
  *    Gets Info from Simulation to specify layout on the simulation screen
  **/
 public abstract class Cell{
+
     private int index1, index2;
     private int currentState;
     private int nextState;
@@ -39,9 +40,11 @@ public abstract class Cell{
         currentState = nextState;
     }
 
+    public Shape getCellImage(){return cellImage;}
 
     public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
 
     public abstract void updateColor();
+
 }
 

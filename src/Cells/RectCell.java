@@ -61,4 +61,6 @@ public class RectCell extends Cell {
     private boolean inRange(int i, int j, List<List<Cell>> cellGrid){
         return i>-1 && i < cellGrid.size() && j > -1 && j < cellGrid.get(0).size();
     }
+
+
 }

@@ -10,21 +10,13 @@ public class Segregation extends Simulation {
     private int RED = 3;
     private int BLANK = 4;
 
-//    private int UnSatRed = 0;
-//    private int UnSatBlue = 0;
-//    private int UnSatBlank = 0;
 
-    private int[] UnSat = {0,0,0};
-    private ArrayList<Integer> UnSatisfied;
-
+    private int[] UnSat = new int[3];
     private double satisfyRate;
 
     public Segregation(List<List<Cell>> grid, double satisfy){
         super(grid);
         satisfyRate = satisfy;
-        for(int i = 0; i<3; i++) {
-            UnSatisfied.add(0);
-        }
     }
 
 
@@ -44,9 +36,14 @@ public class Segregation extends Simulation {
             }
         }
 
+
+        Set<Cell> temp = new HashSet<>();
         for (List<Cell> rows : cellGrid) {
-            for (Cell cell : rows) {
-                if(cell.getNextState()==100) segUpdate(cell);
+            temp.addAll(rows);
+        }
+        for(Cell cell:temp){
+            if(cell.getNextState()==100) {
+                    segUpdate(cell);
             }
         }
 
@@ -59,7 +56,11 @@ public class Segregation extends Simulation {
     }
 
     /**
-     * First record the number of unsatisfied cells in the neighbours list
+     * If the cell is blank, increase blank move stat by 1
+     * Else, check the cell's neighbours.
+     * Record amount of neighbours who is not blank, record number of neighbours with same color
+     * Calculate satisfying rate; if it exceeds the set rate, cell's next state remain the same
+     * Otherwise, set the next status to 100 (keeping record) and increase # unsatisfied cell of this color by 1
      *
      * @param cell cell whose nextState is being updated
      * @param neighbours the 8 neighbour cells (or however many there are) surrounding the cell
@@ -71,9 +72,12 @@ public class Segregation extends Simulation {
         int nonBlankNeighbour = 0;
         double satisfiedRate = 0;
         if(Color==BLANK){
-            UnSat[2]++;
+            cell.changeNext(100);
+            UnSat[BLANK-2] = UnSat[BLANK-2]+1;
             return;
         }
+
+
         for(Cell neighbour:neighbours){
             if(neighbour.getCurrentState()==Color) sameColorCell++;
             if(neighbour.getCurrentState()!=BLANK) nonBlankNeighbour++;
@@ -82,28 +86,40 @@ public class Segregation extends Simulation {
         if(nonBlankNeighbour>0) satisfiedRate = (double)sameColorCell/nonBlankNeighbour;
 
         if(satisfiedRate>satisfyRate) cell.changeNext(cell.getCurrentState());
+
         else{
             cell.changeNext(100);
-            if(Color==BLUE) UnSat[1]++;
-            if(Color==RED) UnSat[0]++;
-        }
-    }
-
-
-    /**
-     *
-     * @param cell the cell whose state is being updated
-     */
-    private void segUpdate(Cell cell){
-        boolean set = false;
-        // ArrayList<Integer> listForChoice = new ArrayList<Integer>(Arrays.asList(UnSat));
-        while(!set) {
-            int type = (new Random()).nextInt(3);
-            if (UnSat[type] > 0) {
-                set = true;
-                cell.changeNext(type + 2);
-                UnSat[type]--;
+            if(Color==RED){
+                UnSat[RED-2] = UnSat[RED-2]+1;
+            }
+            if(Color==BLUE){
+                UnSat[BLUE-2] = UnSat[BLUE-2]+1;
             }
         }
+
+
     }
+
+    private void segUpdate(Cell cell){
+        boolean set = false;
+        int time = 0;
+        int type = 0;
+        while(!set) {
+
+            if(time==0) type = (new Random()).nextInt(3);
+            if(time==1) type = (type+ ((Math.random() <=0.5) ?1:2))%3;
+            else type = (type+2)%3;
+            if (UnSat[type] > 0) {
+                set = true;
+                cell.changeNext(type+2);
+                UnSat[type] = UnSat[type]-1;
+            }
+            time++;
+        }
+    }
+
+
+
+
+
 }
