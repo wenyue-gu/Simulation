@@ -52,7 +52,7 @@ public class Fire extends Simulation {
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
         double probCatch = 0.55; //xml passes in
         if (cell.getCurrentState() == BURNING) {
-            cell.changeCurrent(EMPTY);
+            cell.changeNext(EMPTY);
             for (Cell neighbour : neighbours) {
                 if (neighbour.getCurrentState() == TREE) {
                     int status = (Math.random() <= probCatch) ? BURNING : TREE;

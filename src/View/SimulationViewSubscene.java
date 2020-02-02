@@ -4,6 +4,7 @@ import Cells.RectCell;
 import IndividualSimulations.Fire;
 import IndividualSimulations.GoL;
 import IndividualSimulations.Segregation;
+import IndividualSimulations.WatorLG;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
@@ -65,7 +66,7 @@ public class SimulationViewSubscene extends SubScene{
 
     private void step(double secondDelay){
         // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay,10);
+        HardCodeSimulation.update(secondDelay,1);
         // Check for fire simulation
         if (HardCodeSimulation.checkToContinue()){
             animation.stop();
@@ -74,7 +75,8 @@ public class SimulationViewSubscene extends SubScene{
 
     public void start () {
         //createHardCodedSimulation();
-        createHardCodedSimulationForFire();
+        //createHardCodedSimulationForFire();
+        createWator();
         animation.play();
     }
 
@@ -88,16 +90,36 @@ public class SimulationViewSubscene extends SubScene{
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<>());
             for (int j=0; j< col;j++){
-                int status = (Math.random() <=0.5) ?0:1;
-                //int status = (Math.random() <=0.5) ?2:3;
-                //status = (Math.random() <=0.15) ?4:status;
-               Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                //int status = (Math.random() <=0.5) ?0:1;
+                int status = (Math.random() <=0.5) ?2:3;
+                status = (Math.random() <=0.15) ?4:status;
+                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
         }
-    //HardCodeSimulation = new Segregation(myListOfList,0.75);
-    HardCodeSimulation = new GoL(myListOfList);
+    HardCodeSimulation = new Segregation(myListOfList,0.75);
+    //HardCodeSimulation = new GoL(myListOfList);
+    }
+
+    public void createWator(){
+        List<List<Cell>> myListOfList = new ArrayList<>();
+        int row = 100;
+        int col = 100;
+        int cellWidth = 800/row;
+        int cellHeight = 600/col;
+        for (int i = 0; i < row; i++){
+            myListOfList.add(new ArrayList<>());
+            for (int j=0; j< col;j++){
+                int status = (Math.random() <=0.05) ?4:5;
+                //status = (Math.random() <=0.15) ?5:status;
+                if(i==0 && j==0) status = 1;
+                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                myListOfList.get(i).add(cell);
+                mySubscenePane.getChildren().add(cell.getCellImage());
+            }
+        }
+        HardCodeSimulation = new WatorLG(myListOfList, 3, 5, 2);
     }
 
     public void createHardCodedSimulationForFire(){

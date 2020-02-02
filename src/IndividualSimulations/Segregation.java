@@ -9,6 +9,7 @@ public class Segregation extends Simulation {
     private int BLUE = 2;
     private int RED = 3;
     private int BLANK = 4;
+    private boolean cont = false;
 
     private int[] UnSat = new int[3];
     private double satisfyRate;
@@ -27,6 +28,7 @@ public class Segregation extends Simulation {
      * Then go through each cell again, update its currentState to nextState, and update color accordingly
      */
     public void updateGrid() {
+        cont = false;
         List<Cell> temp = new ArrayList<>();
         for (List<Cell> rows : cellGrid) {
             for (Cell cell : rows) {
@@ -35,6 +37,9 @@ public class Segregation extends Simulation {
                     temp.add(cell);
                 }
             }
+        }
+        if(UnSat[0]==0 && UnSat[1]==0){
+            cont = true;
         }
         Collections.shuffle(temp) ;
         for(Cell cell:temp){
@@ -112,10 +117,7 @@ public class Segregation extends Simulation {
      */
     @Override
     public boolean checkToContinue(){
-        if(UnSat[0]==0 && UnSat[1]==0){
-            return false;
-        }
-        return true;
+        return cont;
     }
 
 }
