@@ -83,13 +83,13 @@ public class SimulationViewSubscene extends SubScene{
             for (int j=0; j< col;j++){
                 int status = (Math.random() <=0.5) ?2:3;
                 if(i==j || i==j+1 || i ==j-1 || i==0 || j==0) status = 4;
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+               Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
         }
-        //HardCodeSimulation = new Segregation(myListOfList,0.7);
-        HardCodeSimulation = new GoL(myListOfList);
+    HardCodeSimulation = new Segregation(myListOfList,0.7);
+    //HardCodeSimulation = new GoL(myListOfList);
     }
 
     private void beginAnimation(){

@@ -39,9 +39,9 @@ public abstract class Cell{
     public void updateState(){
         currentState = nextState;
     }
-
-    public Shape getCellImage(){return cellImage;}
-
+    public Shape getCellImage(){
+        return cellImage;
+    }
     public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
 
     public abstract void updateColor();
