@@ -1,6 +1,7 @@
 package View;
 
 import Cells.RectCell;
+import IndividualSimulations.Fire;
 import IndividualSimulations.GoL;
 import IndividualSimulations.Segregation;
 import cellsociety.Cell;
@@ -17,6 +18,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SimulationViewSubscene extends SubScene{
 
@@ -63,11 +65,16 @@ public class SimulationViewSubscene extends SubScene{
 
     private void step(double secondDelay){
         // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay,1);
+        HardCodeSimulation.update(secondDelay,10);
+        // Check for fire simulation
+        if (HardCodeSimulation.checkToContinue()){
+            animation.stop();
+        }
     }
 
     public void start () {
-        createHardCodedSimulation();
+        //createHardCodedSimulation();
+        createHardCodedSimulationForFire();
         animation.play();
     }
 
@@ -91,6 +98,47 @@ public class SimulationViewSubscene extends SubScene{
         }
     //HardCodeSimulation = new Segregation(myListOfList,0.75);
     HardCodeSimulation = new GoL(myListOfList);
+    }
+
+    public void createHardCodedSimulationForFire(){
+        List<List<Cell>> myListOfList = new ArrayList<>();
+        int row = 100;
+        int col = 100;
+        int a = 5;
+        int b = 3;
+        int cellWidth = 800/row;
+        int cellHeight = 600/col;
+        for (int i = 0; i < row; i++){
+            myListOfList.add(new ArrayList<Cell>());
+            for (int j=0; j< col;j++){
+                if (i == 0 || i == row-1 || j == 0 || j== col-1){
+                    int empty = 6;
+                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
+                    myListOfList.get(i).add(cell);
+                    mySubscenePane.getChildren().add(cell.getCellImage());
+                }
+                else if(i == row/2 -1 && j == row/2 -1){
+                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
+                    myListOfList.get(i).add(cell);
+                    mySubscenePane.getChildren().add(cell.getCellImage());
+                }
+                else{
+                    //int state = a
+                    //int randomState = new Random().nextBoolean() ? a : b;
+                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
+                    myListOfList.get(i).add(cell);
+                    mySubscenePane.getChildren().add(cell.getCellImage());
+
+                }
+            }
+        }
+        HardCodeSimulation = new Fire(myListOfList);
+    }
+
+    private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
+        Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
+        //myListOfList.get(i).add(cell);
+        mySubscenePane.getChildren().add(cell.getCellImage());
     }
 
     private void beginAnimation(){

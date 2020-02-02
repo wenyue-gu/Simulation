@@ -18,6 +18,8 @@ public class Segregation extends Simulation {
         satisfyRate = satisfy;
     }
 
+
+
     /**
      * Go through each cell in the grid
      * findNeighbours finds the cell's neighbours and put them all in an ArrayList
