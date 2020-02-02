@@ -89,7 +89,6 @@ public class Segregation extends Simulation {
         }
     }
 
-
     /**
      *
      * @param cell the cell whose state is being updated
@@ -105,5 +104,10 @@ public class Segregation extends Simulation {
                 UnSat[type]--;
             }
         }
+    }
+
+    @Override
+    public boolean checkToContinue(){
+        return false;
     }
 }

@@ -2,16 +2,22 @@ package IndividualSimulations;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import java.util.List;
+import java.util.Random;
 
 public class Fire extends Simulation {
 
-    private int EMPTRY = 0;
-    private int TREE = 1;
-    private int BURNING = 2;
+    private int EMPTY = 6;
+    private int TREE = 5;
+    private int BURNING = 3;
 
-    public Fire (List<List<Cell>> grid) {
+    public boolean isTheFinalHit = false;
+
+    public Fire(List<List<Cell>> grid) {
         super(grid);
     }
+
+    private boolean isFirst = true;
+    private Cell tempCell;
 
     /**
      * Go through each cell in the grid
@@ -22,16 +28,38 @@ public class Fire extends Simulation {
 
     public void updateGrid() {
 
-        for (List<Cell> rows : cellGrid) {
-            for (Cell cell : rows) {
-                checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
-            }
+        List<Cell> nextCells;
+
+        //Cell cell;
+        if (isFirst == true){
+            Cell cell = cellGrid.get(cellGrid.size()/2-1).get(cellGrid.get(0).size()/2-1);
+            nextCells = cell.findNeighbours(cellGrid, 8);
+            checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
+            cell.updateColor();
+            Random rand = new Random();
+            tempCell = nextCells.get(rand.nextInt(nextCells.size()));
+            isFirst = false;
         }
-        for (List<Cell> rows : cellGrid) {
-            for (Cell cell : rows) {
-                cell.updateColor();
-            }
+        else{
+            //tempCell = cellGrid.get(cellGrid.size()/2 -1).get(cellGrid.get(0).size()/2 -1);
+            nextCells = tempCell.findNeighbours(cellGrid, 8);
+            checkNeighbourAndChangeNext(tempCell, tempCell.findNeighbours(cellGrid, 8));
+            tempCell.updateColor();
+            Random rand = new Random();
+            tempCell = nextCells.get(rand.nextInt(nextCells.size()));
         }
+
+
+//        for (List<Cell> rows : cellGrid) {
+//            for (Cell cell : rows) {
+//                checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
+//            }
+//        }
+//        for (List<Cell> rows : cellGrid) {
+//            for (Cell cell : rows) {
+//                cell.updateColor();
+//            }
+//        }
     }
 
     /**
@@ -43,23 +71,66 @@ public class Fire extends Simulation {
      */
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
-        int alive = 0;
-        for (Cell neighbour : neighbours) {
-            if (neighbour.getCurrentState() == ALIVE) alive++;
+          double probCatch = 0.50;
+
+//        if (cell.getIndex1() == 0 || cell.getIndex1() == 99|| cell.getIndex2() == 0 || cell.getIndex2() == 99){
+//            isTheFinalHit = true;
+//        }
+        //decideEndOfGame(cell);
+        //for (Cell neighbour : neighbours){
+
+          if (cell.getCurrentState() == BURNING && checkNeigborAtEnd(neighbours)){
+            cell.changeCurrent(EMPTY);
         }
-        if (cell.getCurrentState() == DEAD && alive == 3) cell.changeNext(ALIVE);
-        else if (cell.getCurrentState() == ALIVE && (alive == 3 || alive == 2)) cell.changeNext(ALIVE);
-        else cell.changeNext(DEAD);
+              if (cell.getCurrentState() == TREE) {
+                  double tempProb = new Random().nextDouble();
+                  if (tempProb <= probCatch){
+                      cell.changeCurrent(BURNING);
+                  }
+              }
+              else if (cell.getCurrentState() == BURNING && !checkNeigborAtEnd(neighbours)){
+                  //cell.changeNext(EMPTY);
+                  return;
+              }
+
+              else if (cell.getCurrentState() == BURNING){
+                  cell.changeNext(EMPTY);
+              }
+          }
+          // These values that seem to be magic values must be changed using number of rows and cols decided by team or XML file
+
+//        int alive = 0;
+//        for (Cell neighbour : neighbours) {
+//            if (neighbour.getCurrentState() == ALIVE) alive++;
+//        }
+//        if (cell.getCurrentState() == DEAD && alive == 3) cell.changeNext(ALIVE);
+//        else if (cell.getCurrentState() == ALIVE && (alive == 3 || alive == 2)) cell.changeNext(ALIVE);
+//        else cell.changeNext(DEAD);
+//    }
+
+    //}
+
+    private void decideEndOfGame(Cell cell){
+        if (cell.getIndex1() == 0 || cell.getIndex1() == 99|| cell.getIndex2() == 0 || cell.getIndex2() == 99){
+            isTheFinalHit = true;
+        }
+    }
+
+    private boolean checkNeigborAtEnd(List<Cell> neighbours){
+        for (Cell neighbour: neighbours){
+            boolean end = neighbour.getIndex1() == 0 || neighbour.getIndex1() == 99|| neighbour.getIndex2() == 0 || neighbour.getIndex2() == 99;
+            if(neighbour.getCurrentState() == EMPTY && end) {
+                isTheFinalHit = true;
+                return  true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public void updateGrid() {
-
+    public boolean checkToContinue(){
+        return isTheFinalHit;
     }
 
-    @Override
-    public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbour) {
+}
 
-    }
-}
-}
