@@ -96,12 +96,21 @@ public class simulationXML{
    * Returns the initial configurations in the form of a grid
    */
   public List<List<Integer>> getInitialConfig() {
-    String[] initialConfigArray = myInitialConfig.split(" ");
+    String[] initialConfigArray = myInitialConfig.split("\n");
     List<List<Integer>> ret = new ArrayList<>();
-    for(int i = 0; i < myHeight; i++){
+//    for(int i = 0; i < myHeight; i++){
+//      List<Integer> row = new ArrayList<>();
+//      for(int j = 0; j < myWidth; j++){
+//        row.add(Integer.parseInt(initialConfigArray[i*myWidth + j]));
+//      }
+//      ret.add(row);
+//    }
+
+    for(String rowStr : initialConfigArray){
       List<Integer> row = new ArrayList<>();
-      for(int j = 0; j < myWidth; j++){
-        row.add(Integer.parseInt(initialConfigArray[i*myWidth + j]));
+      String[] rowArr = rowStr.split(" ");
+      for(int j = 0; j < rowArr.length; j++){
+        row.add(Integer.parseInt(rowArr[j]));
       }
       ret.add(row);
     }

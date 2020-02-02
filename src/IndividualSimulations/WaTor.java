@@ -19,7 +19,7 @@ public class WaTor extends Simulation {
 
   @Override
   public void updateGrid() {
-    if()
+//    if()
   }
 
   @Override

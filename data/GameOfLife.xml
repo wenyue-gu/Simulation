@@ -2,7 +2,16 @@
 <data media="Simulation">
   <title>Game of Life</title>
   <author>Michelle Tai</author>
-  <width>5</width>
-  <height>5</height>
-  <initialConfig>1 1 1 1 1 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0</initialConfig>
+  <width>10</width>
+  <height>10</height>
+  <initialConfig>0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 1 0 0 0 0 0
+0 0 0 1 0 1 0 0 0 0
+0 0 1 1 0 1 1 0 0 0
+0 0 0 1 0 1 0 0 0 0
+0 0 0 0 1 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0</initialConfig>
 </data>

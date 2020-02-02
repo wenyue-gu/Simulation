@@ -12,6 +12,7 @@ public class WaTorCell extends RectCell {
   private int nextRow;
   private int nextCol;
   private int currentState;
+  private Cell nextCellSpot;
 
 //  private int reproduceTime;
 
@@ -48,6 +49,10 @@ public class WaTorCell extends RectCell {
 //    this.setNextCol(newCol);
 //  }
 
+  public void setNextCellSpot(Cell cell){
+    nextCellSpot = cell;
+  }
+
 
 
   public ArrayList<Cell> findNeighbours(List<List<Cell>> cellGrid, int type){
@@ -67,6 +72,7 @@ public class WaTorCell extends RectCell {
       return new ArrayList<>();
     }
   }
+
 
   private ArrayList<Cell> findNeighbour(List<List<Cell>> cellGrid, int[] rowDelta, int[] colDelta){
     ArrayList<Cell> ret = new ArrayList<>();

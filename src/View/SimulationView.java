@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import xml.simulationXML;
 public class SimulationView {
     private static final double WIDTH = 1000;
     private static final double HEIGHT = 1024;
@@ -19,15 +20,18 @@ public class SimulationView {
     private AnchorPane simulationViewPane;
     private SimulationViewSubscene mySubscene;
 
+    private simulationXML simInfo;
+
     // Hardcoded version for creating
 
     private SimulationViewButton myStartButton;
 
-    public SimulationView(){
+    public SimulationView(simulationXML simXML){
+        simInfo = simXML;
         setGameScene();
         createBackgroundImage();
         createTabBarWithButtons();
-        createSubScene();
+        createSubScene(simXML);
         createStartButton();
     }
 
@@ -58,8 +62,8 @@ public class SimulationView {
 
     }
 
-    private void createSubScene(){
-        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
+    private void createSubScene(simulationXML simXML){
+        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT, simXML);
         simulationViewPane.getChildren().add(mySubscene);
     }
 

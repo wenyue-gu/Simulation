@@ -17,8 +17,9 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
+//import java.util.Random;
+import xml.simulationXML;
 
 public class SimulationViewSubscene extends SubScene{
 
@@ -32,10 +33,12 @@ public class SimulationViewSubscene extends SubScene{
     private Simulation HardCodeSimulation;
     public Timeline animation;
     private AnchorPane mySubscenePane;
+    private simulationXML simInfo;
+    private Simulation XMLSimulation;
 
-    public SimulationViewSubscene(int width, int height) {
+    public SimulationViewSubscene(int width, int height, simulationXML simXML) {
         super(new AnchorPane(), width, height);
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
+        simInfo = simXML;
         prefWidth(width);
         prefHeight(height);
         setBackground();
@@ -68,17 +71,27 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     private void step(double secondDelay){
-        // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay,10);
-        // Check for fire simulation
-        if (HardCodeSimulation.checkToContinue()){
+
+//        HardCodeSimulation.update(secondDelay,10);
+//        // Check for fire simulation
+//        if (HardCodeSimulation.checkToContinue()){
+//            animation.stop();
+//        }
+//    }
+//
+//    public void start () {
+//        //createHardCodedSimulation();
+//        createHardCodedSimulationForFire();
+//        HardCodeSimulation.update(secondDelay,10);
+        XMLSimulation.update(secondDelay, 10);
+        if (XMLSimulation.checkToContinue()){
             animation.stop();
         }
     }
 
     public void start () {
-        createHardCodedSimulation();
-        //createHardCodedSimulationForFire();
+//        createHardCodedSimulation();
+        createXMLSIM();
         animation.play();
     }
 
@@ -101,45 +114,56 @@ public class SimulationViewSubscene extends SubScene{
         HardCodeSimulation = new GoL(myListOfList);
     }
 
-    public void createHardCodedSimulationForFire(){
+//    public void createHardCodedSimulationForFire(){
+//        List<List<Cell>> myListOfList = new ArrayList<>();
+//        int row = 100;
+//        int col = 100;
+//        int a = 5;
+//        int b = 3;
+    public void createXMLSIM(){
         List<List<Cell>> myListOfList = new ArrayList<>();
-        int row = 100;
-        int col = 100;
-        int a = 5;
-        int b = 3;
+        int row = simInfo.getHeight();
+        int col = simInfo.getWidth();
+        List<List<Integer>> initialConfig = simInfo.getInitialConfig();
         int cellWidth = 800/row;
         int cellHeight = 600/col;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-                if (i == 0 || i == row-1 || j == 0 || j== col-1){
-                    int empty = 6;
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-                }
-                else if(i == row/2 -1 && j == row/2 -1){
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-                }
-                else{
-                    //int state = a
-                    //int randomState = new Random().nextBoolean() ? a : b;
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-
-                }
+//                if (i == 0 || i == row-1 || j == 0 || j== col-1){
+//                    int empty = 6;
+//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
+//                    myListOfList.get(i).add(cell);
+//                    mySubscenePane.getChildren().add(cell.getCellImage());
+//                }
+//                else if(i == row/2 -1 && j == row/2 -1){
+//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
+//                    myListOfList.get(i).add(cell);
+//                    mySubscenePane.getChildren().add(cell.getCellImage());
+//                }
+//                else{
+//                    //int state = a
+//                    //int randomState = new Random().nextBoolean() ? a : b;
+//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
+//                    myListOfList.get(i).add(cell);
+//                    mySubscenePane.getChildren().add(cell.getCellImage());
+//
+//                }
+//            }
+//        }
+//        HardCodeSimulation = new Fire(myListOfList);
+//    }
+//
+//    private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
+//        Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
+//        //myListOfList.get(i).add(cell);
+//        mySubscenePane.getChildren().add(cell.getCellImage());
+                Cell cell = new RectCell(i, j, cellWidth, cellHeight, initialConfig.get(i).get(j));
+                myListOfList.get(i).add(cell);
+                mySubscenePane.getChildren().add(cell.getCellImage());
             }
         }
-        HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
-    }
-
-    private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
-        Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-        //myListOfList.get(i).add(cell);
-        mySubscenePane.getChildren().add(cell.getCellImage());
+        XMLSimulation = new GoL(myListOfList);
     }
 
     private void beginAnimation(){
