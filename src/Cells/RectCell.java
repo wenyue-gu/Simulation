@@ -1,20 +1,14 @@
 package Cells;
 
 import cellsociety.Cell;
-import javafx.scene.Node;
-import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
 public class RectCell extends Cell {
     private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.WHITE, Color.GREEN, Color.YELLOW};
-    //private Rectangle cellImage;
-
 
     public RectCell(int x, int y, int width, int height, int status) {
         super(x, y, status);

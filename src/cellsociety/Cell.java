@@ -43,7 +43,6 @@ public abstract class Cell{
         return cellImage;
     }
 
-
     public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
 
     public abstract void updateColor();

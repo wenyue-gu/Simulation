@@ -1,7 +1,5 @@
 package cellsociety;
 
-import cellsociety.Cell;
-
 import java.util.*;
 
 public abstract class Simulation{

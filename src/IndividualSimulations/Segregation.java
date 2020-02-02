@@ -10,10 +10,6 @@ public class Segregation extends Simulation {
     private int RED = 3;
     private int BLANK = 4;
 
-//    private int UnSatRed = 0;
-//    private int UnSatBlue = 0;
-//    private int UnSatBlank = 0;
-
     private int[] UnSat = {0,0,0};
     private ArrayList<Integer> UnSatisfied;
 
@@ -95,7 +91,6 @@ public class Segregation extends Simulation {
      */
     private void segUpdate(Cell cell){
         boolean set = false;
-        //ArrayList<Integer> listForChoice = new ArrayList<Integer>(Arrays.asList(UnSat));
         while(!set) {
             int type = (new Random()).nextInt(3);
             if (UnSat[type] > 0) {
