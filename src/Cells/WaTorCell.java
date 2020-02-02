@@ -4,22 +4,30 @@ import cellsociety.Cell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaTorCell extends Cell {
+public class WaTorCell extends RectCell {
   private int currentRow;
   private int currentCol;
   private int surviveTime;
+  private ArrayList<Cell> neighbours;
   private int nextRow;
   private int nextCol;
   private int currentState;
-  private boolean willBeMovedTo;
 
 //  private int reproduceTime;
 
 
-  public WaTorCell(int x, int y, int status) {
-    super(x, y, status);
+  public WaTorCell(int x, int y, int width, int height, int status) {
+    super(x, y, width, height, status);
     currentRow = x;
     currentCol = y;
+  }
+
+  public void setNextRow(int newRow){
+    nextRow = newRow;
+  }
+
+  public void setNextCol(int newCol){
+    nextCol = newCol;
   }
 
   public void setSurviveTime(int newTime){
@@ -34,9 +42,13 @@ public class WaTorCell extends Cell {
     return (elapsedTime - surviveTime) >= reproduceTime;
   }
 
-  public boolean isAboutToBeMovedTo(){
-    return willBeMovedTo;
-  }
+//  public void move(int newRow, int newCol){
+//    updateState();
+//    this.setNextRow(newRow);
+//    this.setNextCol(newCol);
+//  }
+
+
 
   public ArrayList<Cell> findNeighbours(List<List<Cell>> cellGrid, int type){
     if(type==4){
@@ -76,10 +88,11 @@ public class WaTorCell extends Cell {
         ret.add(cellGrid.get(row).get(0));
       }
     }
+    neighbours = ret;
     return ret;
   }
 
-  public Cell findOpenSpace(List<Cell> neighbours){
+  public List<Cell> findOpenSpaces(){
     List<Cell> emptySpots = new ArrayList<>();
     for(Cell cell : neighbours){
       if(cell.getCurrentState() == 0){
@@ -89,10 +102,11 @@ public class WaTorCell extends Cell {
     if(emptySpots.size() == 0){
       return null;
     }
-    else{
-      int rand = (int)(Math.random() * (emptySpots.size() + 1));
-      return emptySpots.get(rand);
-    }
+    return emptySpots;
+//    else{
+//      int rand = (int)(Math.random() * (emptySpots.size() + 1));
+//      return emptySpots.get(rand);
+//    }
   }
 
 }
