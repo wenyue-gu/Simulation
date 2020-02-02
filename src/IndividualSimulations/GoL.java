@@ -61,7 +61,7 @@ public class GoL extends Simulation {
      * Check if there are more "possible" moves for the simulation
      * @return if the simulation should keep going
      */
-    //@Override
+    @Override
     public boolean checkToContinue(){
         return cont;
     }

@@ -110,7 +110,7 @@ public class Segregation extends Simulation {
      * If no red and blue cells are unsatisfied, return false (simulation can stop)
      * @return if the simulation should keep going
      */
-    //@Override
+    @Override
     public boolean checkToContinue(){
         if(UnSat[0]==0 && UnSat[1]==0){
             return false;
