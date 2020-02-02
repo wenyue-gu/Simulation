@@ -3,6 +3,7 @@ package View;
 import Cells.RectCell;
 import IndividualSimulations.Fire;
 import IndividualSimulations.GoL;
+import IndividualSimulations.Percolation;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
@@ -71,18 +72,6 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     private void step(double secondDelay){
-
-//        HardCodeSimulation.update(secondDelay,10);
-//        // Check for fire simulation
-//        if (HardCodeSimulation.checkToContinue()){
-//            animation.stop();
-//        }
-//    }
-//
-//    public void start () {
-//        //createHardCodedSimulation();
-//        createHardCodedSimulationForFire();
-//        HardCodeSimulation.update(secondDelay,10);
         XMLSimulation.update(secondDelay, 10);
         if (XMLSimulation.checkToContinue()){
             animation.stop();
@@ -114,12 +103,6 @@ public class SimulationViewSubscene extends SubScene{
         HardCodeSimulation = new GoL(myListOfList);
     }
 
-//    public void createHardCodedSimulationForFire(){
-//        List<List<Cell>> myListOfList = new ArrayList<>();
-//        int row = 100;
-//        int col = 100;
-//        int a = 5;
-//        int b = 3;
     public void createXMLSIM(){
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = simInfo.getHeight();
@@ -130,40 +113,12 @@ public class SimulationViewSubscene extends SubScene{
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-//                if (i == 0 || i == row-1 || j == 0 || j== col-1){
-//                    int empty = 6;
-//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-//                    myListOfList.get(i).add(cell);
-//                    mySubscenePane.getChildren().add(cell.getCellImage());
-//                }
-//                else if(i == row/2 -1 && j == row/2 -1){
-//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
-//                    myListOfList.get(i).add(cell);
-//                    mySubscenePane.getChildren().add(cell.getCellImage());
-//                }
-//                else{
-//                    //int state = a
-//                    //int randomState = new Random().nextBoolean() ? a : b;
-//                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
-//                    myListOfList.get(i).add(cell);
-//                    mySubscenePane.getChildren().add(cell.getCellImage());
-//
-//                }
-//            }
-//        }
-//        HardCodeSimulation = new Fire(myListOfList);
-//    }
-//
-//    private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
-//        Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-//        //myListOfList.get(i).add(cell);
-//        mySubscenePane.getChildren().add(cell.getCellImage());
                 Cell cell = new RectCell(i, j, cellWidth, cellHeight, initialConfig.get(i).get(j));
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
         }
-        XMLSimulation = new GoL(myListOfList);
+        XMLSimulation = new Percolation(myListOfList);
     }
 
     private void beginAnimation(){

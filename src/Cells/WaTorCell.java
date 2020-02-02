@@ -23,13 +23,13 @@ public class WaTorCell extends RectCell {
     currentCol = y;
   }
 
-  public void setNextRow(int newRow){
-    nextRow = newRow;
-  }
-
-  public void setNextCol(int newCol){
-    nextCol = newCol;
-  }
+//  public void setNextRow(int newRow){
+//    nextRow = newRow;
+//  }
+//
+//  public void setNextCol(int newCol){
+//    nextCol = newCol;
+//  }
 
   public void setSurviveTime(int newTime){
     surviveTime = newTime;
@@ -98,7 +98,7 @@ public class WaTorCell extends RectCell {
     return ret;
   }
 
-  public List<Cell> findOpenSpaces(){
+  public Cell findRandomOpenSpace(){
     List<Cell> emptySpots = new ArrayList<>();
     for(Cell cell : neighbours){
       if(cell.getCurrentState() == 0){
@@ -108,11 +108,11 @@ public class WaTorCell extends RectCell {
     if(emptySpots.size() == 0){
       return null;
     }
-    return emptySpots;
-//    else{
-//      int rand = (int)(Math.random() * (emptySpots.size() + 1));
-//      return emptySpots.get(rand);
-//    }
+//    return emptySpots;
+    else{
+      int rand = (int)(Math.random() * (emptySpots.size() + 1));
+      return emptySpots.get(rand);
+    }
   }
 
 }
