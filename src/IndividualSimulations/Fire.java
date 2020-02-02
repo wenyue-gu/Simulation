@@ -10,6 +10,8 @@ public class Fire extends Simulation {
     private int TREE = 5;
     private int BURNING = 3;
 
+    private double probCatch;
+
     public boolean isTheFinalHit = false;
 
     /**
@@ -17,8 +19,9 @@ public class Fire extends Simulation {
      *
      * @param grid which contains all the cells at time t in simulation
      */
-    public Fire(List<List<Cell>> grid) {
+    public Fire(List<List<Cell>> grid, double prob) {
         super(grid);
+        probCatch = prob;
     }
 
     /**
@@ -50,9 +53,9 @@ public class Fire extends Simulation {
      */
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
-        double probCatch = 0.55; //xml passes in
+        //double probCatch = 0.55; //xml passes in
         if (cell.getCurrentState() == BURNING) {
-            cell.changeCurrent(EMPTY);
+            cell.changeNext(EMPTY);
             for (Cell neighbour : neighbours) {
                 if (neighbour.getCurrentState() == TREE) {
                     int status = (Math.random() <= probCatch) ? BURNING : TREE;

@@ -35,7 +35,6 @@ public abstract class Cell{
     public void changeNext(int i){
         nextState = i;
     }
-    public void changeCurrent(int i){nextState = i;}
     public void updateState(){
         currentState = nextState;
     }
