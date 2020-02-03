@@ -77,8 +77,8 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     public void start () {
-        //createHardCodedSimulation();
-        createHardCodedSimulationForFire();
+        createHardCodedSimulation();
+        //createHardCodedSimulationForFire();
         animation.play();
     }
 

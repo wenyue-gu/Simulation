@@ -77,6 +77,9 @@ public class SimulationViewGUI {
         mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
         boxWIthButtons.getChildren().add(mySimulationStepButton);
 
+        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> loadFile());
+        boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
+
 
         simulationViewPane.getChildren().add(boxWIthButtons);
     }
@@ -108,6 +111,10 @@ public class SimulationViewGUI {
 
     private void stepThroughSimulation() {
         mySubscene.animation.pause();
+    }
+
+    private void loadFile(){
+        // TO DO: Michelle add xml stuff
     }
 
     // Display given message as an error in the GUI

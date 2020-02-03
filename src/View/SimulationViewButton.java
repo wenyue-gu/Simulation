@@ -65,7 +65,7 @@ public class SimulationViewButton extends Button {
             @Override
             public void handle(MouseEvent event) {
                 if(event.getButton().equals(MouseButton.PRIMARY)){
-                    didPressedButton();
+                    //didReleaseButton();
                 }
             }
         });
@@ -74,7 +74,7 @@ public class SimulationViewButton extends Button {
             @Override
             public void handle(MouseEvent event) {
                 if(event.getButton().equals(MouseButton.PRIMARY)){
-                    didPressedButton();
+                    //didPressedButton();
                 }
             }
         });
