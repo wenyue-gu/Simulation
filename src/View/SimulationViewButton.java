@@ -8,29 +8,37 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 
 public class SimulationViewButton extends Button {
 
+    private static final int BUTTON_HEIGHT = 45, BUTTON_WIDTH = 190;
+    private static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    private ResourceBundle myResources;
+    private String font;
 
+   // private final String BUTTON_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button03.png');";
+    //private final String FONT_SEMIURL = "src/model/resources/kenvector_future.ttf";
+   // private final String BUTTON_PRESSED_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button02.png');";
 
-    private final String BUTTON_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button03.png');";
-    private final String FONT_SEMIURL = "src/model/resources/kenvector_future.ttf";
-    private final String BUTTON_PRESSED_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button02.png');";
-
-    public SimulationViewButton (String words){
+    public SimulationViewButton (String words, String language){
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
+        font = myResources.getString("FontStylePath");
         setText(words);
         setButtonTextFont();
-        setPrefHeight(45);
-        setPrefWidth(190);
-        setStyle(BUTTON_SEMIURL);
+        setPrefHeight(BUTTON_HEIGHT);//45
+        setPrefWidth(BUTTON_WIDTH);//190
+        setStyle(font);
         mouseUpdateListener();
     }
 
     private void setButtonTextFont() {
         try {
-            setFont(javafx.scene.text.Font.loadFont(new FileInputStream(FONT_SEMIURL), 23));
+            setFont(javafx.scene.text.Font.loadFont(new FileInputStream(font), Double.parseDouble(myResources.getString("FSize"))));
         }
         catch (FileNotFoundException e){
             setFont(Font.font("TimesRoman", 23));
@@ -38,13 +46,14 @@ public class SimulationViewButton extends Button {
     }
 
     private void didReleaseButton(){
-        setStyle(BUTTON_SEMIURL);
+        setStyle(myResources.getString("ButtonUnpressed"));
         setPrefHeight(45);
         setLayoutY(getLayoutY() - 3);
     }
 
     private void didPressedButton(){
-        setStyle(BUTTON_PRESSED_SEMIURL);
+        //setBackground(new Image(myResources.getString("ButtonPressed")));
+        setStyle(myResources.getString("ButtonPressed"));
         setPrefHeight(45);
         setLayoutY(getLayoutY() + 3);
 
@@ -65,7 +74,7 @@ public class SimulationViewButton extends Button {
             @Override
             public void handle(MouseEvent event) {
                 if(event.getButton().equals(MouseButton.PRIMARY)){
-                    didReleaseButton();
+                    didPressedButton();
                 }
             }
         });

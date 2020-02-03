@@ -30,7 +30,7 @@ public class SimulationViewSubscene extends SubScene{
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
     private Simulation HardCodeSimulation;
-    private Timeline animation;
+    public Timeline animation;
     private AnchorPane mySubscenePane;
 
     public SimulationViewSubscene(int width, int height) {
