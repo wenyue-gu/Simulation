@@ -2,9 +2,11 @@ package cellsociety;
 
 import Model.SimulationViewGUIModel;
 //import View.SimulationViewGUI;
+import View.SimulationViewGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class SimulationMain extends Application{
         // convenience constants
@@ -15,11 +17,13 @@ public class SimulationMain extends Application{
         private static final Dimension DEFAULT_SIZE = new Dimension(WIDTH, HEIGHT);//800,600
 
         @Override
-        public void start (Stage stage) {
+        public void start (Stage stage) throws FileNotFoundException {
             SimulationViewGUIModel model = new SimulationViewGUIModel();
-            //SimulationViewGUI display = new SimulationViewGUI(model, "English");
+            SimulationViewGUI display = new SimulationViewGUI("English");
             stage.setTitle(TITLE);
+            stage = display.getSimulationViewStage();
             // add our user interface components to Frame and show it
+            //stage.setScene(display.getSimulationViewStage());
             //stage.setScene(display.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
             stage.show();
             // start somewhere, less typing for debugging

@@ -10,9 +10,7 @@ public class Fire extends Simulation {
     private int EMPTY = 6;
     private int TREE = 5;
     private int BURNING = 3;
-
     private double probCatch;
-
     public boolean isTheFinalHit = false;
 
     /**

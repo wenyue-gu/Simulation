@@ -12,6 +12,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class SimulationViewButton extends Button {
+
+
+
     private final String BUTTON_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button03.png');";
     private final String FONT_SEMIURL = "src/model/resources/kenvector_future.ttf";
     private final String BUTTON_PRESSED_SEMIURL = "-fx-background-color: transparent; -fx-background-image: url('/model/resources/blue_button02.png');";

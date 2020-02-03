@@ -1,32 +1,23 @@
 package View;
 
 import Model.SimulationViewGUIModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,6 +27,7 @@ public class SimulationViewGUI {
     private static final double HEIGHT = 1024;
     private final static int SUBSCENE_WIDTH = 800;
     private final static int SUBSCENE_HEIGHT = 600;
+    //private static final String LABEL_FONT = "resources/kenvector_future.ttf";
 
     private Stage simulationViewStage;
     private Scene simulationViewScene;
@@ -45,11 +37,12 @@ public class SimulationViewGUI {
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-    public static final String STYLESHEET = "default.css";
+    //public static final String STYLESHEET = "default.css";
     public static final String BLANK = " ";
 
+    private  String font ;
     private WebView myPage;
-    private Label simulationViewLabel;
+    private SimulationViewInfoLabel simulationViewLabel;
     private SimulationViewButton mySimulationStartButton;
     private SimulationViewButton mySimulationStopButton;
     private SimulationViewButton mySimulationStepButton;
@@ -61,67 +54,91 @@ public class SimulationViewGUI {
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
-    public SimulationViewGUI(SimulationViewGUIModel model, String language) {
-        mySimulationViewModel = model;
-        // use resources for labels
+    public SimulationViewGUI(String language) throws FileNotFoundException {
+
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        font = myResources.getString("FontStylePath");
+        setGameScene();
+        createBackgroundImage();
+        //makeScene((int)WIDTH, (int)HEIGHT);
+        createSubScene();
+        createSimulationPane();
     }
 
-    private Node makeBottomButtonScene() {
-        HBox boxWIthButtons = new HBox();
+    private void makeTopButtons() {
+        HBox boxWIthButtons = new HBox(8);
+        boxWIthButtons.setPrefWidth(WIDTH);
+        boxWIthButtons.setPrefHeight(50);
+        mySimulationStartButton = makeButton("StartCommand", event -> startSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStartButton);
+
+        mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStopButton);
+
+        mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStepButton);
 
 
-
-        return boxWIthButtons;
+        simulationViewPane.getChildren().add(boxWIthButtons);
     }
 
-    private Node makeTopLabelScene() {
-        HBox labelAtTop = new HBox();
-        labelAtTop.setPrefHeight(30);
-        return labelAtTop;
+    private void makeBottomLabelScene() throws FileNotFoundException {
+        HBox labelAtBottom = new HBox();
+        labelAtBottom.setPrefHeight(50);
+        labelAtBottom.setPrefWidth(WIDTH);
+        labelAtBottom.setLayoutY(HEIGHT - 268);
+        labelAtBottom.setLayoutX(0);
+        simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, 50);
+        simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), 23)));
+        labelAtBottom.setAlignment(Pos.CENTER);
+        labelAtBottom.getChildren().addAll(simulationViewLabel);
+        simulationViewPane.getChildren().add(labelAtBottom);
     }
 
 
     /**
      * Returns scene for the browser so it can be added to stage.
      */
-    public Scene makeScene(int width, int height) {
+    public void makeScene(int width, int height) throws FileNotFoundException {
 
         BorderPane root = new BorderPane();
+        //simulationViewPane
         // must be first since other panels may refer to page
         VBox vbox = new VBox(8);
-        root.setCenter(makePageDisplay());
+        //root.setCenter(makePageDisplay());
         //vbox.getChildren().addAll(makeInputPanel(), makeVerticalButtons());
         vbox.setPrefHeight(40);
-        root.setTop(vbox);
-        root.setBottom(makeBottomButtonScene());
+
+
+        //root.setTop(makeBottomButtonScene());
+        //root.setBottom(makeBottomLabelScene());
+
         //root.setBottom(makeInformationPanel());
         // control the navigation
         //enableButtons();
         // create scene to hold UI
-        Scene scene = new Scene(root, width, height);
+        //Scene scene = new Scene(root, width, height);
         // activate CSS styling
-        scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-        return scene;
+        //scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+        //return scene;
+        simulationViewPane.getChildren().add(root);
     }
 
 
     /**
-     * Display given URL.
+     * Start Simulation.
      */
-    public void showPage(String url) {
-//        URL valid = mySimulationViewModel.go(url);
-//        if (valid != null) {
-//            update(valid);
-//        } else {
-//            showError("Could not load " + url);
-//        }
+    public void startSimulation() {
+        return;
     }
 
 
-    // Display given message as information in the GUI
-    private void showStatus(String message) {
-        simulationViewLabel.setText(message);
+    private void stopSimulation() {
+        return;
+    }
+
+    private void stepThroughSimulation() {
+        return;
     }
 
     // Display given message as an error in the GUI
@@ -131,45 +148,6 @@ public class SimulationViewGUI {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    // move to the next URL in the history
-//    private void next() {
-//        update(myModel.next());
-//    }
-
-    //set Home URL
-//    private void setHome() {
-//
-//        update(myModel.getHomeURL());
-//    }
-
-    private void displayHome() {
-
-    }
-
-    // move to the previous URL in the history
-//    private void back() {
-//        update(myModel.back());
-//    }
-
-    // update just the view to display given URL
-    private void update(URL url) {
-        String urlText = url.toString();
-        myPage.getEngine().load(urlText);
-       // myURLDisplay.setText(urlText);
-        //enableButtons();
-    }
-
-//    private void changeText() {
-//        myURLDisplay.setText(myModel.getHomeURL().toString());
-//    }
-
-    // only enable buttons when useful to user
-//    private void enableButtons() {
-//        mySimulationStopButton.setDisable(!myModel.hasPrevious());
-//        mySimulationStepButton.setDisable();
-//        //myNextButton.setDisable(! myModel.hasNext());
-//    }
 
     // convenience method to create HTML page display
     private Node makePageDisplay() {
@@ -219,10 +197,10 @@ public class SimulationViewGUI {
 //    }
 
     // makes a button using either an image or a label
-    private Button makeButton(String property, EventHandler<ActionEvent> handler) {
+    private SimulationViewButton makeButton(String property, EventHandler<ActionEvent> handler) {
         // represent all supported image suffixes
         final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
-        Button result = new Button();
+        SimulationViewButton result = new SimulationViewButton(myResources.getString(property));
         String label = myResources.getString(property);
         if (label.matches(IMAGEFILE_SUFFIXES)) {
             result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
@@ -232,14 +210,6 @@ public class SimulationViewGUI {
         result.setOnAction(handler);
         return result;
     }
-
-    // make text field for input
-//    private TextField makeInputField(int width, EventHandler<ActionEvent> handler) {
-//        TextField result = new TextField();
-//        result.setPrefColumnCount(width);
-//        result.setOnAction(handler);
-//        return result;
-//    }
 
 
     // display page
@@ -286,6 +256,56 @@ public class SimulationViewGUI {
 //            }
 //        }
 //    }
+
+
+
+    /**
+     * method to obtain the stage of the view
+     * @return baseStage
+     */
+    public Stage getSimulationViewStage() {
+        return simulationViewStage;
+    }
+
+    private void setGameScene() throws FileNotFoundException {
+        simulationViewPane = new AnchorPane();
+        simulationViewScene = new Scene(simulationViewPane, WIDTH, HEIGHT);
+        simulationViewStage = new Stage();
+        simulationViewStage.setScene(simulationViewScene);
+        simulationViewStage.setResizable(false);
+    }
+
+    private void createBackgroundImage(){
+        Image backgroundImage = new Image(myResources.getString("SimulationBackground"), false);
+        BackgroundImage simulationViewBackground;
+        simulationViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+        simulationViewPane.setBackground(new Background(simulationViewBackground));
+    }
+
+    private void createSimulationPane() throws FileNotFoundException {
+        makeBottomLabelScene();
+        makeTopButtons();
+    }
+
+    private void createSubScene(){
+        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
+        simulationViewPane.getChildren().add(mySubscene);
+    }
+
+//    private void createStartButton(){
+//         = new StartButton("START");
+//        myStartButton.setLayoutX(0);
+//        myStartButton.setLayoutY(0);
+//        simulationViewPane.getChildren().add(myStartButton);
+//        myStartButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                mySubscene.start();
+//            }
+//        });
+//    }
+
+
 }
 
 
