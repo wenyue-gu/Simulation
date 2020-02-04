@@ -31,7 +31,7 @@ public class SimulationView {
         createStartButton();
     }
 
-    /**
+    /** 
      * method to obtain the stage of the view
      * @return baseStage
      */
