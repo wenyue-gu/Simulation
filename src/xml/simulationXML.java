@@ -21,6 +21,7 @@ public class simulationXML{
       "author",
       "width",
       "height",
+      "random",
       "initialConfig"
   );
 
@@ -30,6 +31,7 @@ public class simulationXML{
   private int myWidth;
   private int myHeight;
   private String myInitialConfig;
+  private String isRandom;
   private List<List<Integer>> getGridConfig;
   // NOTE: keep just as an example for converting toString(), otherwise not used
   private Map<String, String> myDataValues;
@@ -38,12 +40,13 @@ public class simulationXML{
   /**
    * Create game data from given data.
    */
-  public simulationXML(String title, String author, int width, int height, String initialConfig) {
+  public simulationXML(String title, String author, int width, int height, String random, String initialConfig) {
     myTitle = title;
     myAuthor = author;
     myWidth = width;
     myHeight = height;
     myInitialConfig = initialConfig;
+    isRandom = random;
     // NOTE: this is useful so our code does not fail due to a NullPointerException
     myDataValues = new HashMap<>();
     getGridConfig = new ArrayList<>();
@@ -59,7 +62,8 @@ public class simulationXML{
         dataValues.get(DATA_FIELDS.get(1)),
         Integer.parseInt(dataValues.get(DATA_FIELDS.get(2))),
         Integer.parseInt(dataValues.get(DATA_FIELDS.get(3))),
-        dataValues.get(DATA_FIELDS.get(4)));
+        dataValues.get(DATA_FIELDS.get(4)),
+        dataValues.get(DATA_FIELDS.get(5)));
     myDataValues = dataValues;
   }
 
@@ -90,6 +94,10 @@ public class simulationXML{
    */
   public int getHeight() {
     return myHeight;
+  }
+
+  public boolean isRandom(){
+    return isRandom.equals("true");
   }
 
   /**
