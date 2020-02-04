@@ -86,7 +86,6 @@ public class SimulationViewSubscene extends SubScene {
     public void start(simulationXML simInfo) {
         this.simXMLInfo = simInfo;
         createHardCodedSimulation();
-        //createHardCodedSimulationForFire();
         animation.play();
     }
 
@@ -102,7 +101,6 @@ public class SimulationViewSubscene extends SubScene {
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-//                int status = (Math.random() <=0.5) ?0:1;
                 if(simXMLInfo.isRandom()){
                     status = (Math.random() <=0.5) ?0:1;
                 }
@@ -128,7 +126,6 @@ public class SimulationViewSubscene extends SubScene {
             makeFireSimulation();
         }
         else if(simXMLInfo.getTitle().equals("WaTor")){
-//            HardCodeSimulation = new WaTor(myListOfList, 50, 5, 5);
             createWaTor();
         }
         else if(simXMLInfo.getTitle().equals("Segregation")){
@@ -147,7 +144,6 @@ public class SimulationViewSubscene extends SubScene {
             myListOfList.add(new ArrayList<>());
             for (int j=0; j< col;j++){
                 int status = (Math.random() <=0.05) ?4:5;
-                //status = (Math.random() <=0.15) ?5:status;
                 if(i==0 && j==0) status = 1;
                 Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
