@@ -26,7 +26,8 @@ public class SimulationViewGUI {
     private final static int SUBSCENE_HEIGHT = 600;
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
-    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80;
+    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;
+    private final static int DEFAULT_INT = 0;
     private Stage simulationViewStage;
     private Scene simulationViewScene;
     private AnchorPane simulationViewPane;
@@ -47,6 +48,7 @@ public class SimulationViewGUI {
     private boolean stepboolean = false;
     private int slideVal;
 
+
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
@@ -59,8 +61,8 @@ public class SimulationViewGUI {
         createBackgroundImage();
         createSubScene();
         createSimulationPane();
-        makeSlider(0, 1000, 10);
-        if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != 0) mySubscene.animation.setRate(slideVal/100);
+        makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
+        if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.animation.setRate(slideVal/STEP);
     }
 
     private void makeTopButtons() {
@@ -92,7 +94,7 @@ public class SimulationViewGUI {
         labelAtBottom.setPrefHeight(LABEL_HEIGHT);
         labelAtBottom.setPrefWidth(WIDTH);
         labelAtBottom.setLayoutY(HEIGHT - LABEL_LAYOUT);
-        labelAtBottom.setLayoutX(0);
+        labelAtBottom.setLayoutX(DEFAULT_INT);
         simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, LABEL_HEIGHT);
         simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), Double.parseDouble(myResources.getString("FSizeLabel")))));
         labelAtBottom.setAlignment(Pos.CENTER);
@@ -179,10 +181,10 @@ public class SimulationViewGUI {
         simulationViewSlider.setMin(min);
         simulationViewSlider.setShowTickLabels(false);
         simulationViewSlider.setShowTickMarks(true);
-        simulationViewSlider.setMajorTickUnit(1000);
+        simulationViewSlider.setMajorTickUnit(SLIDER_MAX);
         simulationViewSlider.setBlockIncrement(step);
-        simulationViewSlider.setPrefWidth(450);
-        simulationViewSlider.setMaxWidth(1000);
+        simulationViewSlider.setPrefWidth(SLIDER_LENGTH);
+        simulationViewSlider.setMaxWidth(SLIDER_MAX);
         simulationViewSlider.setLayoutX(SLIDER_LAYOUT_X);
         simulationViewSlider.setLayoutY(SLIDER_LAYOUT_Y);
         simulationViewSlider.setValueChanging(true);

@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 
 public class SimulationViewSubscene extends SubScene {
 
-    private final static String SUBSCENE_BACKGROUND_IMAGE = "resources/blue_background_for_popup.png";
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -128,11 +127,6 @@ public class SimulationViewSubscene extends SubScene {
             }
         }
         HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
-    }
-
-    private void setUpCell(int i, int j, int cellWidth, int cellHeight, int empty) {
-        Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-        mySubscenePane.getChildren().add(cell.getCellImage());
     }
 
     private void beginAnimation() {
