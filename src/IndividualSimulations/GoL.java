@@ -8,7 +8,7 @@ import java.util.*;
 public class GoL extends Simulation {
     private int DEAD = 0;
     private int ALIVE = 1;
-    private boolean cont = true;
+    private boolean cont;
     public GoL(List<List<Cell>> grid){
         super(grid);
     }
@@ -24,15 +24,15 @@ public class GoL extends Simulation {
      */
 
     public void updateGrid(){
-        cont = false;
+        cont = true;
         for(List<Cell> rows: cellGrid){
             for(Cell cell:rows){
                 checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
-                if(cell.getCurrentState()!=cell.getNextState()) cont = true;
             }
         }
         for(List<Cell> rows: cellGrid){
             for(Cell cell:rows){
+                if(cell.getCurrentState()!=cell.getNextState()) cont = false;
                 cell.updateColor();
             }
         }

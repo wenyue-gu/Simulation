@@ -54,7 +54,7 @@ public class WatorLG extends Simulation {
         for(List<Cell> rows: cellGrid){
             for(Cell cell:rows){
                 if(cell.getCurrentState()==FISH) {
-                    checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 4));
+                    checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 10));
                 }
             }
         }
