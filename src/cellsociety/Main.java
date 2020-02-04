@@ -1,6 +1,6 @@
 package cellsociety;
 
-import View.SimulationView;
+//import View.SimulationView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -13,9 +13,9 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage){
-        SimulationView mySimulationView = new SimulationView();
-        primaryStage = mySimulationView.getSimulationViewStage();
-        primaryStage.show();
+//        SimulationView mySimulationView = new SimulationView();
+//        primaryStage = mySimulationView.getSimulationViewStage();
+//        primaryStage.show();
     }
 
     /**

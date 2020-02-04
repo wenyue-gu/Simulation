@@ -11,11 +11,14 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
+import xml.SimulationXMLFileChooser;
+import xml.simulationXML;
 
 public class SimulationViewGUI {
 
@@ -43,6 +46,8 @@ public class SimulationViewGUI {
     private ResourceBundle myResources;
     private String language;
     private boolean stepboolean = false;
+    private double stepUpdateCount ;
+    private simulationXML simulationXMLInfo;
 
 
     /**
@@ -77,7 +82,14 @@ public class SimulationViewGUI {
         mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
         boxWIthButtons.getChildren().add(mySimulationStepButton);
 
-        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> loadFile());
+        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
+            try {
+                loadFile();
+                System.out.println("file loaded");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
 
 
@@ -98,7 +110,7 @@ public class SimulationViewGUI {
     }
 
     private void startSimulation() {
-        mySubscene.start();
+        mySubscene.start(simulationXMLInfo);
     }
 
     private void stopSimulation() {
@@ -110,11 +122,44 @@ public class SimulationViewGUI {
     }
 
     private void stepThroughSimulation() {
-        mySubscene.animation.pause();
+        if(! stepboolean){
+            mySubscene.animation.stop();
+            stepboolean = true;
+            stepUpdateCount = mySubscene.getCurrTime();
+        }
+        else {
+            boolean startAnimation = true;
+            stepUpdateCount = mySubscene.getCurrTime();
+//            mySubscene.animation.play();
+//            mySubscene.animation.setDelay(new Duration(10000));
+//            while(stepUpdateCount < stepUpdateCount + 5){
+//                stepUpdateCount++;
+//                if(startAnimation){
+//                    mySubscene.animation.play();
+//                    startAnimation = false;
+//                }
+//                else {
+//                    continue;
+//                }
+//            }
+//            System.out.println(".");
+            mySubscene.animation.stop();
+//            if (mySubscene.getCurrTime() - stepUpdateCount <= 1){
+//                mySubscene.animation.stop();
+//            }
+//            stepUpdateCount = mySubscene.getCurrTime();
+//            mySubscene.getCurrTime();
+
+            //mySubscene.animation.stop();
+        }
     }
 
-    private void loadFile(){
+    private void loadFile() throws Exception {
         // TO DO: Michelle add xml stuff
+        SimulationXMLFileChooser fileChooser = new SimulationXMLFileChooser();
+        fileChooser.openFile(simulationViewStage);
+        simulationXMLInfo = fileChooser.getSimulationXMLInfo();
+        simulationViewLabel.setText(myResources.getString("SimulationTitle") + " " + simulationXMLInfo.getTitle());
     }
 
     // Display given message as an error in the GUI

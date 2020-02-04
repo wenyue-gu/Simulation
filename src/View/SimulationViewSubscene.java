@@ -3,22 +3,22 @@ package View;
 import Cells.RectCell;
 import IndividualSimulations.Fire;
 import IndividualSimulations.GoL;
+import IndividualSimulations.Percolation;
+import IndividualSimulations.Segregation;
+import IndividualSimulations.WaTor;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
+import xml.simulationXML;
 
 public class SimulationViewSubscene extends SubScene{
 
@@ -32,6 +32,8 @@ public class SimulationViewSubscene extends SubScene{
     private Simulation HardCodeSimulation;
     public Timeline animation;
     private AnchorPane mySubscenePane;
+    private simulationXML simXMLInfo;
+    private double currTime;
 
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
@@ -57,6 +59,12 @@ public class SimulationViewSubscene extends SubScene{
         //subroot.setBackground(new Background(subsceneViewBackground));
         mySubscenePane.setBackground(new Background(subsceneViewBackground));
     }
+    /**
+     * @return the current time
+     */
+    public double getCurrTime(){
+        return currTime;
+    }
 
     /**
      * Public method to enable easy acces to the subcene pane
@@ -68,6 +76,7 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     private void step(double secondDelay){
+        currTime = secondDelay;
         // TO DO: Add simulations here for specific button
         HardCodeSimulation.update(secondDelay,10);
         // Check for fire simulation
@@ -76,7 +85,8 @@ public class SimulationViewSubscene extends SubScene{
         }
     }
 
-    public void start () {
+    public void start(simulationXML simInfo) {
+        this.simXMLInfo = simInfo;
         createHardCodedSimulation();
         //createHardCodedSimulationForFire();
         animation.play();
@@ -85,23 +95,71 @@ public class SimulationViewSubscene extends SubScene{
 
     public void createHardCodedSimulation(){
         List<List<Cell>> myListOfList = new ArrayList<>();
-        int row = 100;
-        int col = 100;
+        int row = simXMLInfo.getHeight();
+        int col = simXMLInfo.getWidth();
+        List<List<Integer>> initialConfig = simXMLInfo.getInitialConfig();
         int cellWidth = 800/row;
         int cellHeight = 600/col;
+        int status;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-                int status = (Math.random() <=0.5) ?0:1;
+//                int status = (Math.random() <=0.5) ?0:1;
+                if(simXMLInfo.isRandom()){
+                    status = (Math.random() <=0.5) ?0:1;
+                }
+                else{
+                    status = initialConfig.get(i).get(j);
+                }
                 Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
         }
-        HardCodeSimulation = new GoL(myListOfList);
+        simulationChooser(myListOfList);
     }
 
-    public void createHardCodedSimulationForFire(){
+    private void simulationChooser(List<List<Cell>> myListOfList) {
+        if(simXMLInfo.getTitle().equals("Game of Life")){
+            HardCodeSimulation = new GoL(myListOfList);
+        }
+        else if(simXMLInfo.getTitle().equals("Percolation")) {
+            HardCodeSimulation = new Percolation(myListOfList);
+        }
+        else if(simXMLInfo.getTitle().equals("Fire")){
+            makeFireSimulation();
+        }
+        else if(simXMLInfo.getTitle().equals("WaTor")){
+//            HardCodeSimulation = new WaTor(myListOfList, 50, 5, 5);
+            createWaTor();
+        }
+        else if(simXMLInfo.getTitle().equals("Segregation")){
+            HardCodeSimulation = new Segregation(myListOfList, 0.5);
+        }
+    }
+
+    private void createWaTor(){
+        List<List<Cell>> myListOfList = new ArrayList<>();
+        int row = 100;
+        int col = 100;
+        int cellWidth = 800/row;
+        int cellHeight = 600/col;
+        for (int i = 0; i < row; i++){
+            myListOfList.add(new ArrayList<>());
+            for (int j=0; j< col;j++){
+                int status = (Math.random() <=0.05) ?4:5;
+                //status = (Math.random() <=0.15) ?5:status;
+                if(i==0 && j==0) status = 1;
+                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                myListOfList.get(i).add(cell);
+                mySubscenePane.getChildren().add(cell.getCellImage());
+            }
+        }
+        HardCodeSimulation = new WaTor(myListOfList, 3, 5, 2);
+    }
+
+
+    private void makeFireSimulation(){
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;

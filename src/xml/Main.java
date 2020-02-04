@@ -1,8 +1,8 @@
 package xml;
 
+import cellsociety.Pair;
 import java.io.File;
 
-import generic.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
