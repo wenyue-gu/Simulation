@@ -154,7 +154,7 @@ public class SimulationViewSubscene extends SubScene{
                 }
             }
         }
-        HardCodeSimulation = new Fire(myListOfList);
+        HardCodeSimulation = new Fire(myListOfList, 0.15); // change this to actual number from xml
     }
 
     private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
