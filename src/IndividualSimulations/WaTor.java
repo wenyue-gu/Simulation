@@ -47,7 +47,7 @@ public class WaTor extends Simulation {
     for(List<Cell> rows: cellGrid){
       for(Cell cell:rows){
         if(cell.getCurrentState()==SHARK) {
-          checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 4));
+          checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 10));
         }
       }
     }
