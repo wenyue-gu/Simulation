@@ -20,19 +20,24 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 public class SimulationViewSubscene extends SubScene{
 
-    private final static String SUBSCENE_BACKGROUND_IMAGE = "Resources/blue_background_for_popup.png";
+    private final static String SUBSCENE_BACKGROUND_IMAGE = "resources/blue_background_for_popup.png";
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    private ResourceBundle myResources;
     private Simulation HardCodeSimulation;
-    private Timeline animation;
+    public Timeline animation;
     private AnchorPane mySubscenePane;
 
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
         prefWidth(width);
         prefHeight(height);
         setBackground();
@@ -46,7 +51,7 @@ public class SimulationViewSubscene extends SubScene{
     }
 
     private void setBackground(){
-        Image backgroundImage = new Image("blue_background_for_popup.png", false);
+        Image backgroundImage = new Image(myResources.getString("SubImage"), false);
         BackgroundImage subsceneViewBackground;
         subsceneViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
         //AnchorPane subroot = (AnchorPane) this.getRoot();
@@ -154,7 +159,7 @@ public class SimulationViewSubscene extends SubScene{
                 }
             }
         }
-        HardCodeSimulation = new Fire(myListOfList, 0.15); // change this to actual number from xml
+        HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
     }
 
     private void setUpCell (int i, int j, int cellWidth, int cellHeight, int empty){
@@ -169,6 +174,4 @@ public class SimulationViewSubscene extends SubScene{
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
     }
-
-
 }

@@ -1,33 +1,20 @@
 package View;
 
-import Model.SimulationViewGUIModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 import javax.imageio.ImageIO;
-import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 public class SimulationViewGUI {
@@ -45,83 +32,89 @@ public class SimulationViewGUI {
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-    public static final String STYLESHEET = "default.css";
     public static final String BLANK = " ";
 
-    private WebView myPage;
-    private Label simulationViewLabel;
+    private  String font ;
+    private SimulationViewInfoLabel simulationViewLabel;
     private SimulationViewButton mySimulationStartButton;
     private SimulationViewButton mySimulationStopButton;
-    private SimulationViewButton mySimulationStepButton;
+    private SimulationViewButton mySimulationStepButton, mySimulationContinueButton;
     private SimulationViewButton mySimulationLoadNewFileButton;
     private ResourceBundle myResources;
-    private SimulationViewGUIModel mySimulationViewModel;
+    private String language;
+    private boolean stepboolean = false;
 
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
-    public SimulationViewGUI(SimulationViewGUIModel model, String language) {
-        mySimulationViewModel = model;
-        // use resources for labels
+    public SimulationViewGUI(String language) throws FileNotFoundException {
+
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        font = myResources.getString("FontStylePath");
+        language = "English";
+        setGameScene();
+        createBackgroundImage();
+        createSubScene();
+        createSimulationPane();
     }
 
-    private Node makeBottomButtonScene() {
-        HBox boxWIthButtons = new HBox();
+    private void makeTopButtons() {
+        HBox boxWIthButtons = new HBox(10);
+        boxWIthButtons.setPrefWidth(WIDTH);
+        boxWIthButtons.setPrefHeight(50);
+        boxWIthButtons.setLayoutY(10);
+        boxWIthButtons.setLayoutY(10);
+        mySimulationStartButton = makeButton("StartCommand", event -> startSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStartButton);
+
+        mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStopButton);
+
+        mySimulationContinueButton = makeButton("ContinueCommand", event -> continueSimulation());
+        boxWIthButtons.getChildren().add(mySimulationContinueButton);
+
+        mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
+        boxWIthButtons.getChildren().add(mySimulationStepButton);
+
+        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> loadFile());
+        boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
 
 
-
-        return boxWIthButtons;
+        simulationViewPane.getChildren().add(boxWIthButtons);
     }
 
-    private Node makeTopLabelScene() {
-        HBox labelAtTop = new HBox();
-        labelAtTop.setPrefHeight(30);
-        return labelAtTop;
+    private void makeBottomLabelScene() throws FileNotFoundException {
+        HBox labelAtBottom = new HBox();
+        labelAtBottom.setPrefHeight(50);
+        labelAtBottom.setPrefWidth(WIDTH);
+        labelAtBottom.setLayoutY(HEIGHT - 268);
+        labelAtBottom.setLayoutX(0);
+        simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, 50);
+        simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), 23)));
+        labelAtBottom.setAlignment(Pos.CENTER);
+        labelAtBottom.getChildren().addAll(simulationViewLabel);
+        simulationViewPane.getChildren().add(labelAtBottom);
     }
 
-
-    /**
-     * Returns scene for the browser so it can be added to stage.
-     */
-    public Scene makeScene(int width, int height) {
-
-        BorderPane root = new BorderPane();
-        // must be first since other panels may refer to page
-        VBox vbox = new VBox(8);
-        root.setCenter(makePageDisplay());
-        //vbox.getChildren().addAll(makeInputPanel(), makeVerticalButtons());
-        vbox.setPrefHeight(40);
-        root.setTop(vbox);
-        root.setBottom(makeBottomButtonScene());
-        //root.setBottom(makeInformationPanel());
-        // control the navigation
-        //enableButtons();
-        // create scene to hold UI
-        Scene scene = new Scene(root, width, height);
-        // activate CSS styling
-        scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-        return scene;
+    private void startSimulation() {
+        mySubscene.start();
     }
 
-
-    /**
-     * Display given URL.
-     */
-    public void showPage(String url) {
-//        URL valid = mySimulationViewModel.go(url);
-//        if (valid != null) {
-//            update(valid);
-//        } else {
-//            showError("Could not load " + url);
-//        }
+    private void stopSimulation() {
+        mySubscene.animation.stop();
     }
 
+    private void continueSimulation(){
+        mySubscene.animation.play();
+    }
 
-    // Display given message as information in the GUI
-    private void showStatus(String message) {
-        simulationViewLabel.setText(message);
+    private void stepThroughSimulation() {
+        mySubscene.animation.pause();
+    }
+
+    private void loadFile(){
+        // TO DO: Michelle add xml stuff
     }
 
     // Display given message as an error in the GUI
@@ -132,160 +125,55 @@ public class SimulationViewGUI {
         alert.showAndWait();
     }
 
-    // move to the next URL in the history
-//    private void next() {
-//        update(myModel.next());
-//    }
+    private SimulationViewButton makeButton(String property, EventHandler<ActionEvent> handler) {
 
-    //set Home URL
-//    private void setHome() {
-//
-//        update(myModel.getHomeURL());
-//    }
-
-    private void displayHome() {
-
-    }
-
-    // move to the previous URL in the history
-//    private void back() {
-//        update(myModel.back());
-//    }
-
-    // update just the view to display given URL
-    private void update(URL url) {
-        String urlText = url.toString();
-        myPage.getEngine().load(urlText);
-       // myURLDisplay.setText(urlText);
-        //enableButtons();
-    }
-
-//    private void changeText() {
-//        myURLDisplay.setText(myModel.getHomeURL().toString());
-//    }
-
-    // only enable buttons when useful to user
-//    private void enableButtons() {
-//        mySimulationStopButton.setDisable(!myModel.hasPrevious());
-//        mySimulationStepButton.setDisable();
-//        //myNextButton.setDisable(! myModel.hasNext());
-//    }
-
-    // convenience method to create HTML page display
-    private Node makePageDisplay() {
-        myPage = new WebView();
-        // catch "browsing" events within web page
-        //myPage.getEngine().getLoadWorker().stateProperty().addListener(new LinkListener());
-        return myPage;
-    }
-
-    // make user-entered URL/text field and back/next buttons
-//    private Node makeInputPanel() {
-//        HBox result = new HBox();
-//        // create buttons, with their associated actions
-//        // old style way to do set up callback (anonymous class)
-//
-//        mySimulationStartButton = makeButton("BackCommand", event -> startSimulation());
-//        result.getChildren().add(myBackButton);
-//        // new style way to do set up callback (lambdas)
-//        myNextButton = makeButton("NextCommand", event -> next());
-//        result.getChildren().add(myNextButton);
-//        // if user presses button or enter in text field, load/show the URL
-//        ShowPage showHandler = new ShowPage();
-//        result.getChildren().add(makeButton("GoCommand", showHandler));
-//        myURLDisplay = makeInputField(40, showHandler);
-//        result.getChildren().add(myURLDisplay);
-//        return result;
-//    }
-
-//    private void startSimulation() {
-//    }
-//
-//    private Node makeVerticalButtons() {
-//        HBox additions = new HBox();
-//        myHomePageUrlButton = makeButton("HomeCommand", event -> changeText());
-//        additions.getChildren().add(myHomePageUrlButton);
-//
-//        myHomePageShowButton = makeButton("SetHomeCommand", event -> setHome());
-//        additions.getChildren().add(myHomePageShowButton);
-//        return additions;
-//    }
-//
-//    // make the panel where "would-be" clicked URL is displayed
-//    private Node makeInformationPanel() {
-//        // BLANK must be non-empty or status label will not be displayed in GUI
-//        myStatus = new Label(BLANK);
-//        return myStatus;
-//    }
-
-    // makes a button using either an image or a label
-    private Button makeButton(String property, EventHandler<ActionEvent> handler) {
-        // represent all supported image suffixes
-        final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
-        Button result = new Button();
+        SimulationViewButton result = new SimulationViewButton(myResources.getString(property), language);
         String label = myResources.getString(property);
+
+        final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
         if (label.matches(IMAGEFILE_SUFFIXES)) {
             result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
         } else {
             result.setText(label);
         }
         result.setOnAction(handler);
+
         return result;
     }
 
-    // make text field for input
-//    private TextField makeInputField(int width, EventHandler<ActionEvent> handler) {
-//        TextField result = new TextField();
-//        result.setPrefColumnCount(width);
-//        result.setOnAction(handler);
-//        return result;
-//    }
+    /**
+     * method to obtain the stage of the view
+     * @return baseStage
+     */
+    public Stage getSimulationViewStage() {
+        return simulationViewStage;
+    }
 
+    private void setGameScene() throws FileNotFoundException {
+        simulationViewPane = new AnchorPane();
+        simulationViewScene = new Scene(simulationViewPane, WIDTH, HEIGHT);
+        simulationViewStage = new Stage();
+        simulationViewStage.setScene(simulationViewScene);
+        simulationViewStage.setResizable(false);
+    }
 
-    // display page
-    // very old style way create a callback (inner class)
-//    private class ShowPage implements EventHandler<ActionEvent> {
-//        @Override
-//        public void handle(ActionEvent event) {
-//            showPage(myURLDisplay.getText());
-//        }
-//    }
+    private void createBackgroundImage(){
+        Image backgroundImage = new Image(myResources.getString("SimulationBackground"), false);
+        BackgroundImage simulationViewBackground;
+        simulationViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+        simulationViewPane.setBackground(new Background(simulationViewBackground));
+    }
 
-    // Inner class to deal with link-clicks and mouse-overs Mostly taken from
-    //   http://blogs.kiyut.com/tonny/2013/07/30/javafx-webview-addhyperlinklistener/
-//    private class LinkListener implements ChangeListener<Worker.State> {
-//        public static final String HTML_LINK = "href";
-//        public static final String EVENT_CLICK = "click";
-//        public static final String EVENT_MOUSEOVER = "mouseover";
-//        public static final String EVENT_MOUSEOUT = "mouseout";
-//
-//        @Override
-//        public void changed(ObservableValue<? extends Worker.State> ov, Worker.State oldState, Worker.State newState) {
-//            if (newState == Worker.State.SUCCEEDED) {
-//                EventListener listener = event -> {
-//                    final String href = ((Element) event.getTarget()).getAttribute(HTML_LINK);
-//                    if (href != null) {
-//                        String domEventType = event.getType();
-//                        if (domEventType.equals(EVENT_CLICK)) {
-//                            showPage(href);
-//                        } else if (domEventType.equals(EVENT_MOUSEOVER)) {
-//                            showStatus(href);
-//                        } else if (domEventType.equals(EVENT_MOUSEOUT)) {
-//                            showStatus(BLANK);
-//                        }
-//                    }
-//                };
-//                Document doc = myPage.getEngine().getDocument();
-//                NodeList nodes = doc.getElementsByTagName("a");
-//                for (int k = 0; k < nodes.getLength(); k += 1) {
-//                    EventTarget node = (EventTarget) nodes.item(k);
-//                    node.addEventListener(EVENT_CLICK, listener, false);
-//                    node.addEventListener(EVENT_MOUSEOVER, listener, false);
-//                    node.addEventListener(EVENT_MOUSEOUT, listener, false);
-//                }
-//            }
-//        }
-//    }
+    private void createSimulationPane() throws FileNotFoundException {
+        makeBottomLabelScene();
+        makeTopButtons();
+    }
+
+    private void createSubScene(){
+        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
+        simulationViewPane.getChildren().add(mySubscene);
+    }
+
 }
 
 
