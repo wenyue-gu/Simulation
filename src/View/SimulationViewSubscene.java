@@ -83,7 +83,6 @@ public class SimulationViewSubscene extends SubScene {
         }
     }
 
-
     public void start(simulationXML simInfo) {
         this.simXMLInfo = simInfo;
         createHardCodedSimulation();
@@ -136,6 +135,7 @@ public class SimulationViewSubscene extends SubScene {
             HardCodeSimulation = new Segregation(myListOfList, 0.5);
         }
     }
+
 
     private void createWaTor(){
         List<List<Cell>> myListOfList = new ArrayList<>();
