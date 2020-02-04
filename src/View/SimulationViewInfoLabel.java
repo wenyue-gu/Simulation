@@ -15,9 +15,10 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 
-/* Class SimulationViewInfoLabel which extends the label class
+/**
+ * Class SimulationViewInfoLabel which extends the label class
+ * Class extends the Label super class
  */
-
 public class SimulationViewInfoLabel extends Label {
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";

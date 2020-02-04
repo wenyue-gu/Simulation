@@ -46,7 +46,6 @@ public class GoL extends Simulation {
      */
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours){
-
         int alive = 0;
         for(Cell neighbour:neighbours){
             if(neighbour.getCurrentState()==ALIVE) alive++;
