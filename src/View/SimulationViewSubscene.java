@@ -101,8 +101,13 @@ public class SimulationViewSubscene extends SubScene {
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-                if(simXMLInfo.isRandom()){
+                if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Game of Life")){
                     status = (Math.random() <=0.5) ?0:1;
+                }
+                else if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Segregation")){
+                    status = (Math.random() <=0.5) ?2:3;
+                    status = (Math.random() <=0.10) ?4:status;
+
                 }
                 else{
                     status = initialConfig.get(i).get(j);
@@ -129,7 +134,7 @@ public class SimulationViewSubscene extends SubScene {
             createWaTor();
         }
         else if(simXMLInfo.getTitle().equals("Segregation")){
-            HardCodeSimulation = new Segregation(myListOfList, 0.5);
+            HardCodeSimulation = new Segregation(myListOfList, 0.75);
         }
     }
 
