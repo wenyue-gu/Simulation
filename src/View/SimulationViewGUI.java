@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
+import xml.simulationFileChooser;
+import xml.simulationXML;
 
 public class SimulationViewGUI {
 
@@ -43,19 +45,19 @@ public class SimulationViewGUI {
     private ResourceBundle myResources;
     private String language;
     private boolean stepboolean = false;
-
+    private simulationXML simXMLInfo;
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
-    public SimulationViewGUI(String language) throws FileNotFoundException {
+    public SimulationViewGUI(String language) throws Exception {
 
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         font = myResources.getString("FontStylePath");
         language = "English";
         setGameScene();
         createBackgroundImage();
-        createSubScene();
+        createSubScene(simXMLInfo);
         createSimulationPane();
     }
 
@@ -77,7 +79,13 @@ public class SimulationViewGUI {
         mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
         boxWIthButtons.getChildren().add(mySimulationStepButton);
 
-        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> loadFile());
+        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
+            try {
+                loadFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
 
 
@@ -113,8 +121,11 @@ public class SimulationViewGUI {
         mySubscene.animation.pause();
     }
 
-    private void loadFile(){
+    private void loadFile() throws Exception {
         // TO DO: Michelle add xml stuff
+        simulationFileChooser fileChooser = new simulationFileChooser();
+        fileChooser.openChooser(simulationViewStage);
+        simXMLInfo = fileChooser.getSimulationXMLInfo();
     }
 
     // Display given message as an error in the GUI
@@ -169,8 +180,8 @@ public class SimulationViewGUI {
         makeTopButtons();
     }
 
-    private void createSubScene(){
-        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
+    private void createSubScene(simulationXML sim){
+        mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT, sim);
         simulationViewPane.getChildren().add(mySubscene);
     }
 

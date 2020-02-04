@@ -17,7 +17,7 @@ public class SimulationMain extends Application{
         private static final Dimension DEFAULT_SIZE = new Dimension(WIDTH, HEIGHT);//800,600
 
         @Override
-        public void start (Stage stage) throws FileNotFoundException {
+        public void start (Stage stage) throws Exception {
             SimulationViewGUIModel model = new SimulationViewGUIModel();
             SimulationViewGUI display = new SimulationViewGUI("English");
             stage.setTitle(TITLE);
