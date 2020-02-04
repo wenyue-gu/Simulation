@@ -23,8 +23,6 @@ public class Segregation extends Simulation {
         }
     }
 
-
-
     /**
      * Go through each cell in the grid
      * findNeighbours finds the cell's neighbours and put them all in an ArrayList

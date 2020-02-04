@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -23,18 +24,19 @@ public class SimulationViewGUI {
     private static final double HEIGHT = 1024;
     private final static int SUBSCENE_WIDTH = 800;
     private final static int SUBSCENE_HEIGHT = 600;
-
+    private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
+    private final static int BUTTON_LAYOUT = 10;
+    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80;
     private Stage simulationViewStage;
     private Scene simulationViewScene;
     private AnchorPane simulationViewPane;
     private SimulationViewSubscene mySubscene;
-
+    private Slider simulationViewSlider;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
     public static final String BLANK = " ";
-
-    private  String font ;
+    private String font;
     private SimulationViewInfoLabel simulationViewLabel;
     private SimulationViewButton mySimulationStartButton;
     private SimulationViewButton mySimulationStopButton;
@@ -43,7 +45,7 @@ public class SimulationViewGUI {
     private ResourceBundle myResources;
     private String language;
     private boolean stepboolean = false;
-
+    private int slideVal;
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
@@ -57,14 +59,16 @@ public class SimulationViewGUI {
         createBackgroundImage();
         createSubScene();
         createSimulationPane();
+        makeSlider(0, 1000, 10);
+        if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != 0) mySubscene.animation.setRate(slideVal/100);
     }
 
     private void makeTopButtons() {
-        HBox boxWIthButtons = new HBox(10);
+        HBox boxWIthButtons = new HBox(BUTTON_LAYOUT);
         boxWIthButtons.setPrefWidth(WIDTH);
-        boxWIthButtons.setPrefHeight(50);
-        boxWIthButtons.setLayoutY(10);
-        boxWIthButtons.setLayoutY(10);
+        boxWIthButtons.setPrefHeight(LABEL_HEIGHT);
+        boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
+        boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         mySimulationStartButton = makeButton("StartCommand", event -> startSimulation());
         boxWIthButtons.getChildren().add(mySimulationStartButton);
 
@@ -80,18 +84,17 @@ public class SimulationViewGUI {
         mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> loadFile());
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
 
-
         simulationViewPane.getChildren().add(boxWIthButtons);
     }
 
     private void makeBottomLabelScene() throws FileNotFoundException {
         HBox labelAtBottom = new HBox();
-        labelAtBottom.setPrefHeight(50);
+        labelAtBottom.setPrefHeight(LABEL_HEIGHT);
         labelAtBottom.setPrefWidth(WIDTH);
-        labelAtBottom.setLayoutY(HEIGHT - 268);
+        labelAtBottom.setLayoutY(HEIGHT - LABEL_LAYOUT);
         labelAtBottom.setLayoutX(0);
-        simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, 50);
-        simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), 23)));
+        simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, LABEL_HEIGHT);
+        simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), Double.parseDouble(myResources.getString("FSizeLabel")))));
         labelAtBottom.setAlignment(Pos.CENTER);
         labelAtBottom.getChildren().addAll(simulationViewLabel);
         simulationViewPane.getChildren().add(labelAtBottom);
@@ -105,7 +108,7 @@ public class SimulationViewGUI {
         mySubscene.animation.stop();
     }
 
-    private void continueSimulation(){
+    private void continueSimulation() {
         mySubscene.animation.play();
     }
 
@@ -113,7 +116,7 @@ public class SimulationViewGUI {
         mySubscene.animation.pause();
     }
 
-    private void loadFile(){
+    private void loadFile() {
         // TO DO: Michelle add xml stuff
     }
 
@@ -143,6 +146,7 @@ public class SimulationViewGUI {
 
     /**
      * method to obtain the stage of the view
+     *
      * @return baseStage
      */
     public Stage getSimulationViewStage() {
@@ -157,7 +161,7 @@ public class SimulationViewGUI {
         simulationViewStage.setResizable(false);
     }
 
-    private void createBackgroundImage(){
+    private void createBackgroundImage() {
         Image backgroundImage = new Image(myResources.getString("SimulationBackground"), false);
         BackgroundImage simulationViewBackground;
         simulationViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
@@ -169,7 +173,26 @@ public class SimulationViewGUI {
         makeTopButtons();
     }
 
-    private void createSubScene(){
+    private void makeSlider(int min, int max, int step) {
+        simulationViewSlider = new Slider();
+        simulationViewSlider.setMax(max);
+        simulationViewSlider.setMin(min);
+        simulationViewSlider.setShowTickLabels(false);
+        simulationViewSlider.setShowTickMarks(true);
+        simulationViewSlider.setMajorTickUnit(1000);
+        simulationViewSlider.setBlockIncrement(step);
+        simulationViewSlider.setPrefWidth(450);
+        simulationViewSlider.setMaxWidth(1000);
+        simulationViewSlider.setLayoutX(SLIDER_LAYOUT_X);
+        simulationViewSlider.setLayoutY(SLIDER_LAYOUT_Y);
+        simulationViewSlider.setValueChanging(true);
+        simulationViewSlider.valueProperty().addListener((observable, oldvalue, newvalue) -> {
+            slideVal = newvalue.intValue();
+        });
+        simulationViewPane.getChildren().add(simulationViewSlider);
+    }
+
+    private void createSubScene() {
         mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
         simulationViewPane.getChildren().add(mySubscene);
     }

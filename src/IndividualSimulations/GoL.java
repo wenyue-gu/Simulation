@@ -51,6 +51,11 @@ public class GoL extends Simulation {
         else cell.changeNext(DEAD);
     }
 
+    /**
+     *
+     * @return
+     */
+
     @Override
     public boolean checkToContinue(){
         return false;
