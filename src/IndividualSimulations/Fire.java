@@ -11,7 +11,7 @@ public class Fire extends Simulation {
     private int TREE = 5;
     private int BURNING = 3;
     private double probCatch;
-    public boolean isTheFinalHit = false;
+
 
     /**
      * Subclass which has super class Simulation
@@ -64,10 +64,6 @@ public class Fire extends Simulation {
         }
     }
 
-    @Override
-    public boolean checkToContinue() {
-        return isTheFinalHit;
-    }
 
 }
 

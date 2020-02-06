@@ -1,5 +1,6 @@
 package View;
 
+import cellsociety.SimulationMain;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,67 +13,53 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
+
 import xml.SimulationXMLFileChooser;
 import xml.simulationXML;
 
 public class SimulationViewGUI {
 
-    private static final double WIDTH = 2000;
-    private static final double HEIGHT = 1024;
-    private final static int SUBSCENE_WIDTH = 800;
-    private final static int SUBSCENE_HEIGHT = 600;
+    public static final double WIDTH = 2000;
+    public static final double HEIGHT = 1024;
+    public final static int SUBSCENE_WIDTH = 800;
+    public final static int SUBSCENE_HEIGHT = 600;
+
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
     private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;
     private final static int DEFAULT_INT = 0;
+
+    private ResourceBundle myResources = SimulationMain.SIMULATION_RESOURCE;
     private Stage simulationViewStage;
     private Scene simulationViewScene;
     private AnchorPane simulationViewPane;
     private SimulationViewSubscene mySubscene;
     private Slider simulationViewSlider;
-    private static final String RESOURCES = "resources";
-    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-    public static final String BLANK = " ";
     private String font;
     private SimulationViewInfoLabel simulationViewLabel;
     private SimulationViewButton mySimulationStartButton;
     private SimulationViewButton mySimulationStopButton;
     private SimulationViewButton mySimulationStepButton, mySimulationContinueButton;
     private SimulationViewButton mySimulationLoadNewFileButton;
-    private ResourceBundle myResources;
-    private String language;
     private boolean stepboolean = false;
     private int slideVal;
-    private double stepUpdateCount ;
     private simulationXML simulationXMLInfo;
-
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
     public SimulationViewGUI(String language) throws FileNotFoundException {
-
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         font = myResources.getString("FontStylePath");
-        language = "English";
         setGameScene();
         createBackgroundImage();
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
-        //if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.factorChange(slideVal/STEP);
-//        if (slideVal != DEFAULT_INT){
-//            System.out.println(slideVal);
-//            mySubscene.factorChange(slideVal/STEP);
-//        }
-
     }
 
     private void makeTopButtons() {
@@ -98,7 +85,7 @@ public class SimulationViewGUI {
                 loadFile();
                 System.out.println("file loaded");
             } catch (Exception e) {
-                e.printStackTrace();
+                // TO DO: Have the error handling instance called
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
@@ -124,23 +111,19 @@ public class SimulationViewGUI {
     }
 
     private void stopSimulation() {
-        mySubscene.animation.stop();
+        mySubscene.getAnimation().stop();
     }
 
     private void continueSimulation() {
-        mySubscene.animation.play();
+        mySubscene.getAnimation().play();
     }
 
     private void stepThroughSimulation() {
-        if(! stepboolean){
-            mySubscene.animation.stop();
+        if (!stepboolean) {
+            mySubscene.getAnimation().stop();
             stepboolean = true;
-            stepUpdateCount = mySubscene.getCurrTime();
-        }
-        else {
-           // boolean startAnimation = true;
-            stepUpdateCount = mySubscene.getCurrTime();
-            mySubscene.animation.stop();
+        } else {
+            mySubscene.getAnimation().stop();
             mySubscene.stepb();
         }
     }
@@ -163,12 +146,12 @@ public class SimulationViewGUI {
 
     private SimulationViewButton makeButton(String property, EventHandler<ActionEvent> handler) {
 
-        SimulationViewButton result = new SimulationViewButton(myResources.getString(property), language);
+        SimulationViewButton result = new SimulationViewButton(myResources.getString(property), SimulationMain.LANGUAGE);
         String label = myResources.getString(property);
 
         final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
         if (label.matches(IMAGEFILE_SUFFIXES)) {
-            result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_FOLDER + label))));
+            result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(SimulationMain.DEFAULT_RESOURCE_FOLDER + label))));
         } else {
             result.setText(label);
         }
@@ -221,7 +204,7 @@ public class SimulationViewGUI {
         simulationViewSlider.setValueChanging(true);
         simulationViewSlider.valueProperty().addListener((observable, oldvalue, newvalue) -> {
             slideVal = newvalue.intValue();
-            mySubscene.factorChange(STEP/(slideVal/100 +1)+1);
+            mySubscene.factorChange(STEP / (slideVal / 100 + 1) + 1);
         });
         simulationViewPane.getChildren().add(simulationViewSlider);
     }

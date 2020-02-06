@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,14 +25,15 @@ public class SimulationViewSubscene extends SubScene {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
+
     private Simulation HardCodeSimulation;
-    public Timeline animation;
+    private Timeline animation;
     private AnchorPane mySubscenePane;
     private simulationXML simXMLInfo;
-    private double currTime;
     private int factor = 10;
 
     public SimulationViewSubscene(int width, int height) {
@@ -58,12 +58,6 @@ public class SimulationViewSubscene extends SubScene {
         mySubscenePane = (AnchorPane) this.getRoot();
         mySubscenePane.setBackground(new Background(subsceneViewBackground));
     }
-    /**
-     * @return the current time
-     */
-    public double getCurrTime(){
-        return currTime;
-    }
 
     /**
      * Public method to enable easy acces to the subcene pane
@@ -76,13 +70,9 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void step(double secondDelay){
-        currTime = secondDelay;
         // TO DO: Add simulations here for specific button
         HardCodeSimulation.update(secondDelay, factor);
-        // Check for fire simulation
-        if (HardCodeSimulation.checkToContinue()) {
-            animation.stop();
-        }
+
     }
 
     public void stepb(){
@@ -205,5 +195,9 @@ public class SimulationViewSubscene extends SubScene {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
+    }
+
+    public Timeline getAnimation(){
+        return animation;
     }
 }

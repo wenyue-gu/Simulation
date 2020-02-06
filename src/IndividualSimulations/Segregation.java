@@ -110,14 +110,4 @@ public class Segregation extends Simulation {
         }
     }
 
-    /**
-     * Check if there are more "possible" moves for the simulation
-     * If no red and blue cells are unsatisfied, return false (simulation can stop)
-     * @return if the simulation should keep going
-     */
-    @Override
-    public boolean checkToContinue(){
-        return cont;
-    }
-
 }
