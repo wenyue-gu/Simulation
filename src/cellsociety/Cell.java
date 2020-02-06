@@ -1,6 +1,9 @@
 package cellsociety;
 
 import java.util.*;
+
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -13,6 +16,7 @@ public abstract class Cell{
     private int currentState;
     private int nextState;
     protected Shape cellImage;
+    protected Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.WHITE, Color.GREEN, Color.YELLOW};
 
     public Cell (int x, int y, int status){
         index1 = x;

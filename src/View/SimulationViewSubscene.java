@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,6 +34,7 @@ public class SimulationViewSubscene extends SubScene {
     private AnchorPane mySubscenePane;
     private simulationXML simXMLInfo;
     private double currTime;
+    private int factor = 10;
 
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
@@ -76,11 +78,20 @@ public class SimulationViewSubscene extends SubScene {
     private void step(double secondDelay){
         currTime = secondDelay;
         // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay, 10);
+        HardCodeSimulation.update(secondDelay, factor);
         // Check for fire simulation
         if (HardCodeSimulation.checkToContinue()) {
             animation.stop();
         }
+    }
+
+    public void stepb(){
+        HardCodeSimulation.updateGrid();
+    }
+
+    public void factorChange(int i){
+        factor = i;
+        System.out.println(factor);
     }
 
     public void start(simulationXML simInfo) {
