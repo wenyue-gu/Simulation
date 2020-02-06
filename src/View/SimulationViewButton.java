@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 
 public class SimulationViewButton extends Button
 {
-    private static final int BUTTON_HEIGHT = 45, BUTTON_WIDTH = 190;
+    private static final int BUTTON_HEIGHT = 45, BUTTON_WIDTH = 150;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;

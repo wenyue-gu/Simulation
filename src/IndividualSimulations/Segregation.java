@@ -19,7 +19,7 @@ public class Segregation extends Simulation {
         super(grid);
         satisfyRate = satisfy;
         for (int i = 0; i < 3; i++) {
-            UnSatisfied.add(0);
+        //    UnSatisfied.add(0);
         }
     }
 

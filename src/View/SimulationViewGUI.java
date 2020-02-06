@@ -23,7 +23,7 @@ import xml.simulationXML;
 
 public class SimulationViewGUI {
 
-    private static final double WIDTH = 1000;
+    private static final double WIDTH = 2000;
     private static final double HEIGHT = 1024;
     private final static int SUBSCENE_WIDTH = 800;
     private final static int SUBSCENE_HEIGHT = 600;

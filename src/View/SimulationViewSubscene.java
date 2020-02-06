@@ -45,7 +45,7 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void subsceneLayout() {
-        setLayoutX(100);
+        setLayoutX(25);
         setLayoutY(124);
     }
 
