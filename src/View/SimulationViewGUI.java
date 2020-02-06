@@ -133,29 +133,9 @@ public class SimulationViewGUI {
             stepUpdateCount = mySubscene.getCurrTime();
         }
         else {
-            boolean startAnimation = true;
+           // boolean startAnimation = true;
             stepUpdateCount = mySubscene.getCurrTime();
-//            mySubscene.animation.play();
-//            mySubscene.animation.setDelay(new Duration(10000));
-//            while(stepUpdateCount < stepUpdateCount + 5){
-//                stepUpdateCount++;
-//                if(startAnimation){
-//                    mySubscene.animation.play();
-//                    startAnimation = false;
-//                }
-//                else {
-//                    continue;
-//                }
-//            }
-//            System.out.println(".");
             mySubscene.animation.stop();
-//            if (mySubscene.getCurrTime() - stepUpdateCount <= 1){
-//                mySubscene.animation.stop();
-//            }
-//            stepUpdateCount = mySubscene.getCurrTime();
-//            mySubscene.getCurrTime();
-
-            //mySubscene.animation.stop();
         }
     }
 
