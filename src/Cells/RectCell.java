@@ -13,7 +13,6 @@ import java.util.List;
  */
 
 public class RectCell extends Cell {
-    private Paint[] ColorList = {Color.WHITE, Color.BLACK, Color.BLUE, Color.RED, Color.WHITE, Color.GREEN, Color.YELLOW};
 
     /**
      * Constructor for the RectCell class

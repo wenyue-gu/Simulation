@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -33,6 +34,7 @@ public class SimulationViewSubscene extends SubScene {
     private AnchorPane mySubscenePane;
     private simulationXML simXMLInfo;
     private double currTime;
+    private int factor = 10;
 
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
@@ -76,11 +78,20 @@ public class SimulationViewSubscene extends SubScene {
     private void step(double secondDelay){
         currTime = secondDelay;
         // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay, 10);
+        HardCodeSimulation.update(secondDelay, factor);
         // Check for fire simulation
         if (HardCodeSimulation.checkToContinue()) {
             animation.stop();
         }
+    }
+
+    public void stepb(){
+        HardCodeSimulation.updateGrid();
+    }
+
+    public void factorChange(int i){
+        factor = i;
+        System.out.println(factor);
     }
 
     public void start(simulationXML simInfo) {
@@ -101,8 +112,13 @@ public class SimulationViewSubscene extends SubScene {
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
             for (int j=0; j< col;j++){
-                if(simXMLInfo.isRandom()){
+                if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Game of Life")){
                     status = (Math.random() <=0.5) ?0:1;
+                }
+                else if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Segregation")){
+                    status = (Math.random() <=0.5) ?2:3;
+                    status = (Math.random() <=0.10) ?4:status;
+
                 }
                 else{
                     status = initialConfig.get(i).get(j);
@@ -129,7 +145,7 @@ public class SimulationViewSubscene extends SubScene {
             createWaTor();
         }
         else if(simXMLInfo.getTitle().equals("Segregation")){
-            HardCodeSimulation = new Segregation(myListOfList, 0.5);
+            HardCodeSimulation = new Segregation(myListOfList, 0.75);
         }
     }
 

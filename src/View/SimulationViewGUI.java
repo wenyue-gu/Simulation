@@ -67,7 +67,12 @@ public class SimulationViewGUI {
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
-        if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.animation.setRate(slideVal/STEP);
+        //if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.factorChange(slideVal/STEP);
+//        if (slideVal != DEFAULT_INT){
+//            System.out.println(slideVal);
+//            mySubscene.factorChange(slideVal/STEP);
+//        }
+
     }
 
     private void makeTopButtons() {
@@ -149,6 +154,7 @@ public class SimulationViewGUI {
 //            }
 //            System.out.println(".");
             mySubscene.animation.stop();
+            mySubscene.stepb();
 //            if (mySubscene.getCurrTime() - stepUpdateCount <= 1){
 //                mySubscene.animation.stop();
 //            }
@@ -235,6 +241,7 @@ public class SimulationViewGUI {
         simulationViewSlider.setValueChanging(true);
         simulationViewSlider.valueProperty().addListener((observable, oldvalue, newvalue) -> {
             slideVal = newvalue.intValue();
+            mySubscene.factorChange(STEP/(slideVal/100 +1)+1);
         });
         simulationViewPane.getChildren().add(simulationViewSlider);
     }
