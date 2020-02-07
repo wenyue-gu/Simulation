@@ -24,7 +24,7 @@ public class TriCell extends Cell {
      * @param height is the height of the drawn cell
      * @param status is the current state of the cell
      */
-    public TriCell(int x, int y, int width, int height, int status) {
+    public TriCell(int x, int y, double width, double height, int status) {
         super(x, y, status);
 
         if((x+y)%2==0) down=true;
@@ -32,12 +32,16 @@ public class TriCell extends Cell {
 
         if(down){
             ((Polygon) cellImage).getPoints().addAll(
-                    (double)x/2*width, (double)y*height,
-                    ((double)x/2+1)*width, (double)y*height,
-                    ((double)x/2+0.5)*width, (double)(y+1)*height);
+                    (double)y/2*width, (double)x*height,
+                    ((double)y/2+1)*width, (double)x*height,
+                    ((double)y/2+0.5)*width, (double)(x+1)*height);
         }
-
-
+        else{
+            ((Polygon) cellImage).getPoints().addAll(
+                    ((double)y/2+0.5)*width, (double)x*height,
+                ((double)y/2+1)*width, (double)(x+1)*height,
+                ((double)y/2)*width, (double)(x+1)*height);
+        }
 
         cellImage.setFill(ColorList[status]);
 
@@ -59,20 +63,51 @@ public class TriCell extends Cell {
      * @return
      */
     @Override
-    public ArrayList<Cell> findNeighbours(List<List<Cell>> cellGrid, String type){
-        if(type.equals("Edge") || type.equals("WrapEdge")){
-            int[] rowDelta = {-1,1,0,0};
-            int[] colDelta = {0,0,-1,1};
-            ArrayList<Cell> ret = findNeighbour(cellGrid,rowDelta,colDelta);
-            if(type.equals("WrapEdge")){
-                ret = findWrapNeighbour(cellGrid, rowDelta, colDelta);
+    public ArrayList<Cell> findNeighbours(List<List<Cell>> cellGrid, int type){
+        int[]left = {0,-1};
+        int[]right = {0,1};
+        int[]up = {-1,0};
+        int[]d = {1,0};
+        ArrayList<int[]> coor = new ArrayList<>(Arrays.asList(left, right));
+        coor.add(left);
+        coor.add(right);
+        if(type==4 || type == 10){
+            if(down){
+                coor.add(up);
+            }
+            else{
+                coor.add(d);
+            }
+
+            ArrayList<Cell> ret = findNeighbour(cellGrid, coor);
+            if(type==10){
+                ret = findWrapNeighbour(cellGrid, coor);
             }
             return ret;
         }
-        else if(type.equals("Full")){
-            int[] rowDelta = {-1,1,0,0,-1,1,-1,1};
-            int[] colDelta = {0,0,-1,1,1,-1,-1,1};
-            ArrayList<Cell> ret = findNeighbour(cellGrid, rowDelta, colDelta);
+        else if(type==8){
+
+            int[]left2 = {0,-2};
+            int[]right2 = {0,2};
+            int[]upleft = {-1,-1};
+            int[]upright = {-1,1};
+            int[]upleft2 = {-1,-2};
+            int[]upright2 = {-1,2};
+            int[]downleft = {1,-1};
+            int[]downright = {1,1};
+            int[]downleft2 = {1,-2};
+            int[]downright2 = {1,2};
+            coor = new ArrayList<>(Arrays.asList(left, right, left2, right2, up, d, upleft, upright, downleft, downright));
+
+            if(down){
+                coor.add(upleft2);
+                coor.add(upright2);
+            }
+            else{
+                coor.add(downleft2);
+                coor.add(downright2);
+            }
+            ArrayList<Cell> ret = findNeighbour(cellGrid, coor);
             return ret;
         }
         else{
@@ -80,12 +115,12 @@ public class TriCell extends Cell {
         }
     }
 
-    private ArrayList<Cell> findNeighbour(List<List<Cell>> cellGrid, int[] rowDelta, int[] colDelta){
+    private ArrayList<Cell> findNeighbour(List<List<Cell>> cellGrid, ArrayList<int[]> coordinate){
 
         ArrayList<Cell> ret = new ArrayList<>();
-        for(int k=0; k < rowDelta.length; k++){
-            int i = getIndex1() + rowDelta[k];
-            int j = getIndex2() + colDelta[k];
+        for(int k=0; k < coordinate.size(); k++){
+            int i = getIndex1() + (coordinate.get(k))[0];
+            int j = getIndex2() + (coordinate.get(k))[1];
             if (inRange(i,j, cellGrid)){
                 ret.add(cellGrid.get(i).get(j));
             }
@@ -93,12 +128,12 @@ public class TriCell extends Cell {
         return ret;
     }
 
-    private ArrayList<Cell> findWrapNeighbour(List<List<Cell>> cellGrid, int[] rowDelta, int[] colDelta){
+    private ArrayList<Cell> findWrapNeighbour(List<List<Cell>> cellGrid, ArrayList<int[]> coordinate){
 
         ArrayList<Cell> ret = new ArrayList<>();
-        for(int k=0; k < rowDelta.length; k++){
-            int i = getIndex1() + rowDelta[k];
-            int j = getIndex2() + colDelta[k];
+        for(int k=0; k < coordinate.size(); k++){
+            int i = getIndex1() + (coordinate.get(k))[0];
+            int j = getIndex2() + (coordinate.get(k))[1];
 
             if(i<0) i = cellGrid.size()-1;
             if(j<0) j = cellGrid.size()-1;

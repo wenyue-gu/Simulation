@@ -1,11 +1,8 @@
 package View;
 
 import Cells.RectCell;
-import IndividualSimulations.Fire;
-import IndividualSimulations.GoL;
-import IndividualSimulations.Percolation;
-import IndividualSimulations.Segregation;
-import IndividualSimulations.WaTor;
+import Cells.TriCell;
+import IndividualSimulations.*;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
@@ -96,7 +93,8 @@ public class SimulationViewSubscene extends SubScene {
 
     public void start(simulationXML simInfo) {
         this.simXMLInfo = simInfo;
-        createHardCodedSimulation();
+        //createHardCodedSimulation();
+        makeNewSim();
         animation.play();
     }
 
@@ -106,8 +104,8 @@ public class SimulationViewSubscene extends SubScene {
         int row = simXMLInfo.getHeight();
         int col = simXMLInfo.getWidth();
         List<List<Integer>> initialConfig = simXMLInfo.getInitialConfig();
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        double cellWidth = (double)(800*2)/(col+1);
+        double cellHeight = (double)600/row;
         int status;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
@@ -123,7 +121,7 @@ public class SimulationViewSubscene extends SubScene {
                 else{
                     status = initialConfig.get(i).get(j);
                 }
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
@@ -154,14 +152,15 @@ public class SimulationViewSubscene extends SubScene {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        double cellWidth = (double)(800*2)/(col+1);
+        double cellHeight = (double)600/row;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<>());
             for (int j=0; j< col;j++){
                 int status = (Math.random() <=0.05) ?4:5;
                 if(i==0 && j==0) status = 1;
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                //Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
@@ -199,6 +198,21 @@ public class SimulationViewSubscene extends SubScene {
         }
         HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
     }
+
+
+
+    private void makeNewSim(){
+        //HardCodeSimulation = new GoL2(100, 100, 8, mySubscenePane);
+        if(!simXMLInfo.isRandom()) HardCodeSimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                8, mySubscenePane, simXMLInfo.getInitialConfig());
+        else HardCodeSimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), 8, mySubscenePane);
+    }
+
+
+
+
+
+
 
     private void beginAnimation() {
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
