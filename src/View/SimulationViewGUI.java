@@ -67,12 +67,6 @@ public class SimulationViewGUI {
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
-        //if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.factorChange(slideVal/STEP);
-//        if (slideVal != DEFAULT_INT){
-//            System.out.println(slideVal);
-//            mySubscene.factorChange(slideVal/STEP);
-//        }
-
     }
 
     private void makeTopButtons() {
