@@ -2,6 +2,8 @@ package IndividualSimulations;
 
 import cellsociety.Cell;
 import cellsociety.Simulation;
+
+import java.io.FileNotFoundException;
 import java.util.List;
 /**
  * Percolation class holds the rules and update behavior for the percolation simulation
@@ -18,7 +20,7 @@ public class Percolation extends Simulation {
    * @param grid is a 2d list that holds all the cells that will appear in the simulation
    * @author Michelle Tai
    * */
-  public Percolation(List<List<Cell>> grid){
+  public Percolation(List<List<Cell>> grid) throws FileNotFoundException {
     super(grid);
   }
 

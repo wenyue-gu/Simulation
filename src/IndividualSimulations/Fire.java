@@ -3,6 +3,7 @@ package IndividualSimulations;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class Fire extends Simulation {
@@ -18,7 +19,7 @@ public class Fire extends Simulation {
      *
      * @param grid which contains all the cells at time t in simulation
      */
-    public Fire(List<List<Cell>> grid, double prob) {
+    public Fire(List<List<Cell>> grid, double prob) throws FileNotFoundException {
         super(grid);
         probCatch = prob;
     }

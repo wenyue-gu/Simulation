@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +89,7 @@ public class SimulationViewSubscene extends SubScene {
             animation.stop();
         }
         // update graph info
-        updateSeries();
-        addSeriesToChart();
+
     }
 
 
@@ -106,14 +106,14 @@ public class SimulationViewSubscene extends SubScene {
         //System.out.println(factor);
     }
 
-    public void start(simulationXML simInfo) {
+    public void start(simulationXML simInfo) throws FileNotFoundException {
         this.simXMLInfo = simInfo;
         createHardCodedSimulation();
         animation.play();
     }
 
 
-    public void createHardCodedSimulation() {
+    public void createHardCodedSimulation() throws FileNotFoundException {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = simXMLInfo.getHeight();
         int col = simXMLInfo.getWidth();
@@ -143,7 +143,7 @@ public class SimulationViewSubscene extends SubScene {
         simulationChooser(myListOfList);
     }
 
-    private void simulationChooser(List<List<Cell>> myListOfList) {
+    private void simulationChooser(List<List<Cell>> myListOfList) throws FileNotFoundException {
         if(simXMLInfo.getTitle().equals("Game of Life")){
             HardCodeSimulation = new GoL(myListOfList);
         }
@@ -162,7 +162,7 @@ public class SimulationViewSubscene extends SubScene {
     }
 
 
-    private void createWaTor(){
+    private void createWaTor() throws FileNotFoundException {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;
@@ -181,7 +181,7 @@ public class SimulationViewSubscene extends SubScene {
         HardCodeSimulation = new WaTor(myListOfList, 3, 5, 2);
     }
 
-    private void makeFireSimulation(){
+    private void makeFireSimulation() throws FileNotFoundException {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;
@@ -196,19 +196,19 @@ public class SimulationViewSubscene extends SubScene {
                     int empty = 6;
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
                     myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
+                    //mySubscenePane.getChildren().add(cell.getCellImage());
                 } else if (i == row / 2 - 1 && j == row / 2 - 1) {
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
                     myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
+                   // mySubscenePane.getChildren().add(cell.getCellImage());
                 } else {
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
                     myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-
+                    //mySubscenePane.getChildren().add(cell.getCellImage());
                 }
             }
         }
+
         HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
     }
 
@@ -220,31 +220,31 @@ public class SimulationViewSubscene extends SubScene {
     }
 
 
-    public void updateSeries() {
-
-        HardCodeSimulation.che
-
-
-
-
-
-        round += 1;
-        for (int i = 0; i < SimulationViewGUI.lineChart.seriesList.size();i++) {
-            SimulationViewGUI.lineChart.updateLineChart(round, HardCodeSimulation.cellGrid.getCellProportions()[i], SimulationViewGUI.lineChart.seriesList.get(i));
-        }
-    }
-
-
-    public void addSeriesToChart() {
-        for (int i = 0; i < .cellColors().length; i++) {
-            XYChart.Series line = new XYChart.Series();
-            SimulationViewGUI.lineChart.getData().add(line);
-            line.setName(Integer.toString(i));
-
-            SimulationViewGUI.lineChart.seriesList.add(line);
-            line.getData().add(new XYChart.Data(0, HardCodeSimulation.cellFrequencies()[i]));
-
-        }
-    }
+//    public void updateSeries() {
+//
+//        HardCodeSimulation.che
+//
+//
+//
+//
+//
+//        round += 1;
+//        for (int i = 0; i < SimulationViewGUI.lineChart.seriesList.size();i++) {
+//            SimulationViewGUI.lineChart.updateLineChart(round, HardCodeSimulation.cellGrid.getCellProportions()[i], SimulationViewGUI.lineChart.seriesList.get(i));
+//        }
+//    }
+//
+//
+//    public void addSeriesToChart() {
+//        for (int i = 0; i < .cellColors().length; i++) {
+//            XYChart.Series line = new XYChart.Series();
+//            SimulationViewGUI.lineChart.getData().add(line);
+//            line.setName(Integer.toString(i));
+//
+//            SimulationViewGUI.lineChart.seriesList.add(line);
+//            line.getData().add(new XYChart.Data(0, HardCodeSimulation.cellFrequencies()[i]));
+//
+//        }
+//    }
 
 }

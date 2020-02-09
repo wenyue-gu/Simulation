@@ -29,9 +29,9 @@
     -fx-text-fill: #191970;
 }
 
-.chart-plot-background {
-    -fx-background-color: #e2ecfe;
-}
+/*.chart-plot-background {*/
+/*    -fx-background-color: #e2ecfe;*/
+/*}*/
 .chart-vertical-grid-lines {
     -fx-stroke: #3278fa;
 }

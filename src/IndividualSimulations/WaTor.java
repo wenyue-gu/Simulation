@@ -3,6 +3,7 @@ package IndividualSimulations;
 import cellsociety.Simulation;
 import cellsociety.Cell;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class WaTor extends Simulation {
@@ -18,7 +19,7 @@ public class WaTor extends Simulation {
   private List<List<Integer>> SharkRound = new ArrayList<>();
   private List<List<Integer>> FishRound = new ArrayList<>();
 
-  public WaTor(List<List<Cell>> grid, int energy, int shark, int fish){
+  public WaTor(List<List<Cell>> grid, int energy, int shark, int fish) throws FileNotFoundException {
     super(grid);
     initenergy = energy;
     for(List<Cell> rows: cellGrid){
