@@ -1,11 +1,8 @@
 package View;
 
 import Cells.RectCell;
-import IndividualSimulations.Fire;
-import IndividualSimulations.GoL;
-import IndividualSimulations.Percolation;
-import IndividualSimulations.Segregation;
-import IndividualSimulations.WaTor;
+import Cells.TriCell;
+import IndividualSimulations.*;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
@@ -96,7 +93,9 @@ public class SimulationViewSubscene extends SubScene {
 
     public void start(simulationXML simInfo) {
         this.simXMLInfo = simInfo;
-        createHardCodedSimulation();
+        //createHardCodedSimulation();
+        makeNewSim();
+        //createWaTor();
         animation.play();
     }
 
@@ -106,8 +105,8 @@ public class SimulationViewSubscene extends SubScene {
         int row = simXMLInfo.getHeight();
         int col = simXMLInfo.getWidth();
         List<List<Integer>> initialConfig = simXMLInfo.getInitialConfig();
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        double cellWidth = (double)(800*2)/(col+1);
+        double cellHeight = (double)600/row;
         int status;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
@@ -123,7 +122,7 @@ public class SimulationViewSubscene extends SubScene {
                 else{
                     status = initialConfig.get(i).get(j);
                 }
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
@@ -154,14 +153,16 @@ public class SimulationViewSubscene extends SubScene {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        //double cellWidth = (double)(800*2)/(col+1);
+        double cellWidth = (double)800/col;
+        double cellHeight = (double)600/row;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<>());
             for (int j=0; j< col;j++){
                 int status = (Math.random() <=0.05) ?4:5;
                 if(i==0 && j==0) status = 1;
                 Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                //Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
@@ -199,6 +200,47 @@ public class SimulationViewSubscene extends SubScene {
         }
         HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
     }
+
+
+
+    private void makeNewSim(){
+        String title = simXMLInfo.getTitle();
+        String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor"};
+
+
+        if(title.equals(allTitle[0])) {
+            HardCodeSimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane);
+        }
+        else if(title.equals(allTitle[1])){
+            HardCodeSimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane, 0.75);
+        }
+        else if(title.equals(allTitle[2])){
+            HardCodeSimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane, 0.55);
+        }
+        else if(title.equals(allTitle[3])){
+            HardCodeSimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane);
+        }
+        else if(title.equals(allTitle[4])){
+            HardCodeSimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    4, mySubscenePane, 2,10,2);
+        }
+
+
+        if (!simXMLInfo.isRandom()) {
+            HardCodeSimulation.setData(simXMLInfo.getInitialConfig());
+        }
+
+    }
+
+
+
+
+
+
 
     private void beginAnimation() {
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));

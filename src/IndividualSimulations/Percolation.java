@@ -2,6 +2,8 @@ package IndividualSimulations;
 
 import cellsociety.Cell;
 import cellsociety.Simulation;
+
+import java.util.HashMap;
 import java.util.List;
 /**
  * Percolation class holds the rules and update behavior for the percolation simulation
@@ -20,6 +22,16 @@ public class Percolation extends Simulation {
    * */
   public Percolation(List<List<Cell>> grid){
     super(grid);
+  }
+
+  @Override
+  public void setData(List<List<Integer>> state) {
+
+  }
+
+  @Override
+  public HashMap<Integer, Integer> frequency() {
+    return null;
   }
 
   /**

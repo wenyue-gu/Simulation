@@ -20,6 +20,15 @@ public class Segregation extends Simulation {
     }
 
 
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        return null;
+    }
 
     /**
      * Go through each cell in the grid
