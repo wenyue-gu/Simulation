@@ -6,6 +6,10 @@ public abstract class Simulation{
     protected List<List<Cell>> cellGrid;
     private double time = 0;
 
+
+    protected Grid grid;
+    protected ArrayList<int[]> indices = new ArrayList<>();
+
     public Simulation(List<List<Cell>> grid){
         cellGrid = grid;
     }
@@ -21,6 +25,17 @@ public abstract class Simulation{
         if(time>elapsedTime*factor){
             updateGrid();
             time = 0;
+        }
+    }
+
+    public void setData(List<List<Integer>> state){
+        grid.iniState(state);
+    }
+    public void createIndices(int row, int col){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                indices.add(new int[]{i, j});
+            }
         }
     }
 

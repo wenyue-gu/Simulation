@@ -25,8 +25,8 @@ public class SimulationViewGUI {
 
     private static final double WIDTH = 1000;
     private static final double HEIGHT = 1024;
-    private final static int SUBSCENE_WIDTH = 800;
-    private final static int SUBSCENE_HEIGHT = 600;
+    public final static int SUBSCENE_WIDTH = 800;
+    public final static int SUBSCENE_HEIGHT = 600;
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
     private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;
