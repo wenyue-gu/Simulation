@@ -4,6 +4,7 @@ import cellsociety.Cell;
 import cellsociety.Simulation;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 
 public class Fire extends Simulation {
@@ -12,7 +13,7 @@ public class Fire extends Simulation {
     private int TREE = 5;
     private int BURNING = 3;
     private double probCatch;
-    public boolean isTheFinalHit = false;
+
 
     /**
      * Subclass which has super class Simulation
@@ -22,6 +23,16 @@ public class Fire extends Simulation {
     public Fire(List<List<Cell>> grid, double prob) throws FileNotFoundException {
         super(grid);
         probCatch = prob;
+    }
+
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        return null;
     }
 
     /**
@@ -65,10 +76,6 @@ public class Fire extends Simulation {
         }
     }
 
-    @Override
-    public boolean checkToContinue() {
-        return isTheFinalHit;
-    }
 
 }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data media="Simulation">
   <title>WaTor</title>
-  <author>Michelle Tai</author>
-  <width>10</width>
-  <height>10</height>
-  <random>false</random>
+  <author>LG</author>
+  <width>100</width>
+  <height>100</height>
+  <random>true</random>
 <initialConfig>4 4 4 4 4 1 4 4 4 4
 4 4 4 4 4 4 4 4 4 4
 4 4 4 4 4 4 4 4 4 4

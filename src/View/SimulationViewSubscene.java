@@ -1,11 +1,8 @@
 package View;
 
 import Cells.RectCell;
-import IndividualSimulations.Fire;
-import IndividualSimulations.GoL;
-import IndividualSimulations.Percolation;
-import IndividualSimulations.Segregation;
-import IndividualSimulations.WaTor;
+import Cells.TriCell;
+import IndividualSimulations.*;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
@@ -28,14 +25,15 @@ public class SimulationViewSubscene extends SubScene {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
+
     private Simulation HardCodeSimulation;
-    public Timeline animation;
+    private Timeline animation;
     private AnchorPane mySubscenePane;
     private simulationXML simXMLInfo;
-    private double currTime;
     private int factor = 10;
 
     private int round = 0;
@@ -63,12 +61,6 @@ public class SimulationViewSubscene extends SubScene {
         mySubscenePane = (AnchorPane) this.getRoot();
         mySubscenePane.setBackground(new Background(subsceneViewBackground));
     }
-    /**
-     * @return the current time
-     */
-    public double getCurrTime(){
-        return currTime;
-    }
 
     /**
      * Public method to enable easy acces to the subcene pane
@@ -81,14 +73,10 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void step(double secondDelay){
-        currTime = secondDelay;
         // TO DO: Add simulations here for specific button
         HardCodeSimulation.update(secondDelay, factor);
+
         // Check for fire simulation
-        if (HardCodeSimulation.checkToContinue()) {
-            animation.stop();
-        }
-        // update graph info
 
     }
 
@@ -103,12 +91,11 @@ public class SimulationViewSubscene extends SubScene {
 
     public void factorChange(int i){
         factor = i;
-        //System.out.println(factor);
     }
 
     public void start(simulationXML simInfo) throws FileNotFoundException {
         this.simXMLInfo = simInfo;
-        createHardCodedSimulation();
+        makeNewSim();
         animation.play();
     }
 
@@ -118,8 +105,8 @@ public class SimulationViewSubscene extends SubScene {
         int row = simXMLInfo.getHeight();
         int col = simXMLInfo.getWidth();
         List<List<Integer>> initialConfig = simXMLInfo.getInitialConfig();
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        double cellWidth = (double)(800*2)/(col+1);
+        double cellHeight = (double)600/row;
         int status;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<Cell>());
@@ -135,7 +122,7 @@ public class SimulationViewSubscene extends SubScene {
                 else{
                     status = initialConfig.get(i).get(j);
                 }
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
+                Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
                 myListOfList.get(i).add(cell);
                 mySubscenePane.getChildren().add(cell.getCellImage());
             }
@@ -166,8 +153,9 @@ public class SimulationViewSubscene extends SubScene {
         List<List<Cell>> myListOfList = new ArrayList<>();
         int row = 100;
         int col = 100;
-        int cellWidth = 800/row;
-        int cellHeight = 600/col;
+        //double cellWidth = (double)(800*2)/(col+1);
+        double cellWidth = (double)800/col;
+        double cellHeight = (double)600/row;
         for (int i = 0; i < row; i++){
             myListOfList.add(new ArrayList<>());
             for (int j=0; j< col;j++){
@@ -196,21 +184,58 @@ public class SimulationViewSubscene extends SubScene {
                     int empty = 6;
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
                     myListOfList.get(i).add(cell);
-                    //mySubscenePane.getChildren().add(cell.getCellImage());
+                    mySubscenePane.getChildren().add(cell.getCellImage());
                 } else if (i == row / 2 - 1 && j == row / 2 - 1) {
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
                     myListOfList.get(i).add(cell);
-                   // mySubscenePane.getChildren().add(cell.getCellImage());
+                    mySubscenePane.getChildren().add(cell.getCellImage());
                 } else {
                     Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
                     myListOfList.get(i).add(cell);
-                    //mySubscenePane.getChildren().add(cell.getCellImage());
+                    mySubscenePane.getChildren().add(cell.getCellImage());
+
                 }
             }
         }
 
         HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
     }
+
+
+
+    private void makeNewSim(){
+        String title = simXMLInfo.getTitle();
+        String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor"};
+
+
+        if(title.equals(allTitle[0])) {
+            HardCodeSimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane);
+        }
+        else if(title.equals(allTitle[1])){
+            HardCodeSimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane, 0.75);
+        }
+        else if(title.equals(allTitle[2])){
+            HardCodeSimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane, 0.55);
+        }
+        else if(title.equals(allTitle[3])){
+            HardCodeSimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    8, mySubscenePane);
+        }
+        else if(title.equals(allTitle[4])){
+            HardCodeSimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    4, mySubscenePane, 2,10,2);
+        }
+
+
+        if (!simXMLInfo.isRandom()) {
+            HardCodeSimulation.setData(simXMLInfo.getInitialConfig());
+        }
+
+    }
+
 
     private void beginAnimation() {
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
@@ -219,32 +244,7 @@ public class SimulationViewSubscene extends SubScene {
         animation.getKeyFrames().add(frame);
     }
 
-
-//    public void updateSeries() {
-//
-//        HardCodeSimulation.che
-//
-//
-//
-//
-//
-//        round += 1;
-//        for (int i = 0; i < SimulationViewGUI.lineChart.seriesList.size();i++) {
-//            SimulationViewGUI.lineChart.updateLineChart(round, HardCodeSimulation.cellGrid.getCellProportions()[i], SimulationViewGUI.lineChart.seriesList.get(i));
-//        }
-//    }
-//
-//
-//    public void addSeriesToChart() {
-//        for (int i = 0; i < .cellColors().length; i++) {
-//            XYChart.Series line = new XYChart.Series();
-//            SimulationViewGUI.lineChart.getData().add(line);
-//            line.setName(Integer.toString(i));
-//
-//            SimulationViewGUI.lineChart.seriesList.add(line);
-//            line.getData().add(new XYChart.Data(0, HardCodeSimulation.cellFrequencies()[i]));
-//
-//        }
-//    }
-
+    public Timeline getAnimation(){
+        return animation;
+    }
 }

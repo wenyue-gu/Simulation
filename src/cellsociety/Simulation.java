@@ -7,11 +7,15 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public abstract class Simulation{
-    protected List<List<Cell>> cellGrid;
+    protected List<List<Cell>> cellGrid; //remove this once we have grid class
     private double time = 0;
     private SimulationViewGUI myGUI=new SimulationViewGUI("English");
     private SimulationLineChart lineChart = new SimulationLineChart();;
 
+    protected ArrayList<int[]> indices = new ArrayList<>();
+    protected Grid grid;
+
+    public Simulation(List<List<Cell>> grid){
     public Simulation(List<List<Cell>> grid) throws FileNotFoundException {
         cellGrid = grid;
     }
@@ -36,9 +40,22 @@ public abstract class Simulation{
         }
     }
 
+    public void setData(List<List<Integer>> state){
+        grid.iniState(state);
+    }
+
+    public void createIndices(int row, int col){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                indices.add(new int[]{i, j});
+            }
+        }
+    }
+
+    public abstract HashMap<String, Integer> frequency();
+
     public abstract void updateGrid();
     public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
-    public abstract boolean checkToContinue();
 
 
     public void createLineChartView(){

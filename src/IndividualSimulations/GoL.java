@@ -14,6 +14,16 @@ public class GoL extends Simulation {
         super(grid);
     }
 
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        return null;
+    }
+
 
     /**
      * Go through each cell in the grid
@@ -31,7 +41,6 @@ public class GoL extends Simulation {
                 checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
             }
         }
-
         for(List<Cell> rows: cellGrid){
             for(Cell cell:rows){
                 if(cell.getCurrentState()!=cell.getNextState()) cont = false;
@@ -58,13 +67,4 @@ public class GoL extends Simulation {
         else cell.changeNext(DEAD);
     }
 
-
-    /**
-     * Check if there are more "possible" moves for the simulation
-     * @return if the simulation should keep going
-     */
-    @Override
-    public boolean checkToContinue(){
-        return cont;
-    }
 }
