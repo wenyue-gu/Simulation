@@ -1,8 +1,6 @@
-package SpecificMenuButton;
+package specificmenubutton;
 
 import View.SimulationViewButton;
-import javafx.animation.KeyFrame;
-import javafx.stage.Stage;
 
 public class StartButton extends SimulationViewButton {
 
@@ -13,6 +11,5 @@ public class StartButton extends SimulationViewButton {
     public void setOnAction(){
 
     }
-
 
 }
