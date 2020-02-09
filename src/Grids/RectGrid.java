@@ -18,8 +18,8 @@ public class RectGrid extends Grid {
         for(int i = 0; i<row; i++){
             grid.add(new ArrayList<>());
             for(int j=0; j<col; j++){
-                Cell cell = new RectCell(i, j, (double)SimulationViewGUI.SUBSCENE_WIDTH/col,
-                        (double)SimulationViewGUI.SUBSCENE_HEIGHT/row, 0);
+                Cell cell = new RectCell(i, j, (double)SimulationViewGUI.SIMULATION_VIEW_WIDTH/col,
+                        (double)SimulationViewGUI.SIMULATION_VIEW_HEIGHT/row, 0);
                 grid.get(i).add(cell);
                 display.setShape(new int[]{i,j}, cell.getCellImage());
             }

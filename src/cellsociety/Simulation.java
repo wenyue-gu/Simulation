@@ -4,10 +4,16 @@ import Grids.DisplayGrid;
 import Grids.RectGrid;
 import Grids.TriGrid;
 
+import View.SimulationLineChart;
+import View.SimulationViewGUI;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public abstract class Simulation{
     private double time = 0;
+    //private SimulationViewGUI myGUI=new SimulationViewGUI("English");
+    private SimulationLineChart lineChart = new SimulationLineChart();;
 
     protected ArrayList<int[]> indices = new ArrayList<>();
     protected Grid grid;
