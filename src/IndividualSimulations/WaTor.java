@@ -43,6 +43,16 @@ public class WaTor extends Simulation {
     fishthreshold = fish;
   }
 
+  @Override
+  public void setData(List<List<Integer>> state) {
+
+  }
+
+  @Override
+  public HashMap<String, Integer> frequency() {
+    return null;
+  }
+
   public void updateGrid(){
     for(List<Cell> rows: cellGrid){
       for(Cell cell:rows){
@@ -54,7 +64,7 @@ public class WaTor extends Simulation {
     for(List<Cell> rows: cellGrid){
       for(Cell cell:rows){
         if(cell.getCurrentState()==FISH) {
-          checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 4));
+          checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 10));
         }
       }
     }
@@ -99,6 +109,7 @@ public class WaTor extends Simulation {
     }
   }
 
+
   private void SharkMove(Cell cell, List<Cell> neighbours) {
     ArrayList<Cell> FishNeighbour = new ArrayList<>();
     ArrayList<Cell> EmptyNeighbour = new ArrayList<>();
@@ -109,23 +120,13 @@ public class WaTor extends Simulation {
     }
 
     int energy2 = SharkEnergy.get(cell.getIndex1()).get(cell.getIndex2());
-    int round = SharkRound.get(cell.getIndex1()).get(cell.getIndex2())+1;
+    int round = SharkRound.get(cell.getIndex1()).get(cell.getIndex2());
     SharkRound.get(cell.getIndex1()).set(cell.getIndex2(), round);
 
     if(FishNeighbour.size()>0){
-      Collections.shuffle(FishNeighbour);
-      cell.changeNext(BLANK);
-      Cell eaten = FishNeighbour.get(0);
-      FishNeighbour.get(0).changeNext(SHARK);
-
-      SharkEnergy.get(eaten.getIndex1()).set(eaten.getIndex2(), energy2+1);
-      SharkEnergy.get(cell.getIndex1()).set(cell.getIndex2(), 0);
-      SharkRound.get(eaten.getIndex1()).set(eaten.getIndex2(), round);
-      SharkRound.get(cell.getIndex1()).set(cell.getIndex2(), 0);
-      FishRound.get(eaten.getIndex1()).set(eaten.getIndex2(), 0);
-      reproduce(cell, round, eaten);
+      Cell eaten = moveToPos(cell, FishNeighbour, energy2, round, true);
+      sharkReproduce(cell, round+1, eaten);
     }
-
     else{
       energy2 = energy2-1;
       if(energy2==0){
@@ -136,21 +137,37 @@ public class WaTor extends Simulation {
       }
 
       if(EmptyNeighbour.size()>0){
-        Collections.shuffle(EmptyNeighbour);
-        cell.changeNext(BLANK);
-        Cell movedTo = EmptyNeighbour.get(0);
-        EmptyNeighbour.get(0).changeNext(SHARK);
-        SharkEnergy.get(movedTo.getIndex1()).set(movedTo.getIndex2(), energy2);
-        SharkEnergy.get(cell.getIndex1()).set(cell.getIndex2(), 0);
-        reproduce(cell, round, movedTo);
+        Cell movedTo = moveToPos(cell, EmptyNeighbour, energy2, round, false);
+        sharkReproduce(cell, round+1, movedTo);
       }
     }
   }
 
-  private void reproduce(Cell cell, int round, Cell eaten) {
+  private Cell moveToPos(Cell sharkPos, ArrayList<Cell> neighbour, int energy2, int round, boolean eat) {
+    Collections.shuffle(neighbour);
+    sharkPos.changeNext(BLANK);
+    Cell nextPos = neighbour.get(0);
+    neighbour.get(0).changeNext(SHARK);
+
+    if(eat) {
+      SharkEnergy.get(nextPos.getIndex1()).set(nextPos.getIndex2(), energy2 + 1);
+      SharkEnergy.get(sharkPos.getIndex1()).set(sharkPos.getIndex2(), 0);
+      SharkRound.get(nextPos.getIndex1()).set(nextPos.getIndex2(), round + 1);
+      SharkRound.get(sharkPos.getIndex1()).set(sharkPos.getIndex2(), 0);
+      FishRound.get(nextPos.getIndex1()).set(nextPos.getIndex2(), 0);
+      return nextPos;
+    }
+    SharkEnergy.get(nextPos.getIndex1()).set(nextPos.getIndex2(), energy2);
+    SharkEnergy.get(sharkPos.getIndex1()).set(sharkPos.getIndex2(), 0);
+    return nextPos;
+
+  }
+
+
+  private void sharkReproduce(Cell cell, int round, Cell moved) {
     if(round>sharkthreshold){
       cell.changeNext(SHARK);
-      SharkRound.get(eaten.getIndex1()).set(eaten.getIndex2(), 0);
+      SharkRound.get(moved.getIndex1()).set(moved.getIndex2(), 0);
       SharkRound.get(cell.getIndex1()).set(cell.getIndex2(), 0);
       SharkEnergy.get(cell.getIndex1()).set(cell.getIndex2(), initenergy);
     }

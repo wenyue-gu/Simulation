@@ -22,7 +22,7 @@ public class RectCell extends Cell {
      * @param height is the height of the drawn cell
      * @param status is the current state of the cell
      */
-    public RectCell(int x, int y, int width, int height, int status) {
+    public RectCell(int x, int y, double width, double height, int status) {
         super(x, y, status);
         cellImage = new Rectangle();
         ((Rectangle) cellImage).setWidth(width);
@@ -103,6 +103,8 @@ public class RectCell extends Cell {
     private boolean inRange(int i, int j, List<List<Cell>> cellGrid){
         return i>-1 && i < cellGrid.size() && j > -1 && j < cellGrid.get(0).size();
     }
+
+
 
 
 }

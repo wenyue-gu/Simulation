@@ -3,6 +3,7 @@ package IndividualSimulations;
 import cellsociety.Cell;
 import cellsociety.Simulation;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Fire extends Simulation {
@@ -21,6 +22,16 @@ public class Fire extends Simulation {
     public Fire(List<List<Cell>> grid, double prob) {
         super(grid);
         probCatch = prob;
+    }
+
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        return null;
     }
 
     /**

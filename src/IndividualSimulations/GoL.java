@@ -13,6 +13,17 @@ public class GoL extends Simulation {
         super(grid);
     }
 
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        return null;
+    }
+
+
     /**
      * Go through each cell in the grid
      * findNeighbours finds the cell's neighbours and put them all in an ArrayList
