@@ -19,7 +19,7 @@ public class GoL extends Simulation {
     }
 
     @Override
-    public HashMap<Integer, Integer> frequency() {
+    public HashMap<String, Integer> frequency() {
         return null;
     }
 
