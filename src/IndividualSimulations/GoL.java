@@ -2,14 +2,15 @@ package IndividualSimulations;
 
 import cellsociety.Simulation;
 import cellsociety.Cell;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class GoL extends Simulation {
     private int DEAD = 0;
     private int ALIVE = 1;
     private boolean cont;
-
-    public GoL(List<List<Cell>> grid){
+    public GoL(List<List<Cell>> grid) throws FileNotFoundException {
         super(grid);
     }
 
@@ -46,6 +47,7 @@ public class GoL extends Simulation {
                 cell.updateColor();
             }
         }
+
     }
 
     /**

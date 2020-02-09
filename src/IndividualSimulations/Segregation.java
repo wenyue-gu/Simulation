@@ -3,6 +3,7 @@ package IndividualSimulations;
 import cellsociety.Simulation;
 import cellsociety.Cell;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Segregation extends Simulation {
@@ -14,7 +15,7 @@ public class Segregation extends Simulation {
     private int[] UnSat = new int[3];
     private double satisfyRate;
 
-    public Segregation(List<List<Cell>> grid, double satisfy){
+    public Segregation(List<List<Cell>> grid, double satisfy) throws FileNotFoundException {
         super(grid);
         satisfyRate = satisfy;
     }

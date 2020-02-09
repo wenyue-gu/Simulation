@@ -6,6 +6,7 @@ import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ public class GoL2 extends Simulation{
     private int ALIVE = 1;
     //private Grid grid;
 
-    public GoL2(int row, int col, int neighbourNumber, AnchorPane pane){
+    public GoL2(int row, int col, int neighbourNumber, AnchorPane pane) throws FileNotFoundException {
         super(new ArrayList<>());
         grid = new RectGrid(row, col, neighbourNumber, false);
         grid.iniState(new int[]{DEAD, ALIVE});
@@ -42,7 +43,6 @@ public class GoL2 extends Simulation{
         grid.updateAll();
     }
 
-
     private int checkAndReact(int curCellStatus, List<Integer> neighbours){
         int alive = 0;
         int nextStatus;
@@ -55,28 +55,10 @@ public class GoL2 extends Simulation{
         return nextStatus;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbour) {
 
     }
 
-    @Override
-    public boolean checkToContinue() {
-        return false;
-    }
 
 }

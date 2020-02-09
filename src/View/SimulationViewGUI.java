@@ -1,5 +1,6 @@
 package View;
 
+import cellsociety.Simulation;
 import cellsociety.SimulationMain;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,18 +21,21 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 import xml.SimulationXMLFileChooser;
+import xml.SimulationException;
 import xml.simulationXML;
 
 public class SimulationViewGUI {
 
     public static final double WIDTH = 2000;
     public static final double HEIGHT = 1024;
-    public final static int SUBSCENE_WIDTH = 800;
-    public final static int SUBSCENE_HEIGHT = 600;
+    public final static int SUBSCENE_WIDTH = 1350;//800
+    public final static int SUBSCENE_HEIGHT = 600;//600
+
+    public final static int SIMULATION_VIEW_WIDTH =800, SIMULATION_VIEW_HEIGHT = 600;
 
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
-    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;
+    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;//270, 80
     private final static int DEFAULT_INT = 0;
 
     private ResourceBundle myResources = SimulationMain.SIMULATION_RESOURCE;
@@ -60,6 +64,9 @@ public class SimulationViewGUI {
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
+        //createLineChartView();
+        simulationViewPane.getStylesheets().add("resources/default.css");
+
     }
 
     private void makeTopButtons() {
@@ -68,7 +75,14 @@ public class SimulationViewGUI {
         boxWIthButtons.setPrefHeight(LABEL_HEIGHT);
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
-        mySimulationStartButton = makeButton("StartCommand", event -> startSimulation());
+        mySimulationStartButton = makeButton("StartCommand", event -> {
+            try {
+                startSimulation();
+            } catch (Exception e) {
+                System.out.println(myResources.getString("StartError"));
+                //throw new SimulationException(e.getMessage());
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationStartButton);
 
         mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
@@ -86,6 +100,7 @@ public class SimulationViewGUI {
                 System.out.println("file loaded");
             } catch (Exception e) {
                 // TO DO: Have the error handling instance called
+                throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
@@ -106,8 +121,8 @@ public class SimulationViewGUI {
         simulationViewPane.getChildren().add(labelAtBottom);
     }
 
-    private void startSimulation() {
-        mySubscene.start(simulationXMLInfo);
+    private void startSimulation() throws SimulationException {
+            mySubscene.start(simulationXMLInfo);
     }
 
     private void stopSimulation() {
@@ -213,6 +228,13 @@ public class SimulationViewGUI {
         mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
         simulationViewPane.getChildren().add(mySubscene);
     }
+
+    public AnchorPane getSimulationViewPane(){
+        return simulationViewPane;
+    }
+
+
+
 
 }
 

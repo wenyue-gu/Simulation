@@ -6,6 +6,7 @@ import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Fire2 extends Simulation {
@@ -17,7 +18,7 @@ public class Fire2 extends Simulation {
 
     //private Grid grid;
 
-    public Fire2(int row, int col, int neighbourNumber, AnchorPane pane, double prob) {
+    public Fire2(int row, int col, int neighbourNumber, AnchorPane pane, double prob) throws FileNotFoundException {
         super(new ArrayList<>());
         grid = new RectGrid(row, col, neighbourNumber, false);
         grid.iniState(new int[]{TREE});
@@ -78,18 +79,11 @@ public class Fire2 extends Simulation {
         return status;
     }
 
-
-
-
     @Override
     public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
 
     }
 
-    @Override
-    public boolean checkToContinue() {
-        return false;
-    }
 
 }
 

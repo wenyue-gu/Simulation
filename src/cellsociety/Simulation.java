@@ -1,15 +1,21 @@
 package cellsociety;
 
+import View.SimulationLineChart;
+import View.SimulationViewGUI;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public abstract class Simulation{
     protected List<List<Cell>> cellGrid; //remove this once we have grid class
     private double time = 0;
+    //private SimulationViewGUI myGUI=new SimulationViewGUI("English");
+    private SimulationLineChart lineChart = new SimulationLineChart();;
 
     protected ArrayList<int[]> indices = new ArrayList<>();
     protected Grid grid;
 
-    public Simulation(List<List<Cell>> grid){
+    public Simulation(List<List<Cell>> grid) {
         cellGrid = grid;
     }
 
@@ -23,6 +29,9 @@ public abstract class Simulation{
         time+=elapsedTime;
         if(time>elapsedTime*factor){
             updateGrid();
+           //Grid2 gr=new Grid2(cellGrid);
+           // gr.displayGridOnScreen(lineChart);
+            //myGUI.getSimulationViewPane().getChildren().add(lineChart.getLine());
             time = 0;
         }
     }

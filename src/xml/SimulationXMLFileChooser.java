@@ -2,8 +2,7 @@ package xml;
 
 import cellsociety.Pair;
 import java.io.File;
-import javafx.application.Application;
-import javafx.application.Platform;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
@@ -29,7 +28,7 @@ public class SimulationXMLFileChooser {
 //        showMessage(AlertType.INFORMATION, p.getFirst() + "\n" + p.getSecond().toString());
         break;
       }
-      catch (XMLException e) {
+      catch (SimulationException e) {
         // handle error of unexpected file format
         showMessage(AlertType.ERROR, e.getMessage());
       }

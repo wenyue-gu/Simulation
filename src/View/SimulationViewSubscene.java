@@ -1,20 +1,24 @@
 package View;
 
-import Cells.RectCell;
-import Cells.TriCell;
 import IndividualSimulations.*;
-import cellsociety.Cell;
 import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.SubScene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import xml.SimulationException;
 import xml.simulationXML;
 
 public class SimulationViewSubscene extends SubScene {
@@ -22,16 +26,24 @@ public class SimulationViewSubscene extends SubScene {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-
+    private static final int LINE_GRAPH_X = 550, LINE_GRAPH_Y = 500, LINE_GRAPH_X_LAYOUT = 800, LINE_GRAPH_Y_LAYOUT = 100;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
 
-    private Simulation HardCodeSimulation;
+    private Simulation mySimulation;
     private Timeline animation;
     private AnchorPane mySubscenePane;
     private simulationXML simXMLInfo;
     private int factor = 10;
+    private int time = 0;
+
+    final CategoryAxis xAxis = new CategoryAxis();
+    final NumberAxis yAxis = new NumberAxis();
+
+    private LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
+    private HashMap<String, XYChart.Series> seriesMap = new HashMap<>();
+    private ArrayList<XYChart.Series> timeSeriesArrayList = new ArrayList<>();
 
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
@@ -41,6 +53,8 @@ public class SimulationViewSubscene extends SubScene {
         setBackground();
         subsceneLayout();
         beginAnimation();
+        displayLineChart();
+        mySubscenePane.getStylesheets().addAll("default.css");
     }
 
     private void subsceneLayout() {
@@ -67,179 +81,112 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void step(double secondDelay){
-        // TO DO: Add simulations here for specific button
-        HardCodeSimulation.update(secondDelay, factor);
-
+        mySimulation.update(secondDelay, factor);
+        updateSeries();
+        time += 1;
     }
 
     public void stepb(){
-        HardCodeSimulation.updateGrid();
+        mySimulation.updateGrid();
     }
 
     public void factorChange(int i){
         factor = i;
-        System.out.println(factor);
     }
 
-    public void start(simulationXML simInfo) {
+    public void start(simulationXML simInfo) throws SimulationException {
         this.simXMLInfo = simInfo;
-        //createHardCodedSimulation();
         makeNewSim();
-        //createWaTor();
+        createTimeSeries();
         animation.play();
     }
 
-
-    public void createHardCodedSimulation() {
-        List<List<Cell>> myListOfList = new ArrayList<>();
-        int row = simXMLInfo.getHeight();
-        int col = simXMLInfo.getWidth();
-        List<List<Integer>> initialConfig = simXMLInfo.getInitialConfig();
-        double cellWidth = (double)(800*2)/(col+1);
-        double cellHeight = (double)600/row;
-        int status;
-        for (int i = 0; i < row; i++){
-            myListOfList.add(new ArrayList<Cell>());
-            for (int j=0; j< col;j++){
-                if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Game of Life")){
-                    status = (Math.random() <=0.5) ?0:1;
-                }
-                else if(simXMLInfo.isRandom() && simXMLInfo.getTitle().equals("Segregation")){
-                    status = (Math.random() <=0.5) ?2:3;
-                    status = (Math.random() <=0.10) ?4:status;
-
-                }
-                else{
-                    status = initialConfig.get(i).get(j);
-                }
-                Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
-                myListOfList.get(i).add(cell);
-                mySubscenePane.getChildren().add(cell.getCellImage());
-            }
-        }
-        simulationChooser(myListOfList);
-    }
-
-    private void simulationChooser(List<List<Cell>> myListOfList) {
-        if(simXMLInfo.getTitle().equals("Game of Life")){
-            HardCodeSimulation = new GoL(myListOfList);
-        }
-        else if(simXMLInfo.getTitle().equals("Percolation")) {
-            HardCodeSimulation = new Percolation(myListOfList);
-        }
-        else if(simXMLInfo.getTitle().equals("Fire")){
-            makeFireSimulation();
-        }
-        else if(simXMLInfo.getTitle().equals("WaTor")){
-            createWaTor();
-        }
-        else if(simXMLInfo.getTitle().equals("Segregation")){
-            HardCodeSimulation = new Segregation(myListOfList, 0.75);
-        }
-    }
-
-
-    private void createWaTor(){
-        List<List<Cell>> myListOfList = new ArrayList<>();
-        int row = 100;
-        int col = 100;
-        //double cellWidth = (double)(800*2)/(col+1);
-        double cellWidth = (double)800/col;
-        double cellHeight = (double)600/row;
-        for (int i = 0; i < row; i++){
-            myListOfList.add(new ArrayList<>());
-            for (int j=0; j< col;j++){
-                int status = (Math.random() <=0.05) ?4:5;
-                if(i==0 && j==0) status = 1;
-                Cell cell = new RectCell(i, j, cellWidth, cellHeight, status);
-                //Cell cell = new TriCell(i, j, cellWidth, cellHeight, status);
-                myListOfList.get(i).add(cell);
-                mySubscenePane.getChildren().add(cell.getCellImage());
-            }
-        }
-        HardCodeSimulation = new WaTor(myListOfList, 3, 5, 2);
-    }
-
-    private void makeFireSimulation(){
-        List<List<Cell>> myListOfList = new ArrayList<>();
-        int row = 100;
-        int col = 100;
-        int a = 5;
-        int b = 3;
-        int cellWidth = 800 / row;
-        int cellHeight = 600 / col;
-        for (int i = 0; i < row; i++) {
-            myListOfList.add(new ArrayList<Cell>());
-            for (int j = 0; j < col; j++) {
-                if (i == 0 || i == row - 1 || j == 0 || j == col - 1) {
-                    int empty = 6;
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, empty);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-                } else if (i == row / 2 - 1 && j == row / 2 - 1) {
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, b);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-                } else {
-                    Cell cell = new RectCell(i, j, cellWidth, cellHeight, a);
-                    myListOfList.get(i).add(cell);
-                    mySubscenePane.getChildren().add(cell.getCellImage());
-
-                }
-            }
-        }
-        HardCodeSimulation = new Fire(myListOfList, 0.50); // change this to actual number from xml
-    }
-
-
-
-    private void makeNewSim(){
+    private void makeNewSim() throws SimulationException {
         String title = simXMLInfo.getTitle();
         String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor"};
-
-
         if(title.equals(allTitle[0])) {
-            HardCodeSimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    8, mySubscenePane);
+            try {
+                mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        8, mySubscenePane);
+            } catch (FileNotFoundException e) {
+                throw new SimulationException(e);
+            }
         }
         else if(title.equals(allTitle[1])){
-            HardCodeSimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    8, mySubscenePane, 0.75);
+            try {
+                mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        8, mySubscenePane, 0.75);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         else if(title.equals(allTitle[2])){
-            HardCodeSimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    8, mySubscenePane, 0.55);
+            try {
+                mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        8, mySubscenePane, 0.55);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         else if(title.equals(allTitle[3])){
-            HardCodeSimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    8, mySubscenePane);
+            try {
+                mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        8, mySubscenePane);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         else if(title.equals(allTitle[4])){
-            HardCodeSimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    4, mySubscenePane, 2,10,2);
+            try {
+                mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        4, mySubscenePane, 2,10,2);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
-
         if (!simXMLInfo.isRandom()) {
-            HardCodeSimulation.setData(simXMLInfo.getInitialConfig());
+            mySimulation.setData(simXMLInfo.getInitialConfig());
         }
 
     }
-
-
-
-
-
-
 
     private void beginAnimation() {
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
+
     }
 
     public Timeline getAnimation(){
         return animation;
+    }
+
+    private void displayLineChart(){
+        //mySubscenePane.getChildren().add()
+        lineChart.setPrefHeight(LINE_GRAPH_Y);
+        lineChart.setPrefWidth(LINE_GRAPH_X);
+        lineChart.setLayoutX(LINE_GRAPH_X_LAYOUT);
+        lineChart.setLayoutY(LINE_GRAPH_Y_LAYOUT);
+        mySubscenePane.getChildren().add(lineChart);
+    }
+
+    private void createTimeSeries(){
+        HashMap<String, Integer> map = mySimulation.frequency();
+        for (String i : map.keySet()){
+            XYChart.Series series = new XYChart.Series();
+            series.getData().add(new XYChart.Data(time+"", map.get(i)));
+            series.setName(i);
+            timeSeriesArrayList.add(series);
+            lineChart.getData().addAll(series);
+        }
+    }
+
+    private void updateSeries(){
+        HashMap<String, Integer> map = mySimulation.frequency();
+        for (XYChart.Series series: timeSeriesArrayList){
+            series.getData().add(new XYChart.Data(time+"", map.get(series.getName())));
+        }
     }
 }

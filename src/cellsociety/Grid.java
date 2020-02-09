@@ -63,7 +63,6 @@ public abstract class Grid{
         }
     }
 
-
     public int getFreq(int status){
         int ret = 0;
         for(List<Cell> rows: grid){

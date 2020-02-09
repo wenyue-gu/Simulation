@@ -6,6 +6,7 @@ import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class Percolation2 extends Simulation {
   //private Grid grid;
 
 
-  public Percolation2(int row, int col, int neighbourNumber, AnchorPane pane){
+  public Percolation2(int row, int col, int neighbourNumber, AnchorPane pane) throws FileNotFoundException {
       super(new ArrayList<>());
       grid = new RectGrid(row, col, neighbourNumber, false);
       grid.iniState(new int[]{OPEN, CLOSED});
@@ -75,15 +76,9 @@ public class Percolation2 extends Simulation {
       return curCell;
   }
 
-
   @Override
   public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours){
 
-  }
-
-  @Override
-  public boolean checkToContinue() {
-      return false;
   }
 
 }

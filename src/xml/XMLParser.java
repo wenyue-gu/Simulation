@@ -31,7 +31,7 @@ public class XMLParser {
     /**
      * Create parser for XML files of given type.
      */
-    public XMLParser (String type) {
+    public XMLParser (String type) throws SimulationException {
         DOCUMENT_BUILDER = getDocumentBuilder();
         TYPE_ATTRIBUTE = type;
     }
@@ -39,10 +39,10 @@ public class XMLParser {
     /**
      * Get data contained in this XML file as an object
      */
-    public simulationXML getGame (File dataFile) {
+    public simulationXML getGame (File dataFile) throws SimulationException {
         Element root = getRootElement(dataFile);
         if (! isValidFile(root, simulationXML.DATA_TYPE)) {
-            throw new XMLException(ERROR_MESSAGE, simulationXML.DATA_TYPE);
+            throw new SimulationException(ERROR_MESSAGE, simulationXML.DATA_TYPE);
         }
         // read data associated with the fields given by the object
         Map<String, String> results = new HashMap<>();
@@ -53,14 +53,14 @@ public class XMLParser {
     }
 
     // get root element of an XML file
-    private Element getRootElement (File xmlFile) {
+    private Element getRootElement (File xmlFile) throws SimulationException {
         try {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile);
             return xmlDocument.getDocumentElement();
         }
         catch (SAXException | IOException e) {
-            throw new XMLException(e);
+            throw new SimulationException(e);
         }
     }
 
@@ -87,12 +87,12 @@ public class XMLParser {
     }
 
     // boilerplate code needed to make a documentBuilder
-    private DocumentBuilder getDocumentBuilder () {
+    private DocumentBuilder getDocumentBuilder () throws SimulationException {
         try {
             return DocumentBuilderFactory.newInstance().newDocumentBuilder();
         }
         catch (ParserConfigurationException e) {
-            throw new XMLException(e);
+            throw new SimulationException(e);
         }
     }
 }

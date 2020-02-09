@@ -37,7 +37,7 @@ public class Main extends Application {
                 // do something "interesting" with the resulting data
                 showMessage(AlertType.INFORMATION, p.getFirst() + "\n" + p.getSecond().toString());
             }
-            catch (XMLException e) {
+            catch (SimulationException e) {
                 // handle error of unexpected file format
                 showMessage(AlertType.ERROR, e.getMessage());
             }
