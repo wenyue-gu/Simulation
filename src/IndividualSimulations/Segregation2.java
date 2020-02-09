@@ -2,13 +2,11 @@ package IndividualSimulations;
 
 import Grids.RectGrid;
 import cellsociety.Cell;
+import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Segregation2 extends Simulation {
     private int BLUE = 2;
@@ -16,6 +14,7 @@ public class Segregation2 extends Simulation {
     private int BLANK = 4;
     ArrayList<int[]> unsatisfied = new ArrayList<>();
     ArrayList<Integer> unusedCell = new ArrayList<>();
+    //private Grid grid;
 
     private double satisfyRate;
 
@@ -35,6 +34,14 @@ public class Segregation2 extends Simulation {
     }
 
 
+    @Override
+    public HashMap<String, Integer> frequency() {
+        HashMap<String, Integer>ret = new HashMap<>();
+        ret.put("RED", grid.getFreq(RED));
+        ret.put("BLUE", grid.getFreq(BLUE));
+        ret.put("BLANK", grid.getFreq(BLANK));
+        return ret;
+    }
 
     public void updateGrid() {
         unsatisfied = new ArrayList<>();

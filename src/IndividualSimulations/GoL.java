@@ -13,6 +13,16 @@ public class GoL extends Simulation {
         super(grid);
     }
 
+    @Override
+    public void setData(List<List<Integer>> state) {
+
+    }
+
+    @Override
+    public HashMap<Integer, Integer> frequency() {
+        return null;
+    }
+
 
     /**
      * Go through each cell in the grid

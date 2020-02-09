@@ -63,6 +63,17 @@ public abstract class Grid{
         }
     }
 
+
+    public int getFreq(int status){
+        int ret = 0;
+        for(List<Cell> rows: grid){
+            for(Cell cell:rows){
+                if(cell.getCurrentState()==status) ret++;
+            }
+        }
+        return ret;
+    }
+
     public abstract ArrayList<Integer> neighbourStatus(int[] index);
 
     public abstract ArrayList<int[]> neighbourIndexSatisfyingRequirement(int[] index, int fish);

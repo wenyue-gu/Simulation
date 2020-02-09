@@ -43,6 +43,16 @@ public class WaTor extends Simulation {
     fishthreshold = fish;
   }
 
+  @Override
+  public void setData(List<List<Integer>> state) {
+
+  }
+
+  @Override
+  public HashMap<String, Integer> frequency() {
+    return null;
+  }
+
   public void updateGrid(){
     for(List<Cell> rows: cellGrid){
       for(Cell cell:rows){

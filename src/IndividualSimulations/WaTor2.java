@@ -4,11 +4,13 @@ import Cells.RectCell;
 import Grids.RectGrid;
 import View.SimulationViewGUI;
 import cellsociety.Cell;
+import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class WaTor2 extends Simulation {
@@ -21,6 +23,7 @@ public class WaTor2 extends Simulation {
   private int initenergy;
 
   private List<List<int[]>> status = new ArrayList<>();
+  //private Grid grid;
 
 
 
@@ -45,6 +48,17 @@ public class WaTor2 extends Simulation {
 
     grid.addToPane(pane);
 
+  }
+
+
+  @Override
+  public HashMap<String, Integer> frequency() {
+    HashMap<String, Integer>ret = new HashMap<>();
+    ret.put("FISH", grid.getFreq(FISH));
+    ret.put("SHARK", grid.getFreq(SHARK));
+    ret.put("BLANK", grid.getFreq(BLANK));
+
+    return ret;
   }
 
   public void updateGrid(){

@@ -6,10 +6,7 @@ import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EmptyStackException;
-import java.util.List;
+import java.util.*;
 
 public class Fire2 extends Simulation {
 
@@ -17,6 +14,8 @@ public class Fire2 extends Simulation {
     private int TREE = 5;
     private int BURNING = 3;
     private double probCatch;
+
+    //private Grid grid;
 
     public Fire2(int row, int col, int neighbourNumber, AnchorPane pane, double prob) {
         super(new ArrayList<>());
@@ -44,6 +43,15 @@ public class Fire2 extends Simulation {
         grid.addToPane(pane);
     }
 
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        HashMap<String, Integer>ret = new HashMap<>();
+        ret.put("TREE", grid.getFreq(TREE));
+        ret.put("BURNING", grid.getFreq(BURNING));
+        ret.put("EMPTY", grid.getFreq(EMPTY));
+        return ret;
+    }
 
     public void updateGrid() {
         for(int[]index:indices) {

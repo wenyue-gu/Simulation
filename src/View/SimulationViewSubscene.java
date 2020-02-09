@@ -226,7 +226,7 @@ public class SimulationViewSubscene extends SubScene {
         }
         else if(title.equals(allTitle[4])){
             HardCodeSimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    8, mySubscenePane, 2,10,2);
+                    4, mySubscenePane, 2,10,2);
         }
 
 

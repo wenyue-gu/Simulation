@@ -4,7 +4,7 @@
   <author>Michelle Tai</author>
   <width>100</width>
   <height>100</height>
-  <random>false</random>
+  <random>true</random>
 <initialConfig>0 0 0 0 2 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0

@@ -2,16 +2,18 @@ package IndividualSimulations;
 
 import cellsociety.Cell;
 import Grids.RectGrid;
+import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GoL2 extends Simulation{
     private int DEAD = 0;
     private int ALIVE = 1;
-
+    //private Grid grid;
 
     public GoL2(int row, int col, int neighbourNumber, AnchorPane pane){
         super(new ArrayList<>());
@@ -21,6 +23,15 @@ public class GoL2 extends Simulation{
         grid.addToPane(pane);
     }
 
+
+    @Override
+    public HashMap<String, Integer> frequency() {
+        HashMap<String, Integer>ret = new HashMap<>();
+        ret.put("DEAD", grid.getFreq(DEAD));
+        ret.put("ALIVE", grid.getFreq(ALIVE));
+
+        return ret;
+    }
 
     public void updateGrid(){
         for(int[]index:indices) {

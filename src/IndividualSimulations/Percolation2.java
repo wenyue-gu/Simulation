@@ -2,11 +2,13 @@ package IndividualSimulations;
 
 import Grids.RectGrid;
 import cellsociety.Cell;
+import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,6 +20,8 @@ public class Percolation2 extends Simulation {
   private int OPEN = 0;
   private int CLOSED = 1;
   private int PERCOLATED = 2;
+
+  //private Grid grid;
 
 
   public Percolation2(int row, int col, int neighbourNumber, AnchorPane pane){
@@ -44,7 +48,16 @@ public class Percolation2 extends Simulation {
   }
 
 
-  public void updateGrid(){
+    @Override
+    public HashMap<String, Integer> frequency() {
+        HashMap<String, Integer>ret = new HashMap<>();
+        ret.put("OPEN", grid.getFreq(OPEN));
+        ret.put("PERCOLATED", grid.getFreq(PERCOLATED));
+        ret.put("CLOSED", grid.getFreq(CLOSED));
+        return ret;
+    }
+
+    public void updateGrid(){
       for(int[]index:indices) {
           ArrayList<Integer> neighbours = grid.neighbourStatus(index);
           int next = checkPercolate(grid.getCell(index), neighbours);
