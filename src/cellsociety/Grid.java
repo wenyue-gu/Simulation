@@ -1,7 +1,6 @@
 package cellsociety;
 
-import javafx.scene.layout.AnchorPane;
-
+import Grids.DisplayGrid;
 import java.util.*;
 
 public abstract class Grid{
@@ -9,10 +8,10 @@ public abstract class Grid{
     protected int numNeighbour;
     protected boolean wrapped;
     protected ArrayList<ArrayList<Cell>> grid;
+    protected DisplayGrid display;
 
-    public Grid (int neighbourNumber, boolean wrap){
+    public Grid (boolean wrap){
         wrapped = wrap;
-        numNeighbour = neighbourNumber;
     }
 
     public void iniState(int[]type){
@@ -55,14 +54,6 @@ public abstract class Grid{
         }
     }
 
-    public void addToPane(AnchorPane pane){
-        for(List<Cell> rows: grid){
-            for(Cell cell:rows){
-                pane.getChildren().add(cell.getCellImage());
-            }
-        }
-    }
-
 
     public int getFreq(int status){
         int ret = 0;
@@ -74,7 +65,56 @@ public abstract class Grid{
         return ret;
     }
 
-    public abstract ArrayList<Integer> neighbourStatus(int[] index);
+    public ArrayList<Integer> neighbourStatus(int[] index){
+        ArrayList<int[]> neighbours = neighbourIndex(index);
+        ArrayList<Integer> ret = new ArrayList<>();
+        for(int[] indice:neighbours){
+            ret.add(grid.get(indice[0]).get(indice[1]).getCurrentState());
+        }
 
-    public abstract ArrayList<int[]> neighbourIndexSatisfyingRequirement(int[] index, int fish);
+        return ret;
+    }
+
+    public ArrayList<int[]> neighbourIndexSatisfyingRequirement(int[]index, int status){
+        ArrayList<int[]> neighbours = neighbourIndex(index);
+        ArrayList<int[]> ret = new ArrayList<>();
+        for(int[] indice:neighbours){
+            if(grid.get(indice[0]).get(indice[1]).getCurrentState()==status
+                    && grid.get(indice[0]).get(indice[1]).getNextState()==status) ret.add(indice);
+        }
+        return ret;
+    }
+
+
+
+    public ArrayList<int[]> neighbourIndex(int[]index){
+        ArrayList<int[]> ret = new ArrayList<>();
+        int[] rowDelta = rowH(index);
+        int[] colDelta = colH(index);
+
+        for(int k=0; k < numNeighbour; k++){
+            int x = index[0]+rowDelta[k];
+            int y = index[1]+colDelta[k];
+            if (x>-1 && x < grid.size() && y > -1 && y < grid.get(0).size()){
+                ret.add(new int[]{x,y});
+            }
+            else if(wrapped){
+                if(x<0) x = grid.size()-1;
+                if(y<0) y = grid.size()-1;
+                if(x==grid.size()) x =0;
+                if(y==grid.size()) y = 0;
+                ret.add(new int[]{x,y});
+            }
+        }
+        return ret;
+    }
+
+    public DisplayGrid getDisplay(){
+        return display;
+    }
+
+
+    public abstract int[] rowH(int[]index);
+
+    public abstract int[] colH(int[]index);
 }

@@ -1,10 +1,7 @@
 package cellsociety;
 
-import java.util.*;
-
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /** Cell class serves as a superclass
@@ -47,8 +44,7 @@ public abstract class Cell{
     }
 
 
-    public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
-
+//    public abstract List<Cell> findNeighbours(List<List<Cell>> cellGrid, int type);
     public abstract void updateColor();
 
 

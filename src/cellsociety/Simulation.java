@@ -1,16 +1,20 @@
 package cellsociety;
 
+import Grids.DisplayGrid;
+import Grids.RectGrid;
+import Grids.TriGrid;
+
 import java.util.*;
 
 public abstract class Simulation{
-    protected List<List<Cell>> cellGrid; //remove this once we have grid class
     private double time = 0;
 
     protected ArrayList<int[]> indices = new ArrayList<>();
     protected Grid grid;
 
-    public Simulation(List<List<Cell>> grid){
-        cellGrid = grid;
+    public Simulation(int row, int col, boolean neighbourNumber, boolean wrap, String shape){
+        if(shape.equals("Rectangle")) grid = new RectGrid(row, col, neighbourNumber, wrap);
+        else if (shape.equals("Triangle")) grid = new TriGrid(row, col, neighbourNumber, wrap);
     }
 
     /**
@@ -27,10 +31,19 @@ public abstract class Simulation{
         }
     }
 
+    /**
+     * Initialize grid data with the data from XML file (state will be a list of list of status for each cell)
+     * @param state
+     */
     public void setData(List<List<Integer>> state){
         grid.iniState(state);
     }
 
+    /**
+     * Create a list of indices of all cells
+     * @param row row of grid
+     * @param col col of grid
+     */
     public void createIndices(int row, int col){
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -39,10 +52,27 @@ public abstract class Simulation{
         }
     }
 
+    /**
+     * find the frequency of each cell states and put them in a hashmap
+     * @return
+     */
     public abstract HashMap<String, Integer> frequency();
 
-    public abstract void updateGrid();
-    public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
+
+    public void updateGrid(){
+        for(int[]index:indices) {
+            ArrayList<Integer> neighbours = grid.neighbourStatus(index);
+            int next = checkAndReact(grid.getCell(index), neighbours);
+            grid.changeNext(index, next);
+        }
+        grid.updateAll();
+    }
+
+    public DisplayGrid getDisplay(){
+        return grid.getDisplay();
+    }
+
+    public  abstract int checkAndReact(int curCell, ArrayList<Integer> neighbour);
 
 }
 
