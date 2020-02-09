@@ -2,8 +2,8 @@
 <data media="Simulation">
   <title>Fire</title>
   <author>Michelle Tai</author>
-  <width>10</width>
-  <height>10</height>
+  <width>100</width>
+  <height>100</height>
   <random>false</random>
 <initialConfig>0 0 0 0 2 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
