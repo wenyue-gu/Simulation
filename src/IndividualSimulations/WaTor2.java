@@ -1,12 +1,6 @@
 package IndividualSimulations;
 
-import Cells.RectCell;
-import Grids.RectGrid;
-import View.SimulationViewGUI;
-import cellsociety.Cell;
-import cellsociety.Grid;
 import cellsociety.Simulation;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,15 +20,22 @@ public class WaTor2 extends Simulation {
   //private Grid grid;
 
 
+  /**
+   * Create new wator grid
+   * @param row               row number of cell
+   * @param col               column number of cell
+   * @param neighbourNumber   true = all neighbours, false = only immediate
+   * @param energy            initial energy of shark
+   * @param sharkR            shark reproduction cycle
+   * @param fishR             fish reproduction cycle
+   */
 
-
-  public WaTor2(int row, int col, int neighbourNumber, AnchorPane pane, int energy, int sharkR, int fishR) {
-    super(new ArrayList<>());
+  public WaTor2(int row, int col, boolean neighbourNumber, String shape, int energy, int sharkR, int fishR) {
+    super(row, col, neighbourNumber, true, shape);
     initenergy = energy;
     sharkthreshold = sharkR;
     fishthreshold = fishR;
 
-    grid = new RectGrid(row, col, neighbourNumber, true);
     grid.iniState(new int[]{FISH, BLANK, SHARK});
 
     createIndices(row, col);
@@ -46,10 +47,12 @@ public class WaTor2 extends Simulation {
       }
     }
 
-    grid.addToPane(pane);
-
   }
 
+  /**
+   * makes a map that contains number of fish, shark, and blank cells
+   * @return hashmap with information needed
+   */
 
   @Override
   public HashMap<String, Integer> frequency() {
@@ -61,6 +64,17 @@ public class WaTor2 extends Simulation {
     return ret;
   }
 
+  /**
+   * update grid by
+   * collecting index of cells whose current state is shark
+   * update these cell's next
+   *
+   * collecting index of cells whose current AND next state is fish (which means it's not eaten by shark)
+   * update there cell's next
+   *
+   * update grid
+   */
+  @Override
   public void updateGrid(){
     //checkAllShark
     ArrayList<int[]> sharkInd = new ArrayList<>();
@@ -81,6 +95,17 @@ public class WaTor2 extends Simulation {
 
     grid.updateAll();
 
+  }
+
+
+  /**
+   * It's just here because it's declared in the super class
+   * @param curCell
+   * @param neighbour
+   * @return
+   */
+  public int checkAndReact(int curCell, ArrayList<Integer> neighbour) {
+    return 0;
   }
 
 
@@ -175,22 +200,4 @@ public class WaTor2 extends Simulation {
 
   }
 
-
-
-
-
-
-
-  @Override
-  public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours){
-
-  }
-  /**
-   * Check if there are more "possible" moves for the simulation
-   * @return if the simulation should keep going
-   */
-  @Override
-  public boolean checkToContinue(){
-    return false;
-  }
 }
