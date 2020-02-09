@@ -11,6 +11,7 @@ import cellsociety.Simulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.SubScene;
+import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
@@ -36,6 +37,8 @@ public class SimulationViewSubscene extends SubScene {
     private double currTime;
     private int factor = 10;
 
+    private int round = 0;
+
     public SimulationViewSubscene(int width, int height) {
         super(new AnchorPane(), width, height);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
@@ -44,6 +47,7 @@ public class SimulationViewSubscene extends SubScene {
         setBackground();
         subsceneLayout();
         beginAnimation();
+        //mySubscenePane.getStylesheets().addAll("default.css");
     }
 
     private void subsceneLayout() {
@@ -83,6 +87,14 @@ public class SimulationViewSubscene extends SubScene {
         if (HardCodeSimulation.checkToContinue()) {
             animation.stop();
         }
+        // update graph info
+        updateSeries();
+        addSeriesToChart();
+    }
+
+
+    private void determineStateFrequency(){
+
     }
 
     public void stepb(){
@@ -91,7 +103,7 @@ public class SimulationViewSubscene extends SubScene {
 
     public void factorChange(int i){
         factor = i;
-        System.out.println(factor);
+        //System.out.println(factor);
     }
 
     public void start(simulationXML simInfo) {
@@ -206,4 +218,33 @@ public class SimulationViewSubscene extends SubScene {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
     }
+
+
+    public void updateSeries() {
+
+        HardCodeSimulation.che
+
+
+
+
+
+        round += 1;
+        for (int i = 0; i < SimulationViewGUI.lineChart.seriesList.size();i++) {
+            SimulationViewGUI.lineChart.updateLineChart(round, HardCodeSimulation.cellGrid.getCellProportions()[i], SimulationViewGUI.lineChart.seriesList.get(i));
+        }
+    }
+
+
+    public void addSeriesToChart() {
+        for (int i = 0; i < .cellColors().length; i++) {
+            XYChart.Series line = new XYChart.Series();
+            SimulationViewGUI.lineChart.getData().add(line);
+            line.setName(Integer.toString(i));
+
+            SimulationViewGUI.lineChart.seriesList.add(line);
+            line.getData().add(new XYChart.Data(0, HardCodeSimulation.cellFrequencies()[i]));
+
+        }
+    }
+
 }

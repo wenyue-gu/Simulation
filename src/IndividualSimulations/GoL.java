@@ -30,6 +30,7 @@ public class GoL extends Simulation {
                 checkNeighbourAndChangeNext(cell, cell.findNeighbours(cellGrid, 8));
             }
         }
+
         for(List<Cell> rows: cellGrid){
             for(Cell cell:rows){
                 if(cell.getCurrentState()!=cell.getNextState()) cont = false;

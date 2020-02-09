@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -29,7 +31,7 @@ public class SimulationViewGUI {
     private final static int SUBSCENE_HEIGHT = 600;
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
-    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;
+    private final static int SLIDER_LAYOUT_X = 850, SLIDER_LAYOUT_Y = 400, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;//270, 80
     private final static int DEFAULT_INT = 0;
     private Stage simulationViewStage;
     private Scene simulationViewScene;
@@ -53,6 +55,11 @@ public class SimulationViewGUI {
     private double stepUpdateCount ;
     private simulationXML simulationXMLInfo;
 
+    private static final CategoryAxis axisX = new CategoryAxis();
+    private static final NumberAxis axisY = new NumberAxis();
+    //private static CategoryAxis axisX;
+    public final static SimulationLineChart lineChart = new SimulationLineChart(axisX,axisY);
+
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
@@ -67,6 +74,9 @@ public class SimulationViewGUI {
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
+        createLineChartView();
+        simulationViewPane.getStylesheets().add("resources/default.css");
+        //mySubscene.setStyle("-fx-background-color: #000000");
         //if (simulationViewSlider.isValueChanging() && simulationViewSlider.getValue() != DEFAULT_INT) mySubscene.factorChange(slideVal/STEP);
 //        if (slideVal != DEFAULT_INT){
 //            System.out.println(slideVal);
@@ -96,7 +106,7 @@ public class SimulationViewGUI {
         mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
             try {
                 loadFile();
-                System.out.println("file loaded");
+                //System.out.println("file loaded");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -229,6 +239,16 @@ public class SimulationViewGUI {
     private void createSubScene() {
         mySubscene = new SimulationViewSubscene(SUBSCENE_WIDTH, SUBSCENE_HEIGHT);
         simulationViewPane.getChildren().add(mySubscene);
+    }
+
+    private void createLineChartView(){
+
+        lineChart.setLayoutX(850);
+        lineChart.setLayoutY(470);
+        lineChart.setPrefWidth(600);
+        lineChart.setPrefHeight(250);
+
+        simulationViewPane.getChildren().add(lineChart);
     }
 
 }
