@@ -38,6 +38,10 @@ public abstract class Grid{
         return grid.get(index[0]).get(index[1]).getCurrentState();
     }
 
+    public int getCellNext(int[] index){
+        return grid.get(index[0]).get(index[1]).getNextState();
+    }
+    
     public void changeNext(int[]index, int next){
         Cell cell = grid.get(index[0]).get(index[1]);
         cell.changeNext(next);
@@ -59,4 +63,7 @@ public abstract class Grid{
         }
     }
 
+    public abstract ArrayList<Integer> neighbourStatus(int[] index);
+
+    public abstract ArrayList<int[]> neighbourIndexSatisfyingRequirement(int[] index, int fish);
 }
