@@ -1,14 +1,11 @@
 package View;
 
+import cellsociety.Simulation;
 import cellsociety.SimulationMain;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -24,19 +21,21 @@ import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 import xml.SimulationXMLFileChooser;
-import xml.XMLException;
+import xml.SimulationException;
 import xml.simulationXML;
 
 public class SimulationViewGUI {
 
     public static final double WIDTH = 2000;
     public static final double HEIGHT = 1024;
-    public final static int SUBSCENE_WIDTH = 800;
-    public final static int SUBSCENE_HEIGHT = 600;
+    public final static int SUBSCENE_WIDTH = 1350;//800
+    public final static int SUBSCENE_HEIGHT = 600;//600
+
+    public final static int SIMULATION_VIEW_WIDTH =800, SIMULATION_VIEW_HEIGHT = 600;
 
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
-    private final static int SLIDER_LAYOUT_X = 850, SLIDER_LAYOUT_Y = 400, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;//270, 80
+    private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;//270, 80
     private final static int DEFAULT_INT = 0;
 
     private ResourceBundle myResources = SimulationMain.SIMULATION_RESOURCE;
@@ -79,9 +78,9 @@ public class SimulationViewGUI {
         mySimulationStartButton = makeButton("StartCommand", event -> {
             try {
                 startSimulation();
-            } catch (FileNotFoundException e) {
-               // e.printStackTrace();
-                XMLException exception = new XMLException("Add");
+            } catch (Exception e) {
+                System.out.println(myResources.getString("StartError"));
+                //throw new SimulationException(e.getMessage());
             }
         });
         boxWIthButtons.getChildren().add(mySimulationStartButton);
@@ -101,6 +100,7 @@ public class SimulationViewGUI {
                 System.out.println("file loaded");
             } catch (Exception e) {
                 // TO DO: Have the error handling instance called
+                throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
@@ -121,13 +121,8 @@ public class SimulationViewGUI {
         simulationViewPane.getChildren().add(labelAtBottom);
     }
 
-    private void startSimulation() throws FileNotFoundException {
-        try{
+    private void startSimulation() throws SimulationException {
             mySubscene.start(simulationXMLInfo);
-        }
-        catch (XMLException e){
-            throw e;
-        }
     }
 
     private void stopSimulation() {
@@ -237,6 +232,8 @@ public class SimulationViewGUI {
     public AnchorPane getSimulationViewPane(){
         return simulationViewPane;
     }
+
+
 
 
 }

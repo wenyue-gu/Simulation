@@ -8,6 +8,7 @@ import cellsociety.Grid;
 import cellsociety.Simulation;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,12 +24,8 @@ public class WaTor2 extends Simulation {
   private int initenergy;
 
   private List<List<int[]>> status = new ArrayList<>();
-  //private Grid grid;
 
-
-
-
-  public WaTor2(int row, int col, int neighbourNumber, AnchorPane pane, int energy, int sharkR, int fishR) {
+  public WaTor2(int row, int col, int neighbourNumber, AnchorPane pane, int energy, int sharkR, int fishR) throws FileNotFoundException {
     super(new ArrayList<>());
     initenergy = energy;
     sharkthreshold = sharkR;
@@ -175,22 +172,9 @@ public class WaTor2 extends Simulation {
 
   }
 
-
-
-
-
-
-
   @Override
   public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours){
 
   }
-  /**
-   * Check if there are more "possible" moves for the simulation
-   * @return if the simulation should keep going
-   */
-  @Override
-  public boolean checkToContinue(){
-    return false;
-  }
+
 }

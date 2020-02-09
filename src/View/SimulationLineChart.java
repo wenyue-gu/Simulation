@@ -2,6 +2,8 @@ package View;
 
 import cellsociety.Cell;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.text.Font;
