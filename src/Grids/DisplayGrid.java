@@ -32,4 +32,12 @@ public class DisplayGrid{
         }
     }
 
+    public void removeFromPane(AnchorPane pane){
+        for(List<Shape> rows: grid){
+            for(Shape cell:rows){
+                pane.getChildren().remove(cell);
+            }
+        }
+    }
+
 }

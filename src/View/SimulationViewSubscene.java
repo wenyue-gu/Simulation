@@ -78,7 +78,9 @@ public class SimulationViewSubscene extends SubScene {
 
     public void start(simulationXML simInfo) {
         this.simXMLInfo = simInfo;
+        if(HardCodeSimulation!=null) HardCodeSimulation.getDisplay().removeFromPane(mySubscenePane);
         makeNewSim();
+        HardCodeSimulation.getDisplay().addToPane(mySubscenePane);
         animation.play();
     }
 
@@ -111,8 +113,6 @@ public class SimulationViewSubscene extends SubScene {
         if (!simXMLInfo.isRandom()) {
             HardCodeSimulation.setData(simXMLInfo.getInitialConfig());
         }
-
-        HardCodeSimulation.getDisplay().addToPane(mySubscenePane);
 
     }
 
