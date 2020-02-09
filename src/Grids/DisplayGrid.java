@@ -1,39 +1,35 @@
 package Grids;
 
-import Cells.RectCell;
-import View.SimulationViewGUI;
-import cellsociety.Cell;
-import cellsociety.Grid;
-import java.util.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
-public class RectGrid extends Grid {
+import java.util.ArrayList;
+import java.util.List;
 
-    public RectGrid(int row, int col, boolean allNeighbour, boolean wrap){
-        super(wrap);
-        if(allNeighbour) numNeighbour = 8;
-        else numNeighbour = 4;
-        grid = new ArrayList<>();
+public class DisplayGrid{
+
+    private ArrayList<ArrayList<Shape>> grid = new ArrayList<>();
+
+    public DisplayGrid(int row, int col){
         for(int i = 0; i<row; i++){
             grid.add(new ArrayList<>());
             for(int j=0; j<col; j++){
-                Cell cell = new RectCell(i, j, (double)SimulationViewGUI.SUBSCENE_WIDTH/col,
-                        (double)SimulationViewGUI.SUBSCENE_HEIGHT/row, 0);
-                grid.get(i).add(cell);
+                grid.get(i).add(new Rectangle());
             }
         }
     }
 
-
-
-    @Override
-    public int[] rowH(int[]index) {
-        return new int[]{-1, 1, 0, 0, -1, 1, -1, 1};
+    public void setShape(int[]index, Shape shape){
+        grid.get(index[0]).set(index[1],shape);
     }
 
-    @Override
-    public int[] colH(int[]index) {
-        return new int[]{0, 0, -1, 1, 1, -1, -1, 1};
+    public void addToPane(AnchorPane pane){
+        for(List<Shape> rows: grid){
+            for(Shape cell:rows){
+                pane.getChildren().add(cell);
+            }
+        }
     }
-
 
 }
