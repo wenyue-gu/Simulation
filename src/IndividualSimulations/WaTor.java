@@ -173,14 +173,4 @@ public class WaTor extends Simulation {
     }
   }
 
-
-
-  /**
-   * Check if there are more "possible" moves for the simulation
-   * @return if the simulation should keep going
-   */
-  @Override
-  public boolean checkToContinue(){
-    return false;
-  }
 }

@@ -3,7 +3,7 @@ package cellsociety;
 import java.util.*;
 
 public abstract class Simulation{
-    protected List<List<Cell>> cellGrid;
+    protected List<List<Cell>> cellGrid; //remove this once we have grid class
     private double time = 0;
 
     protected ArrayList<int[]> indices = new ArrayList<>();
@@ -43,7 +43,6 @@ public abstract class Simulation{
 
     public abstract void updateGrid();
     public abstract void checkNeighbourAndChangeNext(Cell cell,  List<Cell> neighbour);
-    public abstract boolean checkToContinue();
 
 }
 

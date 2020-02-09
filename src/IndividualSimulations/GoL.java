@@ -2,13 +2,13 @@ package IndividualSimulations;
 
 import cellsociety.Simulation;
 import cellsociety.Cell;
-
 import java.util.*;
 
 public class GoL extends Simulation {
     private int DEAD = 0;
     private int ALIVE = 1;
     private boolean cont;
+
     public GoL(List<List<Cell>> grid){
         super(grid);
     }
@@ -65,13 +65,4 @@ public class GoL extends Simulation {
         else cell.changeNext(DEAD);
     }
 
-
-    /**
-     * Check if there are more "possible" moves for the simulation
-     * @return if the simulation should keep going
-     */
-    @Override
-    public boolean checkToContinue(){
-        return cont;
-    }
 }

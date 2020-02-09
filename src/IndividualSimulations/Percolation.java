@@ -67,11 +67,6 @@ public class Percolation extends Simulation {
     }
   }
 
-  @Override
-  public boolean checkToContinue() {
-    return hasPercolated();
-  }
-
   /**
    * Returns whether or not the simulation has "percolated," aka there a path of percolated blue cells
    * from the left side of the grid to the right side of the grid
