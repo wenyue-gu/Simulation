@@ -36,7 +36,6 @@ public class RockPaperScissor extends Simulation{
      * ask grid to find the number of rock, paper, and scissor
      * @return      hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("ROCK", grid.getFreq(ROCK));
@@ -64,7 +63,6 @@ public class RockPaperScissor extends Simulation{
             if(i==PAPER) paper++;
             if(i==SCISSOR) scissor++;
         }
-
 
         int thresh = threshold +  + (new Random()).nextInt(2);
         if(curCellStatus==ROCK && paper>thresh) return PAPER;

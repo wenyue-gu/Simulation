@@ -20,11 +20,9 @@ public class TriGrid extends Grid {
      * @param wrap          toroidal or not
      */
     public TriGrid(int row, int col, boolean allNeighbour, boolean wrap){
-        super(wrap);
-        display = new DisplayGrid(row, col);
+        super(wrap, row, col);
         if(allNeighbour) numNeighbour = 12;
         else numNeighbour = 3;
-        grid = new ArrayList<>();
         for(int i = 0; i<row; i++){
             grid.add(new ArrayList<>());
             for(int j=0; j<col; j++){

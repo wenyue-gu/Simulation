@@ -76,7 +76,7 @@ public abstract class Simulation{
      * find the frequency of each cell states and put them in a hashmap
      * @return hashmap with the information
      */
-    public abstract HashMap<String, Integer> frequency();
+    public abstract Map<String, Integer> frequency();
 
 
     /**

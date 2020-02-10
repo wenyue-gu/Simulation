@@ -58,7 +58,6 @@ public class WaTor2 extends Simulation {
    * @return hashmap with information needed
    */
 
-  @Override
   public HashMap<String, Integer> frequency() {
     HashMap<String, Integer>ret = new HashMap<>();
     ret.put("FISH", grid.getFreq(FISH));

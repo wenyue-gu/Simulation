@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import xml.SimulationException;
@@ -28,6 +29,7 @@ public class SimulationViewSubscene extends SubScene {
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int LINE_GRAPH_X = 550, LINE_GRAPH_Y = 600, LINE_GRAPH_X_LAYOUT = 800, LINE_GRAPH_Y_LAYOUT = 0;
     private static final String RESOURCES = "resources";
+    private static final String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor", "Rock Paper Scissor", "Sugar Scape"};
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
 
@@ -108,7 +110,6 @@ public class SimulationViewSubscene extends SubScene {
 
     private void makeNewSim() {
         String title = simXMLInfo.getTitle();
-        String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor", "Rock Paper Scissor", "Sugar Scape"};
         String shape = simXMLInfo.getShape();
 
         if(title.equals(allTitle[0])) {
@@ -177,7 +178,7 @@ public class SimulationViewSubscene extends SubScene {
     private void createTimeSeries(){
         //lineChart = new LineChart<String,Number>(xAxis,yAxis);
         time = 0;
-        HashMap<String, Integer> map = mySimulation.frequency();
+        Map<String, Integer> map = mySimulation.frequency();
         int total = 0;
         for(String i: map.keySet()){
             total+=map.get(i);
@@ -194,7 +195,7 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void updateSeries(){
-        HashMap<String, Integer> map = mySimulation.frequency();
+        Map<String, Integer> map = mySimulation.frequency();
         for (XYChart.Series series: timeSeriesArrayList){
             if(time>1000) series.getData().remove(0);
             series.getData().add(new XYChart.Data(time+"", map.get(series.getName())));

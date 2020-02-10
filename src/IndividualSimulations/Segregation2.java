@@ -40,7 +40,6 @@ public class Segregation2 extends Simulation {
      * get the red, blue, and blank cell numbers (supposedly they will be the same every time)
      * @return hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("RED", grid.getFreq(RED));

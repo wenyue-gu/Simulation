@@ -31,7 +31,6 @@ public class GoL2 extends Simulation{
      * ask grid to find the number of ALIVE and DEAD cell
      * @return      hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("DEAD", grid.getFreq(DEAD));

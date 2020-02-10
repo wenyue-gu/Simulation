@@ -45,7 +45,6 @@ public class Sugarscape extends Simulation{
      * get how many agents are left
      * @return      hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("AGENT", agents.size());
