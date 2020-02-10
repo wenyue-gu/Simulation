@@ -1,6 +1,5 @@
 package xml;
 
-import cellsociety.Pair;
 import java.io.File;
 
 import javafx.scene.control.Alert;
@@ -15,13 +14,13 @@ public class SimulationXMLFileChooser {
   public static final String DATA_FILE_EXTENSION = "*.xml";
   // NOTE: generally accepted behavior that the chooser remembers where user left it last
   public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
-  private simulationXML simXML;
+  private SimulationXML simXML;
 
   public void openFile (Stage primaryStage) throws Exception {
     File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
     while (dataFile != null) {
       try {
-        Pair<String, simulationXML> p = new Pair<>(dataFile.getName(), new XMLParser("media").getGame(dataFile));
+        Pair<String, SimulationXML> p = new Pair<>(dataFile.getName(), new XMLParser("media").getGame(dataFile));
         // do something "interesting" with the resulting data
         simXML = p.getSecond();
         System.out.println("got data");
@@ -35,7 +34,7 @@ public class SimulationXMLFileChooser {
     }
   }
 
-  public simulationXML getSimulationXMLInfo(){
+  public SimulationXML getSimulationXMLInfo(){
     return simXML;
   }
 
