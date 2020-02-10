@@ -40,7 +40,6 @@ public class Segregation2 extends Simulation {
      * get the red, blue, and blank cell numbers (supposedly they will be the same every time)
      * @return hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("RED", grid.getFreq(RED));
@@ -57,7 +56,7 @@ public class Segregation2 extends Simulation {
     public void updateGrid() {
         unsatisfied = new ArrayList<>();
         for (int[] index : indices) {
-            ArrayList<Integer> neighbours = grid.neighbourStatus(index);
+            List<Integer> neighbours = grid.neighbourStatus(index);
             int next = checkSatisfy(grid.getCell(index), neighbours);
             if (next==100) unsatisfied.add(index);
             grid.changeNext(index, next);
@@ -77,12 +76,12 @@ public class Segregation2 extends Simulation {
      * @param neighbour
      * @return
      */
-    public int checkAndReact(int curCell, ArrayList<Integer> neighbour) {
+    public int checkAndReact(int curCell, List<Integer> neighbour) {
         return 0;
     }
 
 
-    private int checkSatisfy(int curCell, ArrayList<Integer> neighbours) {
+    private int checkSatisfy(int curCell, List<Integer> neighbours) {
         if (curCell == BLANK) {
             unusedCell.add(BLANK);
             return 100;

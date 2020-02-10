@@ -14,8 +14,10 @@ public abstract class Grid{
     protected ArrayList<ArrayList<Cell>> grid;
     protected DisplayGrid display;
 
-    public Grid (boolean wrap){
+    public Grid (boolean wrap, int row, int col){
+        display = new DisplayGrid(row, col);
         wrapped = wrap;
+        grid = new ArrayList<>();
     }
 
     /**
@@ -104,8 +106,8 @@ public abstract class Grid{
      * @param index cell center
      * @return list of status
      */
-    public ArrayList<Integer> neighbourStatus(int[] index){
-        ArrayList<int[]> neighbours = neighbourIndex(index);
+    public List<Integer> neighbourStatus(int[] index){
+        List<int[]> neighbours = neighbourIndex(index);
         ArrayList<Integer> ret = new ArrayList<>();
         for(int[] indice:neighbours){
             ret.add(grid.get(indice[0]).get(indice[1]).getCurrentState());
@@ -120,9 +122,9 @@ public abstract class Grid{
      * @param status neighbour need to satisfy requirement
      * @return a list of index of such neighbour
      */
-    public ArrayList<int[]> neighbourIndexSatisfyingRequirement(int[]index, int status){
-        ArrayList<int[]> neighbours = neighbourIndex(index);
-        ArrayList<int[]> ret = new ArrayList<>();
+    public List<int[]> neighbourIndexSatisfyingRequirement(int[]index, int status){
+        List<int[]> neighbours = neighbourIndex(index);
+        List<int[]> ret = new ArrayList<>();
         for(int[] indice:neighbours){
             if(grid.get(indice[0]).get(indice[1]).getCurrentState()==status
                     && grid.get(indice[0]).get(indice[1]).getNextState()==status) ret.add(indice);
@@ -136,7 +138,7 @@ public abstract class Grid{
      * @param index center cell
      * @return list of index
      */
-    private ArrayList<int[]> neighbourIndex(int[]index){
+    private List<int[]> neighbourIndex(int[]index){
         ArrayList<int[]> ret = new ArrayList<>();
         int[] rowDelta = rowH(index);
         int[] colDelta = colH(index);
@@ -169,7 +171,7 @@ public abstract class Grid{
      * @param notStatus cell at returned indexes can't be this state
      * @return          list of index of neighbours satisfying requirement
      */
-    public ArrayList<int[]> depthNeighbour(int[] index, int vision, int notStatus){
+    public List<int[]> depthNeighbour(int[] index, int vision, int notStatus){
         ArrayList<int[]> rowcol = new ArrayList<>();
         for(int i = 1; i<=vision; i++){
             ArrayList<int[]> temp = new ArrayList<>();

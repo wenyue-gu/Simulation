@@ -20,11 +20,9 @@ public class RectGrid extends Grid {
      * @param wrap          if true, toroidal (affects all check neighbour methods
      */
     public RectGrid(int row, int col, boolean allNeighbour, boolean wrap){
-        super(wrap);
-        display = new DisplayGrid(row, col);
+        super(wrap, row, col);
         if(allNeighbour) numNeighbour = 8;
         else numNeighbour = 4;
-        grid = new ArrayList<>();
         for(int i = 0; i<row; i++){
             grid.add(new ArrayList<>());
             for(int j=0; j<col; j++){
