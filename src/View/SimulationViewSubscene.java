@@ -28,6 +28,7 @@ public class SimulationViewSubscene extends SubScene {
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int LINE_GRAPH_X = 550, LINE_GRAPH_Y = 500, LINE_GRAPH_X_LAYOUT = 800, LINE_GRAPH_Y_LAYOUT = 100;
+    private static final int SUBSCENE_LAYOUT_X = 25, SUBSCENE_LAYOUT_Y = 124;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
@@ -59,8 +60,8 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void subsceneLayout() {
-        setLayoutX(25);
-        setLayoutY(124);
+        setLayoutX(SUBSCENE_LAYOUT_X);
+        setLayoutY(SUBSCENE_LAYOUT_Y);
     }
 
     private void setBackground() {
@@ -88,8 +89,7 @@ public class SimulationViewSubscene extends SubScene {
             time += 1;
         }
         catch (java.lang.Exception e){
-            //showError(myResources.getString("FileError"));
-            throw new SimulationException(myResources.getString("FileError"));
+            animation.stop();
         }
     }
 
@@ -113,7 +113,6 @@ public class SimulationViewSubscene extends SubScene {
         createTimeSeries();
         animation.play();
         } catch (java.lang.Exception e) {
-            //throw new SimulationException(myResources.getString("FileError"));
             showError(myResources.getString("FileError"));
         }
     }
@@ -172,7 +171,6 @@ public class SimulationViewSubscene extends SubScene {
             animation.getKeyFrames().add(frame);
         }
         catch (java.lang.Exception e){
-            //showError(myResources.getString("FileError"));
             throw new SimulationException(myResources.getString("FileError"));
         }
     }
@@ -208,12 +206,17 @@ public class SimulationViewSubscene extends SubScene {
     }
 
     private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(myResources.getString("ErrorTitle"));
-        alert.setContentText(message);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            throw new SimulationException(myResources.getString("TitleError"));
+        try {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(myResources.getString("ErrorTitle"));
+            alert.setContentText(message);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                throw new SimulationException(myResources.getString("TitleError"));
+            }
+        }
+        catch (java.lang.IllegalStateException e){
+            animation.stop();
         }
     }
 }
