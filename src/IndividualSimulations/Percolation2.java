@@ -9,7 +9,6 @@ import java.util.HashMap;
 /**
  * Percolation class holds the rules and update behavior for the percolation simulation
  *
- * @author Michelle Tai
  **/
 public class Percolation2 extends Simulation {
   private int OPEN = 0;

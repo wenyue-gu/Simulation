@@ -5,6 +5,9 @@ import cellsociety.Simulation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * game of life simulation
+ */
 public class GoL2 extends Simulation{
     private int DEAD = 0;
     private int ALIVE = 1;
@@ -15,6 +18,7 @@ public class GoL2 extends Simulation{
      * @param row               row number of cell
      * @param col               column number of cell
      * @param neighbourNumber   true = all neighbours, false = only immediate
+     * @param shape             String that tells if should be triangle or rectangle
      */
     public GoL2(int row, int col, boolean neighbourNumber, String shape){
         super(row, col, neighbourNumber, false, shape);

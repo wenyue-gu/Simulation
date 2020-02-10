@@ -4,6 +4,9 @@ import cellsociety.Simulation;
 
 import java.util.*;
 
+/**
+ * fire simulation
+ */
 public class Fire2 extends Simulation {
 
     private int EMPTY = 6;
@@ -47,7 +50,7 @@ public class Fire2 extends Simulation {
 
     /**
      * ask grid to find the number of each of TREE, BURNING, and EMPTY cell
-     * @return
+     * @return hashmap with information
      */
     @Override
     public HashMap<String, Integer> frequency() {

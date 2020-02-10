@@ -7,6 +7,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * WaTor simulation
+ * @author LG
+ */
 public class WaTor2 extends Simulation {
   private int FISH = 5;
   private int SHARK = 1;

@@ -19,6 +19,8 @@ public class Segregation2 extends Simulation {
      * @param row               row number of cell
      * @param col               column number of cell
      * @param neighbourNumber   true = all neighbours, false = only immediate
+     * @param shape             String that tells if should be triangle or rectangle
+     * @param satisfied         the satisfaction rate
      */
     public Segregation2(int row, int col, boolean neighbourNumber, String shape, double satisfied) {
         super(row, col, neighbourNumber, false, shape);
@@ -36,7 +38,7 @@ public class Segregation2 extends Simulation {
 
     /**
      * get the red, blue, and blank cell numbers (supposedly they will be the same every time)
-     * @return
+     * @return hashmap with the information
      */
     @Override
     public HashMap<String, Integer> frequency() {
