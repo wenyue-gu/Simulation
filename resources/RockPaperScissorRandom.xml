@@ -2,9 +2,9 @@
 <data media="Simulation">
   <title>Rock Paper Scissor</title>
   <author>LG</author>
-  <width>10</width>
-  <height>10</height>
-  <random>false</random>
+  <width>100</width>
+  <height>100</height>
+  <random>true</random>
   <shape>Rectangle</shape>
 <initialConfig>5 5 5 5 5 5 5 5 5 3
 5 5 5 5 5 5 5 5 5 3
