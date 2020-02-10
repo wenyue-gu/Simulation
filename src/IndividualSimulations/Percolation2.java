@@ -5,6 +5,7 @@ import cellsociety.Simulation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Percolation class holds the rules and update behavior for the percolation simulation
@@ -14,6 +15,8 @@ public class Percolation2 extends Simulation {
   private int OPEN = 0;
   private int CLOSED = 1;
   private int PERCOLATED = 2;
+  private boolean percolate = false;
+  private int col = 0;
 
   //private Grid grid;
 
@@ -26,6 +29,7 @@ public class Percolation2 extends Simulation {
      */
   public Percolation2(int row, int col, boolean neighbourNumber, String shape){
       super(row, col, neighbourNumber, false, shape);
+      this.col = row;
       grid.iniState(new int[]{OPEN, CLOSED});
 
       createIndices(row, col);
@@ -50,7 +54,6 @@ public class Percolation2 extends Simulation {
      * get a hashmap that tells us how many open, percolated, and closed cells there are
      * @return
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("OPEN", grid.getFreq(OPEN));
@@ -60,6 +63,23 @@ public class Percolation2 extends Simulation {
     }
 
 
+    @Override
+    public void updateGrid(){
+        for(int[]index:indices) {
+            List<Integer> neighbours = grid.neighbourStatus(index);
+            int next = checkAndReact(grid.getCell(index), neighbours);
+            grid.changeNext(index, next);
+        }
+        grid.updateAll();
+        boolean leftpercolate = false;
+        boolean rightpercolate = false;
+        for(int[]index:indices) {
+            if(index[0]==0&&grid.getCell(index)==PERCOLATED) leftpercolate = true;
+            if(index[0]==col-1&&grid.getCell(index)==PERCOLATED) rightpercolate = true;
+        }
+        if(leftpercolate && rightpercolate) percolate = true;
+    }
+
     /**
      * if current cell is percolated or closed, don't change
      * if current cell is open, check if there is neighbour who is percolated. If so, percolate
@@ -67,13 +87,15 @@ public class Percolation2 extends Simulation {
      * @param neighbours    list of integers denoted to the neighbour's status
      * @return              the state the curcell should change to
      */
-    public int checkAndReact(int curCell, ArrayList<Integer> neighbours){
-      if(curCell==PERCOLATED || curCell==CLOSED) return curCell;
-      for(int neighbour:neighbours){
-          if(neighbour==PERCOLATED) return PERCOLATED;
-      }
-      return curCell;
-  }
+    public int checkAndReact(int curCell, List<Integer> neighbours){
+        if(!percolate) {
+            if (curCell == PERCOLATED || curCell == CLOSED) return curCell;
+            for (int neighbour : neighbours) {
+                if (neighbour == PERCOLATED) return PERCOLATED;
+            }
+        }
+        return curCell;
+    }
 
 
 }

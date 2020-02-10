@@ -37,7 +37,7 @@ public class Fire2 extends Simulation {
             Collections.shuffle(indices);
             int i = (indices.get(0))[0];
             int j = (indices.get(0))[1];
-            if(!(i==0 || j==0 || i==row-1 || j==col-1)){
+            if(grid.getCell(new int[] {i,j})!=EMPTY){
                 grid.changeNext(new int[]{i,j}, BURNING);
                 findFire = false;
             }
@@ -52,7 +52,6 @@ public class Fire2 extends Simulation {
      * ask grid to find the number of each of TREE, BURNING, and EMPTY cell
      * @return hashmap with information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("TREE", grid.getFreq(TREE));
@@ -72,7 +71,7 @@ public class Fire2 extends Simulation {
      * @param neighbours    list of status of neighbours
      * @return              return the nextstate of the current cell
      */
-    public int checkAndReact(int curCell,  ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCell,  List<Integer> neighbours){
         if(curCell==BURNING) return EMPTY;
         if(curCell==EMPTY) return EMPTY;
         int numBurn = 0;

@@ -4,6 +4,7 @@ import cellsociety.Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * game of life simulation
@@ -31,7 +32,6 @@ public class GoL2 extends Simulation{
      * ask grid to find the number of ALIVE and DEAD cell
      * @return      hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("DEAD", grid.getFreq(DEAD));
@@ -50,7 +50,7 @@ public class GoL2 extends Simulation{
      * @param neighbours        list of integers of neighbour status
      * @return                  the cell's next status
      */
-    public int checkAndReact(int curCellStatus, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCellStatus, List<Integer> neighbours){
         int alive = 0;
         int nextStatus;
         for(int neighbourStatus:neighbours){

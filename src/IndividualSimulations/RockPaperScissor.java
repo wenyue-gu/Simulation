@@ -4,6 +4,7 @@ import cellsociety.Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -36,7 +37,6 @@ public class RockPaperScissor extends Simulation{
      * ask grid to find the number of rock, paper, and scissor
      * @return      hashmap with the information
      */
-    @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
         ret.put("ROCK", grid.getFreq(ROCK));
@@ -46,6 +46,7 @@ public class RockPaperScissor extends Simulation{
         return ret;
     }
 
+
     /**
      * check if the current cell needs to change state. If there are a certain number or more of its neighbouring cell
      * that is able to beat current cell, change to the status of the neighbouring cell that beats it
@@ -54,7 +55,7 @@ public class RockPaperScissor extends Simulation{
      * @return              status of current cell's next state
      */
 
-    public int checkAndReact(int curCellStatus, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCellStatus, List<Integer> neighbours){
         int rock = 0;
         int paper = 0;
         int scissor = 0;
@@ -64,7 +65,6 @@ public class RockPaperScissor extends Simulation{
             if(i==PAPER) paper++;
             if(i==SCISSOR) scissor++;
         }
-
 
         int thresh = threshold +  + (new Random()).nextInt(2);
         if(curCellStatus==ROCK && paper>thresh) return PAPER;
