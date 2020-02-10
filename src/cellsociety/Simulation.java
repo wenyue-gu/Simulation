@@ -84,7 +84,7 @@ public abstract class Simulation{
      */
     public void updateGrid(){
         for(int[]index:indices) {
-            ArrayList<Integer> neighbours = grid.neighbourStatus(index);
+            List<Integer> neighbours = grid.neighbourStatus(index);
             int next = checkAndReact(grid.getCell(index), neighbours);
             grid.changeNext(index, next);
         }
@@ -105,7 +105,7 @@ public abstract class Simulation{
      * @param neighbour the list of neighbour status
      * @return the current cell's supposed next state
      */
-    public  abstract int checkAndReact(int curCell, ArrayList<Integer> neighbour);
+    public  abstract int checkAndReact(int curCell, List<Integer> neighbour);
 
 }
 

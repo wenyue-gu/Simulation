@@ -71,7 +71,7 @@ public class Fire2 extends Simulation {
      * @param neighbours    list of status of neighbours
      * @return              return the nextstate of the current cell
      */
-    public int checkAndReact(int curCell,  ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCell,  List<Integer> neighbours){
         if(curCell==BURNING) return EMPTY;
         if(curCell==EMPTY) return EMPTY;
         int numBurn = 0;

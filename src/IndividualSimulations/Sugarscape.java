@@ -82,7 +82,7 @@ public class Sugarscape extends Simulation{
         int[] index = a.getIndex();
         int vision = a.getVision();
 
-        ArrayList<int[]> neighbour = grid.depthNeighbour(index, vision, AGENT);
+        List<int[]> neighbour = grid.depthNeighbour(index, vision, AGENT);
         if(neighbour.size()>0) {
             int[] where = new int[]{0,0};
             int sugarval = 0;
@@ -134,7 +134,7 @@ public class Sugarscape extends Simulation{
      * @param neighbours
      * @return
      */
-    public int checkAndReact(int curCellStatus, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCellStatus, List<Integer> neighbours){
           return 0;
     }
 

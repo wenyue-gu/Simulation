@@ -4,6 +4,7 @@ import cellsociety.Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * game of life simulation
@@ -49,7 +50,7 @@ public class GoL2 extends Simulation{
      * @param neighbours        list of integers of neighbour status
      * @return                  the cell's next status
      */
-    public int checkAndReact(int curCellStatus, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCellStatus, List<Integer> neighbours){
         int alive = 0;
         int nextStatus;
         for(int neighbourStatus:neighbours){

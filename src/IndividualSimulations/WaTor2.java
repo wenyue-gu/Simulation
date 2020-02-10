@@ -107,7 +107,7 @@ public class WaTor2 extends Simulation {
    * @param neighbour
    * @return
    */
-  public int checkAndReact(int curCell, ArrayList<Integer> neighbour) {
+  public int checkAndReact(int curCell, List<Integer> neighbour) {
     return 0;
   }
 
@@ -118,8 +118,8 @@ public class WaTor2 extends Simulation {
     int[] roundEnergy = status.get(index[0]).get(index[1]);
     roundEnergy[0]++;
 
-    ArrayList<int[]> fishNeighbour = grid.neighbourIndexSatisfyingRequirement(index, FISH);
-    ArrayList<int[]> emptyNeighbour = grid.neighbourIndexSatisfyingRequirement(index, BLANK);
+    List<int[]> fishNeighbour = grid.neighbourIndexSatisfyingRequirement(index, FISH);
+    List<int[]> emptyNeighbour = grid.neighbourIndexSatisfyingRequirement(index, BLANK);
 
     if(fishNeighbour.size()>0){
       roundEnergy[1]++;
@@ -192,7 +192,7 @@ public class WaTor2 extends Simulation {
     rount++;
     status.get(index[0]).set(index[1], new int[]{rount,0});
 
-    ArrayList<int[]> emptyNeighbour = grid.neighbourIndexSatisfyingRequirement(index, BLANK);
+    List<int[]> emptyNeighbour = grid.neighbourIndexSatisfyingRequirement(index, BLANK);
 
     if(emptyNeighbour.size()==0) return;
 

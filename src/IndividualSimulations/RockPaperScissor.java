@@ -4,6 +4,7 @@ import cellsociety.Simulation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -45,6 +46,7 @@ public class RockPaperScissor extends Simulation{
         return ret;
     }
 
+
     /**
      * check if the current cell needs to change state. If there are a certain number or more of its neighbouring cell
      * that is able to beat current cell, change to the status of the neighbouring cell that beats it
@@ -53,7 +55,7 @@ public class RockPaperScissor extends Simulation{
      * @return              status of current cell's next state
      */
 
-    public int checkAndReact(int curCellStatus, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCellStatus, List<Integer> neighbours){
         int rock = 0;
         int paper = 0;
         int scissor = 0;

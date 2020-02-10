@@ -123,64 +123,39 @@ public class SimulationViewSubscene extends SubScene {
         }
     }
 
-    private void makeNewSim() {
+
+    private void makeNewSim () throws FileNotFoundException {
         String title = "";
         String shape = "";
-    private void makeNewSim() throws FileNotFoundException {
         try {
             title = simXMLInfo.getTitle();
             shape = simXMLInfo.getShape();
 
-        if(title.equals(allTitle[0])) {
-            mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    true, shape);
-        } else if (title.equals(allTitle[1])) {
-            try {
-               mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    true, shape, 0.75);
-            } catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
-            }
-        } else if (title.equals(allTitle[2])) {
-            try {
+            if (title.equals(allTitle[0])) {
+                mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        true, shape);
+            } else if (title.equals(allTitle[1])) {
+                mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        true, shape, 0.75);
+            } else if (title.equals(allTitle[2])) {
                 mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    true,shape, 0.25);
-            } catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
-            }
-        } else if (title.equals(allTitle[3])) {
-            try {
-                mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),true, shape);
-            } catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
-            }
-        } else if (title.equals(allTitle[4])) {
-            try {
+                        true, shape, 0.25);
+            } else if (title.equals(allTitle[3])) {
+                mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape);
+            } else if (title.equals(allTitle[4])) {
                 mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    false,shape, 2,10,2);
-            } catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
-            }
+                        false, shape, 2, 10, 2);
 
-        }else if(title.equals(allTitle[5])){
-            try {
-            mySimulation = new RockPaperScissor(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    true,shape, 2);
-            }catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
+            } else if (title.equals(allTitle[5])) {
+                mySimulation = new RockPaperScissor(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        true, shape, 2);
+            } else if (title.equals(allTitle[6])) {
+                mySimulation = new Sugarscape(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                        false, shape, 500);
             }
-        }
-        else if(title.equals(allTitle[6])){
-            try{
-            mySimulation = new Sugarscape(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                    false,shape, 500);
-            }catch (FileNotFoundException e) {
-                showError(myResources.getString("TitleError"));
+            if (!simXMLInfo.isRandom()) {
+                mySimulation.setData(simXMLInfo.getInitialConfig());
             }
-        }
-                if (!simXMLInfo.isRandom()) {
-            mySimulation.setData(simXMLInfo.getInitialConfig());
-        }
 
         } catch (java.lang.Exception e) {
             throw new SimulationException(myResources.getString("FileError"));
@@ -259,5 +234,5 @@ public class SimulationViewSubscene extends SubScene {
         catch (java.lang.IllegalStateException e){
             animation.stop();
     }
-}
+    }
 }

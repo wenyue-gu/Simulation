@@ -5,6 +5,7 @@ import cellsociety.Simulation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Percolation class holds the rules and update behavior for the percolation simulation
@@ -65,7 +66,7 @@ public class Percolation2 extends Simulation {
     @Override
     public void updateGrid(){
         for(int[]index:indices) {
-            ArrayList<Integer> neighbours = grid.neighbourStatus(index);
+            List<Integer> neighbours = grid.neighbourStatus(index);
             int next = checkAndReact(grid.getCell(index), neighbours);
             grid.changeNext(index, next);
         }
@@ -86,7 +87,7 @@ public class Percolation2 extends Simulation {
      * @param neighbours    list of integers denoted to the neighbour's status
      * @return              the state the curcell should change to
      */
-    public int checkAndReact(int curCell, ArrayList<Integer> neighbours){
+    public int checkAndReact(int curCell, List<Integer> neighbours){
         if(!percolate) {
             if (curCell == PERCOLATED || curCell == CLOSED) return curCell;
             for (int neighbour : neighbours) {
