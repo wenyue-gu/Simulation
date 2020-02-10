@@ -40,8 +40,6 @@ public class SimulationViewInfoLabel extends Label {
         setWrapText(true);
         fontSize = Integer.parseInt(myResources.getString("FSize"));
         setInfoLabelFont();
-        setAlignment(Pos.CENTER);
-
         BackgroundImage labelBackground = new BackgroundImage(new Image(myResources.getString("LabelBackground"), width, height, false, true),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
         setBackground(new Background(labelBackground));
