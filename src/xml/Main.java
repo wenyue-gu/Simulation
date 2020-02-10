@@ -11,23 +11,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-
-/**
- * Simple example of XML parsing.
- * 
- * @author Rhondu Smithwick
- * @author Robert C. Duvall
- */
 public class Main extends Application {
-    // kind of data files to look for
     public static final String DATA_FILE_EXTENSION = "*.xml";
-    // NOTE: generally accepted behavior that the chooser remembers where user left it last
     public final static FileChooser FILE_CHOOSER = makeChooser(DATA_FILE_EXTENSION);
 
-
-    /**
-     * @see Application#start(Stage)
-     */
     @Override
     public void start (Stage primaryStage) throws Exception {
         File dataFile = FILE_CHOOSER.showOpenDialog(primaryStage);
