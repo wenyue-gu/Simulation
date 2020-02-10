@@ -100,8 +100,12 @@ public class simulationXML{
     return myHeight;
   }
 
+  /**
+   * If the string is exactly "false", false will be returned
+   * else return true
+   */
   public boolean isRandom(){
-    return isRandom.equals("true");
+    return !isRandom.equals("false");
   }
 
   /**
