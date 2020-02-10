@@ -26,7 +26,7 @@ public class SimulationViewSubscene extends SubScene {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static final int LINE_GRAPH_X = 550, LINE_GRAPH_Y = 500, LINE_GRAPH_X_LAYOUT = 800, LINE_GRAPH_Y_LAYOUT = 100;
+    private static final int LINE_GRAPH_X = 550, LINE_GRAPH_Y = 600, LINE_GRAPH_X_LAYOUT = 800, LINE_GRAPH_Y_LAYOUT = 0;
     private static final String RESOURCES = "resources";
     public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     private ResourceBundle myResources;
@@ -53,8 +53,7 @@ public class SimulationViewSubscene extends SubScene {
         setBackground();
         subsceneLayout();
         beginAnimation();
-        displayLineChart();
-        mySubscenePane.getStylesheets().addAll("default.css");
+        mySubscenePane.getStylesheets().addAll("resources/default.css");
     }
 
     private void subsceneLayout() {
@@ -82,7 +81,9 @@ public class SimulationViewSubscene extends SubScene {
 
     private void step(double secondDelay){
         mySimulation.update(secondDelay, factor);
-        updateSeries();
+        if(time%factor==0) {
+            updateSeries();
+        }
         time += 1;
     }
 
@@ -96,60 +97,59 @@ public class SimulationViewSubscene extends SubScene {
 
     public void start(simulationXML simInfo) throws SimulationException {
         this.simXMLInfo = simInfo;
+        if(mySimulation!=null) mySimulation.getDisplay().removeFromPane(mySubscenePane);
         makeNewSim();
+        mySimulation.getDisplay().addToPane(mySubscenePane);
+        if(mySubscenePane.getChildren().contains(lineChart)) mySubscenePane.getChildren().remove(lineChart);
         createTimeSeries();
+        displayLineChart();
         animation.play();
     }
 
-    private void makeNewSim() throws SimulationException {
+    private void makeNewSim() {
         String title = simXMLInfo.getTitle();
-        String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor"};
+        String[] allTitle = {"Game of Life", "Segregation", "Fire", "Percolation", "WaTor", "Rock Paper Scissor", "Sugar Scape"};
+        String shape = simXMLInfo.getShape();
+
         if(title.equals(allTitle[0])) {
-            try {
-                mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        8, mySubscenePane);
-            } catch (FileNotFoundException e) {
-                throw new SimulationException(e);
-            }
+            mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    true, shape);
         }
         else if(title.equals(allTitle[1])){
-            try {
-                mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        8, mySubscenePane, 0.75);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    true, shape, 0.75);
         }
         else if(title.equals(allTitle[2])){
-            try {
-                mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        8, mySubscenePane, 0.55);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    true,shape, 0.25);
         }
         else if(title.equals(allTitle[3])){
-            try {
-                mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        8, mySubscenePane);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),true, shape);
         }
         else if(title.equals(allTitle[4])){
-            try {
-                mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        4, mySubscenePane, 2,10,2);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    false,shape, 2,10,2);
         }
+        else if(title.equals(allTitle[5])){
+            mySimulation = new RockPaperScissor(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    true,shape, 2);
+        }
+        else if(title.equals(allTitle[6])){
+            mySimulation = new Sugarscape(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
+                    false,shape, 500);
+        }
+
+
+
 
         if (!simXMLInfo.isRandom()) {
             mySimulation.setData(simXMLInfo.getInitialConfig());
         }
 
     }
+
+
+
 
     private void beginAnimation() {
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
@@ -169,11 +169,21 @@ public class SimulationViewSubscene extends SubScene {
         lineChart.setPrefWidth(LINE_GRAPH_X);
         lineChart.setLayoutX(LINE_GRAPH_X_LAYOUT);
         lineChart.setLayoutY(LINE_GRAPH_Y_LAYOUT);
+        lineChart.setCreateSymbols(false);
+        if(mySubscenePane.getChildren().contains(lineChart)) mySubscenePane.getChildren().remove(lineChart);
         mySubscenePane.getChildren().add(lineChart);
     }
 
     private void createTimeSeries(){
+        //lineChart = new LineChart<String,Number>(xAxis,yAxis);
+        time = 0;
         HashMap<String, Integer> map = mySimulation.frequency();
+        int total = 0;
+        for(String i: map.keySet()){
+            total+=map.get(i);
+        }
+        yAxis.setMaxHeight(total);
+        lineChart = new LineChart<String,Number>(xAxis,yAxis);
         for (String i : map.keySet()){
             XYChart.Series series = new XYChart.Series();
             series.getData().add(new XYChart.Data(time+"", map.get(i)));
@@ -186,7 +196,12 @@ public class SimulationViewSubscene extends SubScene {
     private void updateSeries(){
         HashMap<String, Integer> map = mySimulation.frequency();
         for (XYChart.Series series: timeSeriesArrayList){
+            if(time>1000) series.getData().remove(0);
             series.getData().add(new XYChart.Data(time+"", map.get(series.getName())));
         }
+        //displayLineChart();
+        mySubscenePane.getChildren().remove(lineChart);
+        mySubscenePane.getChildren().add(lineChart);
+        //mySubscenePane.getChildren().set(mySubscenePane.getChildren().indexOf(lineChart), lineChart);
     }
 }

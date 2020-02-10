@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import xml.SimulationException;
 
 
 public class SimulationMain extends Application {
@@ -21,7 +22,7 @@ public class SimulationMain extends Application {
      * Initialize what will be displayed and how it will be updated.
      */
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) throws FileNotFoundException, SimulationException {
         SimulationViewGUI display = new SimulationViewGUI(SIMULATION_RESOURCE.getString("English"));
         stage.setTitle(TITLE);
         stage = display.getSimulationViewStage();
