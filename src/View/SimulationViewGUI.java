@@ -57,7 +57,7 @@ public class SimulationViewGUI {
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
-    public SimulationViewGUI(String language) throws FileNotFoundException {
+    public SimulationViewGUI(String language) throws FileNotFoundException, SimulationException {
         font = myResources.getString("FontStylePath");
         setGameScene();
         createBackgroundImage();
@@ -69,7 +69,7 @@ public class SimulationViewGUI {
 
     }
 
-    private void makeTopButtons() {
+    private void makeTopButtons(){
         HBox boxWIthButtons = new HBox(BUTTON_LAYOUT);
         boxWIthButtons.setPrefWidth(WIDTH);
         boxWIthButtons.setPrefHeight(LABEL_HEIGHT);
@@ -79,8 +79,8 @@ public class SimulationViewGUI {
             try {
                 startSimulation();
             } catch (Exception e) {
-                System.out.println(myResources.getString("StartError"));
                 //throw new SimulationException(e.getMessage());
+                System.out.println(myResources.getString("StartError"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationStartButton);
@@ -100,7 +100,11 @@ public class SimulationViewGUI {
                 System.out.println("file loaded");
             } catch (Exception e) {
                 // TO DO: Have the error handling instance called
-                throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
+//                try {
+//                    throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
+//                } catch (SimulationException ex) {
+//                    ex.printStackTrace();
+//                }
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
@@ -199,7 +203,7 @@ public class SimulationViewGUI {
         simulationViewPane.setBackground(new Background(simulationViewBackground));
     }
 
-    private void createSimulationPane() throws FileNotFoundException {
+    private void createSimulationPane() throws FileNotFoundException, SimulationException {
         makeBottomLabelScene();
         makeTopButtons();
     }
