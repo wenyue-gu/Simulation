@@ -12,29 +12,31 @@ Names:
 
 Start Date: 01/27/2020
 
-Finish Date: 02/
+Finish Date: 02/10/2020
 
-Hours Spent: 20+ Hours each
+Hours Spent: 20+ hours each, around 80+ hours total
 
 ### Primary Roles
 
 * Team Member #1 (Franklin Boampong)
 	- Primary Role: Game view Class
-	- Secondary Role: Fire
+	- Secondary Role: Fire, Sugar Scape, Rock Paper Scissors, XML Exceptions
 
 * Team Member #2 (Michelle Tai)
    -  Primary Role: XML class
-   -  Secondary Role: Percolation
+   -  Secondary Role: Percolation, XML Exceptions, Game of Life
 
 * Team Member #3 (Lucy Gu)
    - Primary Role: Cell, Simulation
-   - Secondary Role: Game of Life, Segregation
+   - Secondary Role: Game of Life, Segregation, Sugar Scape, Rock Paper Scissors
 
-Team Altogether: Work on Predator - Prey simulation together.
+Team Altogether: Work on WaTor simulation, refactoring
 
 ### Resources Used
 
-1. 
+1. Stack Overflow
+2. Youtube
+3. Oracle Java Documentations
 
 ### Running the Program
 Main class: SimulationMain is the main class
@@ -58,7 +60,8 @@ Features implemented:
 state and neighbor states.
 4. Simulations run indefinitely.
 5. Implemented Java code for the rules of five different simulations: game of life (for testing), percolation (the simplest one - rules are given on page 3), segregation, predator-prey, and fire.
-
+6. We had different arrangements of neighbors.
+7. We have rectangle 
 ** Configuration **
 
 1. Read in an XML formatted file that contains the initial settings for a simulation. The file contains three parts:
@@ -80,13 +83,19 @@ Note, the XML tags and attributes you use within this file are up to your team.
 ### Notes/Assumptions
 
 Assumptions or Simplifications:
-1. We made sure 
+1. Percolations occurs when there is a percolated cells on the left edge of the grid AND on the right 
+edge of the grid–we didn't take into account top-bottom percolation.
+2. Assumed that time will be saved as an integer
+3. We assumed the reproduction time for sharks is 10 chronons and the time for fishe is 2 chronons in 
+ WaTor. We also assumed each fish was worth 10 energy. 
+
 
 Interesting data files:
-
 1. FireRandom.xml
-2. SugarscapeRandom.xml
-3. RockPaperScissorRandom.xml
+2. FireTriangleRandom.xml
+3. SugarscapeRandom.xml
+4. RockPaperScissorRandom.xml
+
 
 Known Bugs:
 
@@ -99,4 +108,5 @@ Extra credit:
 
 
 ### Impressions
-
+* This assignment was pretty difficult since we encountered a lot of merge conflicts and git problems. 
+Also, it was pretty hard to navigate how to code all the features.
