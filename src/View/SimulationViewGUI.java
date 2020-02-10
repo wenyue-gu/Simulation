@@ -58,7 +58,7 @@ public class SimulationViewGUI {
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
      */
-    public SimulationViewGUI(String language) throws FileNotFoundException {
+    public SimulationViewGUI(String language) throws FileNotFoundException, SimulationException {
         font = myResources.getString("FontStylePath");
         setGameScene();
         createBackgroundImage();
@@ -69,7 +69,7 @@ public class SimulationViewGUI {
         simulationViewPane.getStylesheets().add("resources/default.css");
     }
 
-    private void makeTopButtons() {
+    private void makeTopButtons(){
         HBox boxWIthButtons = new HBox(BUTTON_LAYOUT);
         boxWIthButtons.setPrefWidth(WIDTH);
         boxWIthButtons.setPrefHeight(LABEL_HEIGHT);
@@ -213,7 +213,7 @@ public class SimulationViewGUI {
         simulationViewPane.setBackground(new Background(simulationViewBackground));
     }
 
-    private void createSimulationPane() throws FileNotFoundException {
+    private void createSimulationPane() throws FileNotFoundException, SimulationException {
         makeBottomLabelScene();
         makeTopButtons();
     }

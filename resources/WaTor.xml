@@ -5,6 +5,7 @@
   <width>10</width>
   <height>10</height>
   <random>false</random>
+  <shape>Rectangle</shape>
 <initialConfig>4 4 4 4 4 1 4 4 4 4
 4 4 4 4 4 4 4 4 4 4
 4 4 4 4 4 4 4 4 4 4

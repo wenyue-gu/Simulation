@@ -1,14 +1,12 @@
 package IndividualSimulations;
 
-import Grids.RectGrid;
-import cellsociety.Cell;
-import cellsociety.Grid;
 import cellsociety.Simulation;
-import javafx.scene.layout.AnchorPane;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * fire simulation
+ */
 public class Fire2 extends Simulation {
 
     private int EMPTY = 6;
@@ -18,9 +16,15 @@ public class Fire2 extends Simulation {
 
     //private Grid grid;
 
-    public Fire2(int row, int col, int neighbourNumber, AnchorPane pane, double prob) throws FileNotFoundException {
-        super(new ArrayList<>());
-        grid = new RectGrid(row, col, neighbourNumber, false);
+    /**
+     * Create a fire simulation; initialize grid and probability of catching on fire
+     * @param row               row number of cell
+     * @param col               column number of cell
+     * @param neighbourNumber   true = all neighbours, false = only immediate
+     * @param prob              probability of catching on fire
+     */
+    public Fire2(int row, int col, boolean neighbourNumber, String shape, double prob) {
+        super( row,  col,  neighbourNumber, false, shape);
         grid.iniState(new int[]{TREE});
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -41,10 +45,13 @@ public class Fire2 extends Simulation {
 
         grid.updateAll();
         probCatch = prob;
-        grid.addToPane(pane);
     }
 
 
+    /**
+     * ask grid to find the number of each of TREE, BURNING, and EMPTY cell
+     * @return hashmap with information
+     */
     @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
@@ -54,17 +61,18 @@ public class Fire2 extends Simulation {
         return ret;
     }
 
-    public void updateGrid() {
-        for(int[]index:indices) {
-            ArrayList<Integer> neighbours = grid.neighbourStatus(index);
-            int next = checkAndReact(grid.getCell(index), neighbours);
-            grid.changeNext(index, next);
-        }
-        grid.updateAll();
-    }
 
 
-    private int checkAndReact(int curCell,  ArrayList<Integer> neighbours){
+    /**
+     * if the current cell is burning, its next state will be empty
+     * if the current cell is empty, it remains empty
+     * if the current cell is tree, get neighbours who are burning
+     * for each neighbour that is burning, the current cell has a probcatch chance of being affected (burned)
+     * @param curCell       state of current cell (at the index we are checking
+     * @param neighbours    list of status of neighbours
+     * @return              return the nextstate of the current cell
+     */
+    public int checkAndReact(int curCell,  ArrayList<Integer> neighbours){
         if(curCell==BURNING) return EMPTY;
         if(curCell==EMPTY) return EMPTY;
         int numBurn = 0;
@@ -78,12 +86,6 @@ public class Fire2 extends Simulation {
         }
         return status;
     }
-
-    @Override
-    public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
-
-    }
-
 
 }
 

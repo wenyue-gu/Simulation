@@ -1,12 +1,7 @@
 package IndividualSimulations;
 
-import Grids.RectGrid;
-import cellsociety.Cell;
-import cellsociety.Grid;
 import cellsociety.Simulation;
-import javafx.scene.layout.AnchorPane;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Segregation2 extends Simulation {
@@ -19,13 +14,19 @@ public class Segregation2 extends Simulation {
 
     private double satisfyRate;
 
-    public Segregation2(int row, int col, int neighbourNumber, AnchorPane pane, double satisfied) throws FileNotFoundException {
-        super(new ArrayList<>());
-        grid = new RectGrid(row, col, neighbourNumber, false);
+    /**
+     * Create new segregation grid
+     * @param row               row number of cell
+     * @param col               column number of cell
+     * @param neighbourNumber   true = all neighbours, false = only immediate
+     * @param shape             String that tells if should be triangle or rectangle
+     * @param satisfied         the satisfaction rate
+     */
+    public Segregation2(int row, int col, boolean neighbourNumber, String shape, double satisfied) {
+        super(row, col, neighbourNumber, false, shape);
         grid.iniState(new int[]{BLUE, BLANK, RED});
         createIndices(row, col);
 
-        grid.addToPane(pane);
         setSatisfyRate(satisfied);
     }
 
@@ -35,6 +36,10 @@ public class Segregation2 extends Simulation {
     }
 
 
+    /**
+     * get the red, blue, and blank cell numbers (supposedly they will be the same every time)
+     * @return hashmap with the information
+     */
     @Override
     public HashMap<String, Integer> frequency() {
         HashMap<String, Integer>ret = new HashMap<>();
@@ -44,6 +49,11 @@ public class Segregation2 extends Simulation {
         return ret;
     }
 
+    /**
+     * check all the cells and see if they are satisfied; if not, collect index
+     * for all unsatisfied cells do random placement
+     */
+    @Override
     public void updateGrid() {
         unsatisfied = new ArrayList<>();
         for (int[] index : indices) {
@@ -58,6 +68,17 @@ public class Segregation2 extends Simulation {
             randPlace(index2);
         }
         grid.updateAll();
+    }
+
+
+    /**
+     * just here because declared in super class
+     * @param curCell
+     * @param neighbour
+     * @return
+     */
+    public int checkAndReact(int curCell, ArrayList<Integer> neighbour) {
+        return 0;
     }
 
 
@@ -81,14 +102,10 @@ public class Segregation2 extends Simulation {
 
     }
 
+
     private void randPlace(int[] index) {
         grid.changeNext(index, unusedCell.get(0));
         unusedCell.remove(0);
-    }
-
-    @Override
-    public void checkNeighbourAndChangeNext(Cell cell, List<Cell> neighbours) {
-
     }
 
 
