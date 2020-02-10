@@ -39,17 +39,17 @@ public class XMLParser {
     /**
      * Get data contained in this XML file as an object
      */
-    public simulationXML getGame (File dataFile) throws SimulationException {
+    public SimulationXML getGame (File dataFile) throws SimulationException {
         Element root = getRootElement(dataFile);
-        if (! isValidFile(root, simulationXML.DATA_TYPE)) {
-            throw new SimulationException(ERROR_MESSAGE, simulationXML.DATA_TYPE);
+        if (! isValidFile(root, SimulationXML.DATA_TYPE)) {
+            throw new SimulationException(ERROR_MESSAGE, SimulationXML.DATA_TYPE);
         }
         // read data associated with the fields given by the object
         Map<String, String> results = new HashMap<>();
-        for (String field : simulationXML.DATA_FIELDS) {
+        for (String field : SimulationXML.DATA_FIELDS) {
             results.put(field, getTextValue(root, field));
         }
-        return new simulationXML(results);
+        return new SimulationXML(results);
     }
 
     // get root element of an XML file

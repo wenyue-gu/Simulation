@@ -1,6 +1,6 @@
 package cellsociety;
 
-import View.SimulationViewGUI;
+import view.SimulationViewGUI;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 

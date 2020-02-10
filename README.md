@@ -19,7 +19,7 @@ Hours Spent: 20+ Hours each
 ### Primary Roles
 
 * Team Member #1 (Franklin Boampong)
-	- Primary Role: Game View Class
+	- Primary Role: Game view Class
 	- Secondary Role: Fire
 
 * Team Member #2 (Michelle Tai)

@@ -19,7 +19,7 @@ of cells such that the conditions of one cell is dependent on the surrounding ce
 in the system. 
 
 The project should be organized in a way that has separate Model, 
-View and Controllers to separate the data structures and applications from the 
+view and Controllers to separate the data structures and applications from the 
 visual display of information. Thus, we can encapsulate any front-end work or 
 back-end work and keep them separate from each other. Things that should be open 
 to extension and closed to modification are abstract classes like an overarching 
@@ -38,7 +38,7 @@ format could be read in by the class regardless of the type of simulation under 
 ## Overview
 
 ![](CellImage.jpg "Cell class") 
-![](GameViewClassImage.jpg "Game View class") 
+![](GameViewClassImage.jpg "Game view class") 
 ![](SimulationImage.jpg "Simulation class") 
 ![](XML.jpg "XML class") 
 
@@ -249,10 +249,10 @@ Public class Simulation{
 	}
 	
 	Private void makeGrid(int width, int height){
-		cellGrid = new ArrayList<ArrayList<Cells>>();
+		cells
 	}
 
-	Public void update(double elaspedTime, int factor){
+	Public void update(doublcellsspedTime, int factor){
 		time+=elapsedTime;
 		if(time>elapsedTime*factor){
 			updateGrid();
@@ -317,7 +317,7 @@ The main components of the Simulation assignment are:
 2. Simulation Class - Main engine of program 
     - We will have 5 more subclasses extending this abstract Simulation class.
 3. Cell Class - Cells to Fill in Grid.
-4. XML Class - Class to obtain data from XML file provided by user.
+4. XML Class - Clcellso obtain data from XML file provided by user.
 
 
 #### Use Cases
@@ -336,7 +336,7 @@ The main components of the Simulation assignment are:
 ## Team Responsibilities
 
  * Team Member #1 (Franklin Boampong)
-	- Primary Role: Game View Class
+	- Primary Role: Game view Class
 	- Secondary Role: Fire
 
 * Team Member #2 (Michelle Tai)
