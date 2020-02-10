@@ -76,54 +76,27 @@ public class SimulationViewGUI {
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         mySimulationStartButton = makeButton("StartCommand", event -> {
-<<<<<<< HEAD
-            try {
-                startSimulation();
-            } catch (Exception e) {
-                //throw new SimulationException(e.getMessage());
-                System.out.println(myResources.getString("StartError"));
-            }
-        });
-=======
             try {startSimulation();
             } catch (FileNotFoundException e) { showError(myResources.getString("FileError")); } });
->>>>>>> extensions
         boxWIthButtons.getChildren().add(mySimulationStartButton);
         mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
         boxWIthButtons.getChildren().add(mySimulationStopButton);
         mySimulationContinueButton = makeButton("ContinueCommand", event -> {
-           try {
-               continueSimulation();
-           }catch (java.lang.Exception e){
-               //showError(myResources.getString("FileError"));
-               throw new SimulationException(myResources.getString("TitleError"));
-           }
+            try {
+                continueSimulation();
+            }catch (java.lang.Exception e){
+                //showError(myResources.getString("FileError"));
+                throw new SimulationException(myResources.getString("TitleError"));
+            }
         });
         boxWIthButtons.getChildren().add(mySimulationContinueButton);
         mySimulationStepButton = makeButton("StepCommand", event -> {
             try{stepThroughSimulation();}
             catch (java.lang.Exception e){ showError(myResources.getString("FileError")); } });
         boxWIthButtons.getChildren().add(mySimulationStepButton);
-<<<<<<< HEAD
-
-        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
-            try {
-                loadFile();
-                System.out.println("file loaded");
-            } catch (Exception e) {
-                // TO DO: Have the error handling instance called
-//                try {
-//                    throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
-//                } catch (SimulationException ex) {
-//                    ex.printStackTrace();
-//                }
-            }
-        });
-=======
         mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> { try {
-                loadFile(); } catch (java.lang.Exception e) {
-                throw new SimulationException(myResources.getString("LoadFile")); } });
->>>>>>> extensions
+            loadFile(); } catch (java.lang.Exception e) {
+            throw new SimulationException(myResources.getString("LoadFile")); } });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
         simulationViewPane.getChildren().add(boxWIthButtons);
         mySimulationRunDifferentSimulation = makeButton("NewSimCommand", event -> {
@@ -159,7 +132,7 @@ public class SimulationViewGUI {
     }
 
     private void startSimulation() throws FileNotFoundException {
-            mySubscene.start(simulationXMLInfo);
+        mySubscene.start(simulationXMLInfo);
     }
 
     private void stopSimulation() {
