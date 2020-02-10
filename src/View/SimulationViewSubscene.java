@@ -60,41 +60,19 @@ public class SimulationViewSubscene extends SubScene {
         mySubscenePane.getStylesheets().addAll("resources/default.css");
     }
 
-    private void subsceneLayout() {
-        setLayoutX(SUBSCENE_LAYOUT_X);
-        setLayoutY(SUBSCENE_LAYOUT_Y);
-    }
-
-    private void setBackground() {
-        Image backgroundImage = new Image(myResources.getString("SubImage"), false);
-        BackgroundImage subsceneViewBackground;
-        subsceneViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
-        mySubscenePane = (AnchorPane) this.getRoot();
-        mySubscenePane.setBackground(new Background(subsceneViewBackground));
-    }
-
     /**
      * Public method to enable easy acces to the subcene pane
      *
      * @return the pane of the subscene
      */
-
     public AnchorPane getPane() {
         return (AnchorPane) this.getRoot();
     }
 
-    private void step(double secondDelay) {
-        try {
-            mySimulation.update(secondDelay, factor);
-            if(time%factor==0) {
-                updateSeries();
-            }
-            time += 1;
-        }
-        catch (java.lang.Exception e){
-            animation.stop();
-        }
-    }
+    /**
+     * Void public method to be used for step button
+     * just updates the grid by calling updateGrid
+     */
     public void stepb() {
         try {
             mySimulation.updateGrid();
@@ -104,9 +82,28 @@ public class SimulationViewSubscene extends SubScene {
         }
     }
 
+    /**
+     * Void method is used to update the factor of animation speed
+     * @param i to serve as the factor speed of animation
+     */
+
     public void factorChange(int i) {
         factor = i;
     }
+
+    /**
+     * Method provides the current animation
+     * @return animation to be able to make the animation dynamic
+     */
+    public Timeline getAnimation() {
+        return animation;
+    }
+
+    /**
+     * Method starts the simulation process
+     * @param simInfo gets the info from xml file
+     * @throws FileNotFoundException to catch exception when needed
+     */
 
     public void start(simulationXML simInfo) throws FileNotFoundException {
         try {
@@ -123,6 +120,31 @@ public class SimulationViewSubscene extends SubScene {
         }
     }
 
+    private void subsceneLayout() {
+        setLayoutX(SUBSCENE_LAYOUT_X);
+        setLayoutY(SUBSCENE_LAYOUT_Y);
+    }
+
+    private void setBackground() {
+        Image backgroundImage = new Image(myResources.getString("SubImage"), false);
+        BackgroundImage subsceneViewBackground;
+        subsceneViewBackground = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null);
+        mySubscenePane = (AnchorPane) this.getRoot();
+        mySubscenePane.setBackground(new Background(subsceneViewBackground));
+    }
+
+    private void step(double secondDelay) {
+        try {
+            mySimulation.update(secondDelay, factor);
+            if(time%factor==0) {
+                updateSeries();
+            }
+            time += 1;
+        }
+        catch (java.lang.Exception e){
+            animation.stop();
+        }
+    }
 
     private void makeNewSim () throws FileNotFoundException {
         String title = "";
@@ -130,38 +152,28 @@ public class SimulationViewSubscene extends SubScene {
         try {
             title = simXMLInfo.getTitle();
             shape = simXMLInfo.getShape();
-
             if (title.equals(allTitle[0])) {
-                mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        true, shape);
+                mySimulation = new GoL2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape);
             } else if (title.equals(allTitle[1])) {
-                mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        true, shape, 0.75);
+                mySimulation = new Segregation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape, 0.75);
             } else if (title.equals(allTitle[2])) {
-                mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        true, shape, 0.25);
+                mySimulation = new Fire2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape, 0.25);
             } else if (title.equals(allTitle[3])) {
                 mySimulation = new Percolation2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape);
             } else if (title.equals(allTitle[4])) {
-                mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        false, shape, 2, 10, 2);
-
+                mySimulation = new WaTor2(simXMLInfo.getHeight(), simXMLInfo.getWidth(), false, shape, 2, 10, 2);
             } else if (title.equals(allTitle[5])) {
-                mySimulation = new RockPaperScissor(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        true, shape, 2);
+                mySimulation = new RockPaperScissor(simXMLInfo.getHeight(), simXMLInfo.getWidth(), true, shape, 2);
             } else if (title.equals(allTitle[6])) {
-                mySimulation = new Sugarscape(simXMLInfo.getHeight(), simXMLInfo.getWidth(),
-                        false, shape, 500);
+                mySimulation = new Sugarscape(simXMLInfo.getHeight(), simXMLInfo.getWidth(), false, shape, 500);
             }
             if (!simXMLInfo.isRandom()) {
                 mySimulation.setData(simXMLInfo.getInitialConfig());
             }
-
         } catch (java.lang.Exception e) {
             throw new SimulationException(myResources.getString("FileError"));
         }
     }
-
 
     private void beginAnimation() {
         try {
@@ -175,10 +187,6 @@ public class SimulationViewSubscene extends SubScene {
         }
     }
 
-    public Timeline getAnimation() {
-        return animation;
-    }
-
     private void displayLineChart() {
         lineChart.setPrefHeight(LINE_GRAPH_Y);
         lineChart.setPrefWidth(LINE_GRAPH_X);
@@ -189,9 +197,7 @@ public class SimulationViewSubscene extends SubScene {
         mySubscenePane.getChildren().add(lineChart);
     }
 
-
     private void createTimeSeries(){
-        //lineChart = new LineChart<String,Number>(xAxis,yAxis);
         time = 0;
         Map<String, Integer> map = mySimulation.frequency();
         int total = 0;
@@ -218,8 +224,6 @@ public class SimulationViewSubscene extends SubScene {
         mySubscenePane.getChildren().remove(lineChart);
         mySubscenePane.getChildren().add(lineChart);
     }
-
-
 
     private void showError(String message) {
         try {

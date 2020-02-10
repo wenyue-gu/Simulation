@@ -9,7 +9,6 @@ import java.util.Map;
  * Simple immutable value object representing simulation data.
  *
  * @author Michelle Tai
- * @author Robert C. Duvall
  */
 public class simulationXML{
   // name in data file that will indicate it represents data for this type of object
@@ -71,7 +70,6 @@ public class simulationXML{
     myDataValues = dataValues;
   }
 
-  // NOTE: provides getters, but not setters
   /**
    * Returns title of this simulation.
    */
@@ -121,13 +119,6 @@ public class simulationXML{
   public List<List<Integer>> getInitialConfig() {
     String[] initialConfigArray = myInitialConfig.split("\n");
     List<List<Integer>> ret = new ArrayList<>();
-//    for(int i = 0; i < myHeight; i++){
-//      List<Integer> row = new ArrayList<>();
-//      for(int j = 0; j < myWidth; j++){
-//        row.add(Integer.parseInt(initialConfigArray[i*myWidth + j]));
-//      }
-//      ret.add(row);
-//    }
 
     for(String rowStr : initialConfigArray){
       List<Integer> row = new ArrayList<>();

@@ -30,7 +30,7 @@ public class SimulationViewGUI {
     public static final double HEIGHT = 1024;
     public final static int SUBSCENE_WIDTH = 1350;//800
     public final static int SUBSCENE_HEIGHT = 600;//600
-    public final static int SIMULATION_VIEW_WIDTH =800, SIMULATION_VIEW_HEIGHT = 600;
+    public final static int SIMULATION_VIEW_WIDTH = 800, SIMULATION_VIEW_HEIGHT = 600;
     private final static int LABEL_LAYOUT = 268, LABEL_HEIGHT = 50;
     private final static int BUTTON_LAYOUT = 10;
     private final static int SLIDER_LAYOUT_X = 270, SLIDER_LAYOUT_Y = 80, SLIDER_MAX = 1000, SLIDER_LENGTH = 450, STEP = 10;//270, 80
@@ -69,38 +69,72 @@ public class SimulationViewGUI {
         simulationViewPane.getStylesheets().add("resources/default.css");
     }
 
-    private void makeTopButtons(){
+    /**
+     * method to obtain the stage of the view
+     *
+     * @return baseStage
+     */
+    public Stage getSimulationViewStage() {
+        return simulationViewStage;
+    }
+
+    /**
+     * public method to asses the pane of main view
+     *
+     * @return the pane of current view
+     */
+    public AnchorPane getSimulationViewPane() {
+        return simulationViewPane;
+    }
+
+    private void makeTopButtons() {
         HBox boxWIthButtons = new HBox(BUTTON_LAYOUT);
         boxWIthButtons.setPrefWidth(WIDTH);
         boxWIthButtons.setPrefHeight(LABEL_HEIGHT);
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         boxWIthButtons.setLayoutY(BUTTON_LAYOUT);
         mySimulationStartButton = makeButton("StartCommand", event -> {
-            try {startSimulation();
-            } catch (FileNotFoundException e) { showError(myResources.getString("FileError")); } });
+            try {
+                startSimulation();
+            } catch (FileNotFoundException e) {
+                showError(myResources.getString("FileError"));
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationStartButton);
         mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
         boxWIthButtons.getChildren().add(mySimulationStopButton);
         mySimulationContinueButton = makeButton("ContinueCommand", event -> {
             try {
                 continueSimulation();
-            }catch (java.lang.Exception e){
-                //showError(myResources.getString("FileError"));
+            } catch (java.lang.Exception e) {
                 throw new SimulationException(myResources.getString("TitleError"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationContinueButton);
         mySimulationStepButton = makeButton("StepCommand", event -> {
-            try{stepThroughSimulation();}
-            catch (java.lang.Exception e){ showError(myResources.getString("FileError")); } });
+            try {
+                stepThroughSimulation();
+            } catch (java.lang.Exception e) {
+                showError(myResources.getString("FileError"));
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationStepButton);
-        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> { try {
-            loadFile(); } catch (java.lang.Exception e) {
-            throw new SimulationException(myResources.getString("LoadFile")); } });
+        mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
+            try {
+                loadFile();
+            } catch (java.lang.Exception e) {
+                throw new SimulationException(myResources.getString("LoadFile"));
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
         simulationViewPane.getChildren().add(boxWIthButtons);
         mySimulationRunDifferentSimulation = makeButton("NewSimCommand", event -> {
-            try {startSecondSimulation(); } catch (java.lang.Exception e) { throw new SimulationException(e.getMessage(), myResources.getString("DifferentSimulationError")); } });
+            try {
+                startSecondSimulation();
+            } catch (java.lang.Exception e) {
+                throw new SimulationException(e.getMessage(), myResources.getString("DifferentSimulationError"));
+            }
+        });
         boxWIthButtons.getChildren().add(mySimulationRunDifferentSimulation);
     }
 
@@ -152,21 +186,18 @@ public class SimulationViewGUI {
                 mySubscene.getAnimation().stop();
                 mySubscene.stepb();
             }
-        }
-        catch (java.lang.Exception e){
+        } catch (java.lang.Exception e) {
             throw new SimulationException(myResources.getString("FileError"));
         }
     }
 
     private void loadFile() throws java.lang.Exception {
-        // TO DO: Michelle add xml stuff
         SimulationXMLFileChooser fileChooser = new SimulationXMLFileChooser();
         fileChooser.openFile(simulationViewStage);
         simulationXMLInfo = fileChooser.getSimulationXMLInfo();
         simulationViewLabel.setText(myResources.getString("SimulationTitle") + " " + simulationXMLInfo.getTitle());
     }
 
-    // Display given message as an error in the GUI
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(myResources.getString("ErrorTitle"));
@@ -188,15 +219,6 @@ public class SimulationViewGUI {
         }
         result.setOnAction(handler);
         return result;
-    }
-
-    /**
-     * method to obtain the stage of the view
-     *
-     * @return baseStage
-     */
-    public Stage getSimulationViewStage() {
-        return simulationViewStage;
     }
 
     private void setGameScene() throws FileNotFoundException {
@@ -238,8 +260,8 @@ public class SimulationViewGUI {
         simulationViewPane.getChildren().add(simulationViewSlider);
     }
 
-    private void makeSliderMessageLabel(){
-        SimulationViewInfoLabel sliderMessage= new SimulationViewInfoLabel(myResources.getString("SliderString"), SLIDE_LABEL_X, SLIDE_LABEL_Y );
+    private void makeSliderMessageLabel() {
+        SimulationViewInfoLabel sliderMessage = new SimulationViewInfoLabel(myResources.getString("SliderString"), SLIDE_LABEL_X, SLIDE_LABEL_Y);
         sliderMessage.setLayoutX(SLIDE_LABEL_LAYOUT_X);
         sliderMessage.setLayoutY(SLIDE_LABEL_LAYOUT_Y);
         getSimulationViewPane().getChildren().add(sliderMessage);
@@ -250,9 +272,6 @@ public class SimulationViewGUI {
         simulationViewPane.getChildren().add(mySubscene);
     }
 
-    public AnchorPane getSimulationViewPane(){
-        return simulationViewPane;
-    }
 }
 
 
