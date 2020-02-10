@@ -2,6 +2,7 @@ package View;
 
 import cellsociety.Simulation;
 import cellsociety.SimulationMain;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -50,9 +51,11 @@ public class SimulationViewGUI {
     private SimulationViewButton mySimulationStopButton;
     private SimulationViewButton mySimulationStepButton, mySimulationContinueButton;
     private SimulationViewButton mySimulationLoadNewFileButton;
+    private SimulationViewButton mySimulationRunDifferentSimulation;
     private boolean stepboolean = false;
     private int slideVal;
     private simulationXML simulationXMLInfo;
+    private String language = myResources.getString("English");
 
     /**
      * Create a view of the given model of a web browser with prompts in the given language.
@@ -64,7 +67,6 @@ public class SimulationViewGUI {
         createSubScene();
         createSimulationPane();
         makeSlider(DEFAULT_INT, SLIDER_MAX, STEP);
-        //createLineChartView();
         simulationViewPane.getStylesheets().add("resources/default.css");
 
     }
@@ -84,28 +86,48 @@ public class SimulationViewGUI {
             }
         });
         boxWIthButtons.getChildren().add(mySimulationStartButton);
-
         mySimulationStopButton = makeButton("StopCommand", event -> stopSimulation());
         boxWIthButtons.getChildren().add(mySimulationStopButton);
-
         mySimulationContinueButton = makeButton("ContinueCommand", event -> continueSimulation());
         boxWIthButtons.getChildren().add(mySimulationContinueButton);
-
         mySimulationStepButton = makeButton("StepCommand", event -> stepThroughSimulation());
         boxWIthButtons.getChildren().add(mySimulationStepButton);
-
         mySimulationLoadNewFileButton = makeButton("LoadFileCommand", event -> {
             try {
                 loadFile();
                 System.out.println("file loaded");
             } catch (Exception e) {
                 // TO DO: Have the error handling instance called
-                throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
+               // throw new SimulationException(e.getMessage(), myResources.getString("SelectFile"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);
 
         simulationViewPane.getChildren().add(boxWIthButtons);
+
+        mySimulationRunDifferentSimulation = makeButton("NewSimCommand", event -> {
+            try {
+                startSecondSimulation();
+            } catch (FileNotFoundException e) {
+                //e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        boxWIthButtons.getChildren().add(mySimulationRunDifferentSimulation);
+    }
+
+    private void startSecondSimulation() throws Exception {
+        Stage secondSimulation = new Stage();
+        Application app2 = new Application() {
+            @Override
+            public void start(Stage primaryStage) throws Exception {
+                SimulationViewGUI mysecondSim = new SimulationViewGUI(language);
+                primaryStage = mysecondSim.getSimulationViewStage();
+                primaryStage.show();
+            }
+        };
+        app2.start(secondSimulation);
     }
 
     private void makeBottomLabelScene() throws FileNotFoundException {
@@ -116,8 +138,9 @@ public class SimulationViewGUI {
         labelAtBottom.setLayoutX(DEFAULT_INT);
         simulationViewLabel = new SimulationViewInfoLabel(myResources.getString("WelcomeMessage"), (int) WIDTH, LABEL_HEIGHT);
         simulationViewLabel.setFont((Font.loadFont(new FileInputStream(new File(font)), Double.parseDouble(myResources.getString("FSizeLabel")))));
-        labelAtBottom.setAlignment(Pos.CENTER);
+        labelAtBottom.setAlignment(Pos.BOTTOM_LEFT);
         labelAtBottom.getChildren().addAll(simulationViewLabel);
+        labelAtBottom.setAlignment(Pos.CENTER_LEFT);
         simulationViewPane.getChildren().add(labelAtBottom);
     }
 
@@ -160,10 +183,8 @@ public class SimulationViewGUI {
     }
 
     private SimulationViewButton makeButton(String property, EventHandler<ActionEvent> handler) {
-
         SimulationViewButton result = new SimulationViewButton(myResources.getString(property), SimulationMain.LANGUAGE);
         String label = myResources.getString(property);
-
         final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
         if (label.matches(IMAGEFILE_SUFFIXES)) {
             result.setGraphic(new ImageView(new Image(getClass().getResourceAsStream(SimulationMain.DEFAULT_RESOURCE_FOLDER + label))));
@@ -171,7 +192,6 @@ public class SimulationViewGUI {
             result.setText(label);
         }
         result.setOnAction(handler);
-
         return result;
     }
 
@@ -189,7 +209,6 @@ public class SimulationViewGUI {
         simulationViewScene = new Scene(simulationViewPane, WIDTH, HEIGHT);
         simulationViewStage = new Stage();
         simulationViewStage.setScene(simulationViewScene);
-        simulationViewStage.setResizable(false);
     }
 
     private void createBackgroundImage() {
@@ -232,10 +251,6 @@ public class SimulationViewGUI {
     public AnchorPane getSimulationViewPane(){
         return simulationViewPane;
     }
-
-
-
-
 }
 
 
