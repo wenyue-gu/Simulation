@@ -123,7 +123,7 @@ public class SimulationViewGUI {
             try {
                 loadFile();
             } catch (java.lang.Exception e) {
-                throw new SimulationException(myResources.getString("LoadFile"));
+                //throw new SimulationException(myResources.getString("LoadFile"));
             }
         });
         boxWIthButtons.getChildren().add(mySimulationLoadNewFileButton);

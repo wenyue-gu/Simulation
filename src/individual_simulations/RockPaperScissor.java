@@ -63,7 +63,7 @@ public class RockPaperScissor extends Simulation{
             if(i==SCISSOR) scissor++;
         }
 
-        int thresh = threshold +  + (new Random()).nextInt(2);
+        int thresh = threshold  + (new Random()).nextInt(2);
         if(curCellStatus==ROCK && paper>thresh) return PAPER;
         if(curCellStatus==SCISSOR && rock>thresh) return ROCK;
         if(curCellStatus==PAPER && scissor>thresh) return SCISSOR;

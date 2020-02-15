@@ -216,7 +216,7 @@ public class SimulationViewSubscene extends SubScene {
             series.getData().add(new XYChart.Data(time + "", map.get(i)));
             series.setName(i);
             timeSeriesArrayList.add(series);
-            lineChart.getData().addAll(series);
+            lineChart.getData().add(series);
         }
     }
 
