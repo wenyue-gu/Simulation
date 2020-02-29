@@ -1,5 +1,7 @@
 simulation
 ==== 
+CHECK OUT DESIGN.MD for an update on roles, features, etc
+====
 
 This project implements a cellular automata simulator.
 
